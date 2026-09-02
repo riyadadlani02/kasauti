@@ -14,7 +14,7 @@ The 30B-class subjects the method specifies — Sarvam 30B, Nemotron 3 Nano 30B,
 
 ![crossing point](crossing_point.png)
 
-| config | perplexity | recall (control) | long-horizon | format | tokens re-routed |
+| config | perplexity (794 tok) | recall (control) | long-horizon | format | tokens re-routed |
 |---|---|---|---|---|---|
 | BF16 | 27.65 | 1.000 | 1.000 | 1.000 | — |
 | W8 | 27.72 | 1.000 | 1.000 | 1.000 | 8.7% |
@@ -23,6 +23,8 @@ The 30B-class subjects the method specifies — Sarvam 30B, Nemotron 3 Nano 30B,
 | W3 | 53.33 | 0.385 | 0.951 | 0.667 | 76.9% |
 
 At 4-bit, **perplexity improved by 4.6% while format stability fell 24% and long-horizon instruction adherence fell 19%**, and half of all tokens were routed to a different expert set. The control probe moved 4%. Both instruments a practitioner would actually consult said the model was fine; two of the four agentic probes said it was not.
+
+The sweep measures perplexity on only 794 calibration tokens, so that number was re-measured independently on 12,663 tokens of agentic-shaped text. It replicates: **ratio 0.954 against the sweep's 0.955** at 4-bit, and 1.000 at 8-bit. The direction is not a sampling artifact.
 
 Only at 3-bit do the aggregate measures finally react — and there they collapse hardest of all (recall −62%, perplexity 1.9×), which is the point: they are sensitive in the region where nobody deploys and insensitive in the region where everybody does.
 
@@ -63,15 +65,34 @@ Paired the other way round — the k-boundary margin against top-1 flips — the
 | what was quantized to 4-bit | perplexity | long-horizon | format | tokens re-routed | worst layers |
 |---|---|---|---|---|---|
 | experts only | 30.77 | 0.854 | 1.048 | 34.8% | 12–22 |
-| attention only | **23.52** | **0.585** | 0.952 | 42.8% | 4–16 |
+| attention only | **0.969×** | **0.585** | 0.952 | 42.8% | 4–16 |
 | experts + attention | 26.39 | 0.805 | 0.762 | 49.3% | 11–22 |
 | all three, router included | 26.72 | 0.683 | 0.857 | 55.0% | 11–19 |
 
-Quantizing **attention alone produced the best perplexity in the entire sweep — 15% better than BF16 — and the worst long-horizon adherence, 41% below baseline.** For a practitioner reading perplexity, that config is the most attractive one on the board. It is the worst one on the board for keeping instructions across a long trajectory.
+Quantizing **attention alone improved perplexity and produced the worst long-horizon adherence in the study, 41% below baseline.** On the 794-token calibration set that config looked 15% better than BF16; re-measured on 12,663 tokens the improvement is a more modest 3.1%, which is the figure in the table — the small-sample number was inflated, the sign was not. For a practitioner reading perplexity it is still an attractive-looking config, and it is the worst one on the board for keeping instructions across a long trajectory.
 
 It also re-routed 42.8% of tokens without touching a single expert or router weight. Routing damage is not only expert damage: the gate reads what attention produced, so degrading attention moves the router's input and changes the computational path. Damage also localises differently — deep layers for expert quantization, early-to-middle layers for attention.
 
 Adding the router itself to the quantization set (`w4-all`) cost a further 5.7 points of re-routing over experts+attention. That is the empirical case for the exemption OpenAI already ships in `gpt-oss-20b`, whose `modules_to_not_convert` keeps `mlp.router` and `self_attn` out of MXFP4.
+
+## Scale check — the routing result replicates on a 2.5× model
+
+A second subject, `ibm-granite/granite-3.1-3b-a800m-instruct` — a different model generation, 32 layers instead of 24, 40 experts instead of 32, 3.3B parameters. The full probe sweep did not fit in 16GB (batch-16 generation over 2k-token contexts drove the machine into 25GB of swap), so this is routing only: eight configs, no probes.
+
+| config | top-1 flips, 1.3B → 3.3B | tokens re-routed, 1.3B → 3.3B |
+|---|---|---|
+| W8 | 2.5% → 3.3% | 8.7% → 11.4% |
+| W6 | 5.8% → 6.4% | 19.0% → 22.2% |
+| W4 | 18.1% → 18.2% | 49.3% → 53.8% |
+| W3 | 35.5% → 36.6% | 76.9% → 81.3% |
+| W4, experts only | 12.3% → 10.4% | 34.8% → 34.2% |
+| W4, attention only | 15.1% → 15.8% | 42.8% → 48.4% |
+
+The margin concentration replicates too, and slightly more sharply. At 8-bit the 3.3B model flips 12.8% of its narrowest-margin tokens and 0.0% of its widest, against 10.0% and 0.0% on the 1.3B. Every config on both models is monotone across all four quartiles.
+
+Attention-only quantization again causes more routing damage than expert-only quantization (15.8% against 10.4% at 3.3B), without touching a single expert or router weight. That is the one structural claim in this study that now rests on two models rather than one.
+
+What does **not** replicate here is the capability half — no probes were run at 3.3B, so H1 and H2 remain single-subject results.
 
 ---
 
@@ -79,9 +100,9 @@ Adding the router itself to the quantization set (`w4-all`) cost a further 5.7 p
 
 Stated in full, because the finding is only worth what survives them.
 
-1. **Scale.** 1.3B parameters, not 30B. Small models have less redundancy, so they should degrade *earlier*; whether the crossing point sits at the same bit-width on a 30B MoE is exactly what this study cannot say.
+1. **Scale.** 1.3B parameters for the capability results, not 30B. The routing results replicate at 3.3B; the probe results do not have a second subject. Small models have less redundancy, so they should degrade *earlier*; whether the crossing point sits at the same bit-width on a 30B MoE is exactly what this study cannot say.
 2. **Statistical power.** 100 probe items, 12–40 per probe. A single item is 2.5–8 percentage points. Single-config deltas are noisy; the monotone trend across the bit sweep is the signal, not any one cell.
-3. **Perplexity sample.** 794 calibration tokens. Perplexity moving 5% in either direction at that sample size is weakly determined, though the 1.9× jump at 3-bit is not.
+3. **Perplexity sample.** The sweep uses 794 calibration tokens, which is too few to trust a 5% move. The two claims that depend on the direction of that move were re-measured on 12,663 tokens: the 4-bit improvement replicated (0.954 vs 0.955), the attention-only improvement shrank from 15% to 3.1%. Every other perplexity figure in the tables is still the 794-token measure and should be read as indicative only.
 4. **Two probes were at their floor.** `recovery` scored 0.10 at BF16 and `calibration` 0.50, which is exactly what always-answering scores. A 1.3B model cannot do those tasks, so they measure nothing about degradation and are excluded from the agentic mean. H1/H2 here rest on long-horizon adherence and format stability.
 5. **Fake quantization.** Round-to-nearest through a quantized grid, not GPTQ or AWQ kernels. It isolates the arithmetic from any one implementation, and it is not what a serving stack runs.
 6. **The `awq` config is not AWQ.** It is activation-aware scaling with a fixed alpha and no search. It produced *higher* weight error than plain RTN (0.165 against 0.110 on attention) and worse perplexity. Read it as evidence that method matters at fixed bit-width, not as a result about AWQ.

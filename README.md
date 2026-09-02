@@ -213,6 +213,16 @@ Worth noting what OpenAI already does in `gpt-oss-20b`: its `modules_to_not_conv
 
 ---
 
+## Results
+
+[RESULTS.md](RESULTS.md) has the full write-up; [RESULTS_1b.md](RESULTS_1b.md) is the generated table dump.
+
+On `granite-3.0-1b-a400m-instruct`, at 4-bit: **perplexity improved 4.6% and knowledge recall moved 4%, while format stability fell 24%, long-horizon instruction adherence fell 19%, and half of all tokens were routed to a different expert set.** The crossing point is real and it sits at the most widely deployed bit-width.
+
+Router divergence predicts agentic degradation (r = −0.82) where perplexity does not (−0.26); it does not clearly beat per-layer reconstruction error (−0.79), so H3 half-holds. Flips concentrate at narrow router margins — 10.0% of narrow-margin tokens against 0.0% of wide-margin tokens at 8-bit, monotone in every config, replicated on a 3.3B model.
+
+Quantizing attention alone, touching no expert or router weight, re-routed 43% of tokens and cost more long-horizon adherence than any other config — while *improving* perplexity.
+
 ## Roadmap
 
 Ship the study, then ship the CLI that operationalises it. A diagnostic with no validation behind it is a number generator, and that is the first thing a reviewer would spot.

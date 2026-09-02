@@ -64,12 +64,17 @@ def main(argv=None) -> int:
               f"top1 by margin {[round(x, 3) for x in rep['top1_flips_by_margin']]}, "
               f"set by margin {[round(x, 3) for x in rep['set_changes_by_margin']]}", flush=True)
 
-    rows = [json.loads(l) for l in open(args.results) if l.strip()]
+    try:
+        rows = [json.loads(l) for l in open(args.results) if l.strip()]
+    except FileNotFoundError:
+        # Routing alone is worth measuring where a full sweep will not fit.
+        rows = [{"model": mid, "config": c, "bits": b, "method": m, "targets": list(t)}
+                for c, b, _g, t, m in S.CONFIGS if t]
     with open(args.results, "w") as f:
         for r in rows:
             r.pop("flips_by_margin_quartile", None)
             f.write(json.dumps({**r, **updates.get(r["config"], {})}) + "\n")
-    print(f"merged into {args.results}")
+    print(f"wrote {args.results}")
     return 0
 
 
