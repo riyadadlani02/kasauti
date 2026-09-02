@@ -21,6 +21,7 @@ import torch
 # Deliberately excludes `gate_proj` / `gate_up_proj`, which are dense FFN weights.
 GATE_NAME = re.compile(r"(?:^|\.)(?:gate|router)(?:\.|$)")
 LAYER_INDEX = re.compile(r"layers\.(\d+)")
+LAYER_OUT = re.compile(r"(?:^|\.)layers\.(\d+)$")
 
 # Agentic-shaped text: tool calls, structured output, long-horizon constraints.
 # Routing over output tokens is what matters, so each prompt carries its own
@@ -108,7 +109,8 @@ def find_gates(model, pattern: re.Pattern = GATE_NAME) -> dict:
     return {name: mod for name, mod in model.named_modules() if pattern.search(name)}
 
 
-def capture_routing(model, input_ids, pattern: re.Pattern = GATE_NAME) -> dict:
+def capture_routing(model, input_ids, pattern: re.Pattern = GATE_NAME,
+                    with_layers: int = 0):
     """Routing decisions per gate for one forward pass.
 
     Returns {name: {"logits": [tokens, experts], "ids": [tokens, k]}}, either key
@@ -123,7 +125,15 @@ def capture_routing(model, input_ids, pattern: re.Pattern = GATE_NAME) -> dict:
         raise SystemExit("no gate modules matched; pass --gate-pattern for this architecture")
 
     store: dict[str, dict] = {}
+    layers: dict[int, torch.Tensor] = {}
     seen: set = set()
+
+    def layer_hook(idx):
+        def fn(_m, _i, out):
+            h = out[0] if isinstance(out, (tuple, list)) else out
+            if isinstance(h, torch.Tensor):
+                layers[idx] = h.detach().reshape(-1, h.shape[-1])[:with_layers].half().cpu()
+        return fn
 
     def hook(name, module):
         def fn(_m, inputs, output):
@@ -151,13 +161,28 @@ def capture_routing(model, input_ids, pattern: re.Pattern = GATE_NAME) -> dict:
         return fn
 
     handles = [m.register_forward_hook(hook(n, m)) for n, m in gates.items()]
+    if with_layers:
+        handles += [mod.register_forward_hook(layer_hook(int(m.group(1))))
+                    for name, mod in model.named_modules()
+                    if (m := LAYER_OUT.search(name))]
     try:
         with torch.no_grad():
             model(input_ids.to(model.device))
     finally:
         for h in handles:
             h.remove()
-    return store
+    return (store, layers) if with_layers else store
+
+
+def recon_error(base_out: dict, quant_out: dict) -> float:
+    """Mean relative L2 between decoder layer outputs — the competing predictor
+    that the sweep could not distinguish from router divergence."""
+    errs = []
+    for i in sorted(set(base_out) & set(quant_out)):
+        b, q = base_out[i].float(), quant_out[i].float()
+        n = min(len(b), len(q))
+        errs.append((q[:n] - b[:n]).norm().item() / max(b[:n].norm().item(), 1e-8))
+    return sum(errs) / max(len(errs), 1)
 
 
 def keep_router_outputs(store: dict, n_experts: int, k: int) -> dict:
@@ -249,13 +274,20 @@ def flips_by_margin(base_margins: torch.Tensor, flipped: torch.Tensor, buckets: 
     return out
 
 
-def verdict(flip: float, low: float, high: float) -> str:
-    """Cut points from the sweep in RESULTS.md: on granite-1b-a400m, 5.8% top-1
-    flips came with no measurable agentic loss and 18.1% came with format
-    stability down 24%. One 1.3B subject, n=8 configs — treat as provisional."""
-    if flip < low:
-        return "LOW"
-    return "MEDIUM" if flip < high else "HIGH"
+# Thresholds fitted on 27 configs in RESULTS.md. Each separates configs that kept
+# their agentic scores from configs that lost them with 84% accuracy; perplexity
+# manages 60% on the same split, which is the base rate. The two signals tie and
+# come from the same forward pass, so the verdict respects both.
+ROUTING_HIGH, RECON_HIGH = 0.385, 0.100
+
+
+def verdict(routing: float, recon: float, low_scale: float = 0.5) -> str:
+    """HIGH if either signal is over its cut point, LOW only if both are well under."""
+    hot = [routing / ROUTING_HIGH, recon / RECON_HIGH if recon == recon else 0.0]
+    worst = max(hot)
+    if worst >= 1.0:
+        return "HIGH"
+    return "MEDIUM" if worst >= low_scale else "LOW"
 
 
 def worst_layers(per_layer: dict) -> tuple:
@@ -335,7 +367,7 @@ def run_check(args) -> dict:
     base = load_model(args.base, args.device)
     n_experts, k = _num_experts(base.config), _top_k(base.config)
 
-    forced, base_runs = [], []
+    forced, base_runs, base_layers, quant_layers = [], [], {}, {}
     for text in prompts:
         ids = tok(text, return_tensors="pt", truncation=True, max_length=args.max_tokens).input_ids
         if args.generate:
@@ -343,21 +375,30 @@ def run_check(args) -> dict:
                 ids = base.generate(ids.to(base.device), max_new_tokens=args.generate,
                                     do_sample=False).cpu()
         forced.append(ids)
-        base_runs.append(keep_router_outputs(capture_routing(base, ids, pattern), n_experts, k))
+        store, layers = capture_routing(base, ids, pattern, with_layers=256)
+        base_runs.append(keep_router_outputs(store, n_experts, k))
+        for i, v in layers.items():
+            base_layers.setdefault(i, []).append(v)
 
     del base
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
     quant = load_model(args.model, args.device)
-    quant_runs = [keep_router_outputs(capture_routing(quant, ids, pattern), n_experts, k)
-                  for ids in forced]
+    quant_runs = []
+    for ids in forced:
+        store, layers = capture_routing(quant, ids, pattern, with_layers=256)
+        quant_runs.append(keep_router_outputs(store, n_experts, k))
+        for i, v in layers.items():
+            quant_layers.setdefault(i, []).append(v)
 
     report = compare(cat_runs(base_runs), cat_runs(quant_runs), n_experts, k)
+    cat = lambda d: {i: torch.cat(v) for i, v in d.items()}
+    report["recon_error"] = recon_error(cat(base_layers), cat(quant_layers))
     report.update(
         model=args.model, base=args.base, experts=n_experts, top_k=k,
         tokens=sum(int(i.numel()) for i in forced),
-        verdict=verdict(report["flip_rate"], args.low, args.high),
+        verdict=verdict(report["set_change_rate"], report["recon_error"]),
     )
     return report
 
@@ -367,7 +408,8 @@ def render(r: dict) -> str:
     lines = [
         f"router flip rate:              {pct(r['flip_rate'])}",
         f"top-k jaccard distance:        {r['jaccard']:.3f}",
-        f"tokens re-routed:              {pct(r['set_change_rate'])}",
+        f"tokens re-routed:              {pct(r['set_change_rate'])}  (cut point {pct(ROUTING_HIGH)})",
+        f"layer reconstruction error:    {r['recon_error']:.3f}  (cut point {RECON_HIGH:.3f})",
         f"expert load KL:                {r['load_kl']:.3f}",
         f"predicted agentic degradation: {r['verdict']}",
     ]
@@ -380,7 +422,7 @@ def render(r: dict) -> str:
     if r["verdict"] != "LOW":
         lines.append("suggested: hold the gate and attention at higher precision and re-check")
     lines.append(f"({r['tokens']} tokens, {r['experts']} experts, top-{r['top_k']}; "
-                 "thresholds calibrated on one 1.3B subject, see RESULTS.md)")
+                 "cut points fitted on 27 configs of one 1.3B subject, see RESULTS.md)")
     return "\n".join(lines)
 
 
@@ -396,8 +438,6 @@ def main(argv=None) -> int:
     c.add_argument("--max-tokens", type=int, default=512, help="truncate each prompt")
     c.add_argument("--device", default="auto")
     c.add_argument("--gate-pattern", help="regex for gate module names")
-    c.add_argument("--low", type=float, default=0.06, help="flip rate below this is LOW")
-    c.add_argument("--high", type=float, default=0.15, help="flip rate above this is HIGH")
     c.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 

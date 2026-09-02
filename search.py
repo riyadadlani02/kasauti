@@ -61,28 +61,39 @@ class Evaluator:
         model = K.load_model(model_id, device)
         self.n, self.k = K._num_experts(model.config), K._top_k(model.config)
         self.sizes = component_sizes(model)
-        self.base = self._routing(model)
+        self.base, self.base_layers = self._capture(model)
         S.free(model)
 
-    def _routing(self, model):
+    def _capture(self, model):
         from transformers import AutoTokenizer
         tok = getattr(self, "tok", None) or AutoTokenizer.from_pretrained(
             self.model_id, trust_remote_code=True)
         self.tok = tok
-        runs = [K.keep_router_outputs(K.capture_routing(model, tok(
-            t, return_tensors="pt", truncation=True, max_length=512).input_ids,
-            self.pattern), self.n, self.k) for t in self.texts]
-        return K.cat_runs(runs)
+        runs, layers = [], {}
+        for t in self.texts:
+            ids = tok(t, return_tensors="pt", truncation=True, max_length=512).input_ids
+            store, lay = K.capture_routing(model, ids, self.pattern, with_layers=256)
+            runs.append(K.keep_router_outputs(store, self.n, self.k))
+            for i, v in lay.items():
+                layers.setdefault(i, []).append(v)
+        return K.cat_runs(runs), {i: torch.cat(v) for i, v in layers.items()}
 
     def divergence(self, state: dict) -> dict:
         if all(b == 16 for b in state.values()):
-            return {"set_change_rate": 0.0, "flip_rate": 0.0}
+            return {"set_change_rate": 0.0, "flip_rate": 0.0, "recon_error": 0.0, "cost": 0.0}
         key = tuple(sorted(state.items()))
         if key in self.cache:
             return self.cache[key]
         model = K.load_model(self.model_id, self.device)
         apply_state(model, state, self.group)
-        rep = K.compare(self.base, self._routing(model), self.n, self.k)
+        routing, layers = self._capture(model)
+        rep = K.compare(self.base, routing, self.n, self.k)
+        rep["recon_error"] = K.recon_error(self.base_layers, layers)
+        # Both signals separate healthy from damaged configs at 84% in the sweep
+        # and cannot be told apart, so the binding one is whichever is closer to
+        # its own cut point.
+        rep["cost"] = max(rep["set_change_rate"] / K.ROUTING_HIGH,
+                          rep["recon_error"] / K.RECON_HIGH)
         S.free(model)
         self.evals += 1
         self.cache[key] = rep
@@ -105,7 +116,7 @@ def agentic_mean(scores: dict, baseline: dict, floor=0.25) -> float:
 def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
            validate_every: int, min_agentic: float, log) -> dict:
     state = {c: 16 for c in COMPONENTS if c in ev.sizes}
-    history, accepted = [], 0
+    history, accepted, banned = [], 0, set()
 
     while True:
         best = None
@@ -114,20 +125,24 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
             if i + 1 >= len(LADDER):
                 continue
             trial = {**state, c: LADDER[i + 1]}
+            if tuple(sorted(trial.items())) in banned:
+                continue
             rep = ev.divergence(trial)
-            if not math.isfinite(rep["set_change_rate"]):
+            if not math.isfinite(rep["cost"]):
                 # Never let an unreadable signal drive an accept: that is how a
                 # search ends up optimising its own instrument failure.
                 log(f"  skip {c}->{LADDER[i+1]}: divergence unreadable")
                 continue
-            if rep["set_change_rate"] > budget:
-                log(f"  reject {c}->{LADDER[i+1]}: divergence "
-                    f"{rep['set_change_rate']:.3f} over budget {budget:.3f}")
+            if rep["cost"] > budget:
+                log(f"  reject {c}->{LADDER[i+1]}: cost {rep['cost']:.2f} over budget "
+                    f"{budget:.2f} (routing {rep['set_change_rate']:.3f}, "
+                    f"recon {rep['recon_error']:.3f})")
                 continue
             saved = model_bits(state, ev.sizes) - model_bits(trial, ev.sizes)
-            cost = max(rep["set_change_rate"] - ev.divergence(state)["set_change_rate"], 1e-6)
+            cost = max(rep["cost"] - ev.divergence(state)["cost"], 1e-6)
             score = saved / cost
-            log(f"  try {c}->{LADDER[i+1]}: divergence {rep['set_change_rate']:.3f}, "
+            log(f"  try {c}->{LADDER[i+1]}: cost {rep['cost']:.2f} "
+                f"(routing {rep['set_change_rate']:.3f}, recon {rep['recon_error']:.3f}), "
                 f"saves {saved:.2f} bits, ratio {score:.1f}")
             if best is None or score > best[0]:
                 best = (score, c, LADDER[i + 1], trial, rep)
@@ -140,9 +155,10 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
         state, accepted = trial, accepted + 1
         history.append({"step": accepted, "component": c, "bits": bits, "state": dict(state),
                         "set_change_rate": rep["set_change_rate"], "flip_rate": rep["flip_rate"],
+                        "recon_error": rep["recon_error"], "cost": rep["cost"],
                         "model_bits": model_bits(state, ev.sizes)})
         log(f"accept {c} -> {bits}  state={state}  "
-            f"mean bits {model_bits(state, ev.sizes):.2f}  divergence {rep['set_change_rate']:.3f}")
+            f"mean bits {model_bits(state, ev.sizes):.2f}  cost {rep['cost']:.2f}")
 
         if validate_every and accepted % validate_every == 0:
             scores = ev.probe(state, items)
@@ -150,11 +166,24 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
             history[-1]["validated_agentic"] = score
             log(f"  VALIDATE: agentic {score:.3f} (floor {min_agentic})  {scores}")
             if score < min_agentic:
-                budget *= 0.6
+                # Tighten below the cost of the step that just failed, or the same
+                # step is simply re-accepted next iteration.
+                failed = history[-1]["cost"]
+                budget = min(budget * 0.6, failed * 0.9)
+                banned.add(tuple(sorted(state.items())))
                 state = history[-2]["state"] if len(history) > 1 else {c: 16 for c in state}
                 log(f"  the cheap signal was wrong here: revert to {state}, "
-                    f"tighten budget to {budget:.3f}")
+                    f"budget {budget:.2f} (below the failing cost {failed:.2f})")
                 history[-1]["reverted"] = True
+    if validate_every:  # the last accepted step is otherwise never audited
+        scores = ev.probe(state, items)
+        final = agentic_mean(scores, baseline_probes)
+        log(f"FINAL VALIDATE: agentic {final:.3f}  {scores}")
+        if final < min_agentic and len(history) > 1:
+            state = history[-2]["state"]
+            log(f"  final state failed its audit, falling back to {state}")
+        return {"state": state, "history": history, "budget": budget, "final_agentic": final,
+                "model_bits": model_bits(state, ev.sizes), "evaluations": ev.evals}
     return {"state": state, "history": history, "budget": budget,
             "model_bits": model_bits(state, ev.sizes), "evaluations": ev.evals}
 
@@ -162,8 +191,8 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("model")
-    p.add_argument("--budget", type=float, default=0.20,
-                   help="max fraction of tokens allowed to change expert set")
+    p.add_argument("--budget", type=float, default=1.0,
+                   help="max damage cost, where 1.0 is the sweep's HIGH cut point")
     p.add_argument("--group", type=int, default=128)
     p.add_argument("--device", default="auto")
     p.add_argument("--validate-every", type=int, default=2, help="0 disables the auditor")

@@ -70,9 +70,12 @@ def test_selection_prefers_the_models_own_choice():
     assert K.selection({"logits": rec["logits"]}, 2).tolist() == [[0, 1]]
 
 
-def test_verdict_bands():
-    assert (K.verdict(0.01, 0.06, 0.15), K.verdict(0.10, 0.06, 0.15),
-            K.verdict(0.2, 0.06, 0.15)) == ("LOW", "MEDIUM", "HIGH")
+def test_verdict_needs_both_signals_clear():
+    """Either signal over its cut point is enough to call it: they tie at 84%."""
+    assert K.verdict(0.05, 0.01) == "LOW"
+    assert K.verdict(0.25, 0.05) == "MEDIUM"
+    assert K.verdict(0.50, 0.01) == "HIGH"      # routing alone
+    assert K.verdict(0.05, 0.20) == "HIGH"      # reconstruction alone
 
 
 def test_set_change_uses_membership_not_order():
@@ -104,6 +107,13 @@ def test_set_change_rate_survives_a_router_with_no_logits():
     base = {"g": {"ids": torch.tensor([[0, 1], [0, 1]])}}
     quant = {"g": {"ids": torch.tensor([[0, 1], [0, 2]])}}
     assert K.compare(base, quant, 4, 2)["set_change_rate"] == 0.5
+
+
+def test_failed_validation_tightens_below_the_failing_cost():
+    """Tightening by a fixed factor is not enough: the budget has to drop under
+    the cost of the step that failed, or the search re-accepts it forever."""
+    budget, failed = 1.0, 0.47
+    assert min(budget * 0.6, failed * 0.9) < failed
 
 
 def test_search_weights_bits_by_parameter_count():

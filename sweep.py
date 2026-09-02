@@ -84,27 +84,10 @@ def capture(model, tok, texts, pattern, max_len=512, layer_tokens=256):
     n_experts, k = K._num_experts(model.config), K._top_k(model.config)
     runs, layer_out, nll, ntok = [], {}, 0.0, 0
 
-    for t_i, text in enumerate(texts):
+    for text in texts:
         ids = tok(text, return_tensors="pt", truncation=True, max_length=max_len).input_ids
-        store, hooks = {}, []
-
-        def layer_hook(idx):
-            def fn(_m, _i, out):
-                h = out[0] if isinstance(out, (tuple, list)) else out
-                if isinstance(h, torch.Tensor):
-                    store[idx] = h.detach().reshape(-1, h.shape[-1])[:layer_tokens].half().cpu()
-            return fn
-
-        for name, mod in model.named_modules():
-            m = LAYER_OUT.search(name)
-            if m:
-                hooks.append(mod.register_forward_hook(layer_hook(int(m.group(1)))))
-        try:
-            run = K.capture_routing(model, ids, pattern)
-            out = model(ids.to(model.device), labels=ids.to(model.device))
-        finally:
-            for h in hooks:
-                h.remove()
+        run, store = K.capture_routing(model, ids, pattern, with_layers=layer_tokens)
+        out = model(ids.to(model.device), labels=ids.to(model.device))
 
         nll += float(out.loss) * (ids.numel() - 1)
         ntok += ids.numel() - 1
@@ -117,14 +100,7 @@ def capture(model, tok, texts, pattern, max_len=512, layer_tokens=256):
             float(torch.tensor(nll / max(ntok, 1)).exp()))
 
 
-def recon_error(base_out: dict, quant_out: dict) -> float:
-    """Mean relative L2 between decoder layer outputs. The standard competing predictor."""
-    errs = []
-    for i in sorted(set(base_out) & set(quant_out)):
-        b, q = base_out[i].float(), quant_out[i].float()
-        n = min(len(b), len(q))
-        errs.append((q[:n] - b[:n]).norm().item() / max(b[:n].norm().item(), 1e-8))
-    return sum(errs) / max(len(errs), 1)
+recon_error = K.recon_error
 
 
 def evaluate(model, tok, texts, pattern, items, batch_size, max_new_tokens):

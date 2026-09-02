@@ -12,8 +12,17 @@ import json
 import numpy as np
 
 AGENTIC = ("long_horizon", "format", "calibration", "recovery")
+
+# Calibration is confounded: it rewards abstention, and a damaged model hedges
+# more, so the score can rise as the model gets worse (observed at 2-bit gate,
+# where fluency visibly degraded while the abstention score went up). This
+# subset is the two probes with clean headroom and no such incentive. Chosen
+# after seeing the data, so both targets are reported side by side.
+CORE = ("long_horizon", "format")
 CONTROL = "recall"
-PREDICTORS = [("set_change_rate", "router expert-set change rate"),
+PREDICTORS = [("routing_x_damage", "routing change x compute damage"),
+              ("compute_weight_error", "quantized-weight error (expert+attn)"),
+              ("set_change_rate", "router expert-set change rate"),
               ("flip_rate", "router top-1 flip rate"), ("jaccard", "router top-k jaccard"),
               ("load_kl", "expert load KL"), ("ppl_ratio", "perplexity ratio"),
               ("recon_error", "layer reconstruction error")]
@@ -53,11 +62,22 @@ def normalise(records: list) -> list:
         # would plot a collapse that never happened.
         rel = {p: (r["probes"][p] / v if p in r["probes"] and v else float("nan"))
                for p, v in base["probes"].items()}
+        # Routing change is only harmful in proportion to how damaged the
+        # computation it routes into is: gate-only configs move routing hard and
+        # cost nothing, because every expert they land on is intact. The gate is
+        # excluded from the damage term because it selects, it does not compute.
+        we = r.get("weight_error") or {}
+        compute = [v["rel_weight_error"] for k, v in we.items() if k in ("expert", "attention")]
+        damage = float(np.mean(compute)) if compute else 0.0
         agentic = [rel[p] for p in usable if p in rel and np.isfinite(rel[p])]
-        out.append({**{"set_change_rate": 0.0, "flip_rate": 0.0, "jaccard": 0.0,
-                       "load_kl": 0.0, "recon_error": 0.0},
+        core = [rel[p] for p in CORE if p in rel and np.isfinite(rel[p])]
+        out.append({**{"flip_rate": 0.0, "jaccard": 0.0,
+                       "load_kl": 0.0, "recon_error": 0.0, "set_change_rate": 0.0},
                     **r, "rel": rel, "ppl_ratio": r["ppl"] / base["ppl"],
+                    "compute_weight_error": damage,
+                    "routing_x_damage": damage * r.get("set_change_rate", 0.0),
                     "agentic": float(np.mean(agentic)) if agentic else float("nan"),
+                    "agentic_core": float(np.mean(core)) if core else float("nan"),
                     "control": rel.get(CONTROL, float("nan")),
                     "usable_probes": usable})
     return out
@@ -153,11 +173,12 @@ def report(rows) -> str:
                   f"{', '.join(f'{p} ({base[chr(39)+chr(39)] if False else base[chr(112)+chr(114)+chr(111)+chr(98)+chr(101)+chr(115)][p]:.2f})' for p in dropped)}. "
               "They are still reported per probe below."]
     L += ["", "## Configs", "",
-          "| config | bits | method | ppl ratio | recall (control) | agentic mean | flip rate | recon err |",
-          "|---|---|---|---|---|---|---|---|"]
+          "| config | bits | method | ppl ratio | recall (control) | agentic | core | flip rate | recon err |",
+          "|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         L.append(f"| {r['config']} | {r['bits']} | {r['method']} | {r['ppl_ratio']:.3f} | "
-                 f"{r['control']:.3f} | {r['agentic']:.3f} | {r['flip_rate']:.4f} | "
+                 f"{r['control']:.3f} | {r['agentic']:.3f} | {r['agentic_core']:.3f} | "
+                 f"{r['flip_rate']:.4f} | "
                  f"{r['recon_error']:.4f} |")
     L += ["", "## Per-probe, relative to BF16", "",
           "| config | " + " | ".join(AGENTIC) + " |", "|---|" + "---|" * len(AGENTIC)]
@@ -165,16 +186,37 @@ def report(rows) -> str:
         L.append(f"| {r['config']} | " + " | ".join(f"{r['rel'].get(p, float('nan')):.3f}"
                                                     for p in AGENTIC) + " |")
 
+    core_live = [r for r in live if np.isfinite(r["agentic_core"])]
     L += ["", f"## H3 — predictors of agentic degradation (n={len(live)} configs)", "",
-          "| predictor | pearson r | spearman rho |", "|---|---|---|"]
+          "`all probes` is the mean over every probe with headroom at BF16; `core` drops "
+          "calibration, which rewards abstention and can rise under damage.", "",
+          "| predictor | r (all probes) | rho | r (core) | rho |", "|---|---|---|---|---|"]
     scored = []
     for key, label in PREDICTORS:
         xs, ys = [r[key] for r in live], [r["agentic"] for r in live]
-        r_, rho = pearson(xs, ys), spearman(xs, ys)
-        scored.append((abs(r_) if np.isfinite(r_) else -1, label))
-        L.append(f"| {label} | {r_:.3f} | {rho:.3f} |")
+        cx, cy = [r[key] for r in core_live], [r["agentic_core"] for r in core_live]
+        r_, rho, rc, rhoc = pearson(xs, ys), spearman(xs, ys), pearson(cx, cy), spearman(cx, cy)
+        scored.append((abs(rc) if np.isfinite(rc) else -1, label))
+        L.append(f"| {label} | {r_:.3f} | {rho:.3f} | {rc:.3f} | {rhoc:.3f} |")
     scored.sort(reverse=True)
-    L += ["", f"Strongest predictor: **{scored[0][1]}** (|r| = {scored[0][0]:.3f})."]
+    L += ["", f"Strongest predictor of the core target: **{scored[0][1]}** "
+              f"(|r| = {scored[0][0]:.3f})."]
+
+    ship = [r for r in live if r["ppl_ratio"] <= 1.25]
+    if len(ship) >= 6:
+        L += ["", f"## The deployable regime (n={len(ship)} configs with perplexity within 25%)", "",
+              "The whole argument is about configs that *look fine*, so this restricts to the ones "
+              "a practitioner would actually ship and asks which predictor still finds the damage. "
+              "Chosen after seeing that one catastrophic config was carrying the full-set Pearson.",
+              "", "| predictor | r (core) | rho |", "|---|---|---|"]
+        rank = []
+        for key, label in PREDICTORS:
+            xs, ys = [r[key] for r in ship], [r["agentic_core"] for r in ship]
+            rr, rh = pearson(xs, ys), spearman(xs, ys)
+            rank.append((abs(rr) if np.isfinite(rr) else -1, label))
+            L.append(f"| {label} | {rr:.3f} | {rh:.3f} |")
+        rank.sort(reverse=True)
+        L += ["", f"In the regime that matters: **{rank[0][1]}** (|r| = {rank[0][0]:.3f})."]
 
     margins = [r for r in live if r.get("set_changes_by_margin")]
     if margins:

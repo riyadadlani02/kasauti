@@ -223,6 +223,18 @@ Router divergence predicts agentic degradation (r = −0.82) where perplexity do
 
 Quantizing attention alone, touching no expert or router weight, re-routed 43% of tokens and cost more long-horizon adherence than any other config — while *improving* perplexity.
 
+## The search agent
+
+The study says which signal to trust; `search.py` uses it to search.
+
+```bash
+python search.py granite-1b-a400m --budget 1.0 --validate-every 2 --min-agentic 0.95
+```
+
+It lowers one component's bit-width at a time, scoring each candidate by model size bought per unit of damage, and every few accepted steps it stops trusting the cheap signal and runs the real probe suite. If the audit fails, the step is reverted and the budget tightened below the cost of whatever just failed.
+
+On the 1.3B subject it converged in 24 evaluations to `gate 5 / attention 8 / expert 5` — 68% smaller than BF16, keeping 95% of agentic capability where uniform 4-bit keeps 78%. Full trace in [RESULTS.md](RESULTS.md).
+
 ## Roadmap
 
 Ship the study, then ship the CLI that operationalises it. A diagnostic with no validation behind it is a number generator, and that is the first thing a reviewer would spot.

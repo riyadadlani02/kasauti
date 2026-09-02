@@ -30,20 +30,56 @@ Only at 3-bit do the aggregate measures finally react — and there they collaps
 
 **H1 holds** on this subject: degradation is capability-specific, not uniform. **H2 holds**: there is a bit-width at which the aggregate reading is flat and agentic capability has already fallen materially. Here that width is 4, the most widely deployed one.
 
-## H3 — router divergence beats perplexity, and ties with reconstruction error
+## H3 — fails. Router divergence beats perplexity; it does not beat reconstruction error
 
 ![predictors](predictors.png)
 
-| predictor | pearson r | spearman rho |
-|---|---|---|
-| **router expert-set change rate** | **−0.821** | −0.667 |
-| layer reconstruction error | −0.794 | −0.571 |
-| router top-1 flip rate | −0.773 | −0.667 |
-| router top-k jaccard | −0.748 | −0.667 |
-| expert load KL | −0.432 | −0.667 |
-| perplexity ratio | −0.257 | +0.262 |
+The first pass ran 8 configs and put router divergence on top (r = −0.82 against perplexity's −0.26). That result did not survive. Nineteen more configs were added — gate-only quantization at four bit-widths, three group sizes, per-channel scaling, and a second method — chosen specifically to make the competing predictors disagree. On 27 configs:
 
-Router divergence beats perplexity decisively (0.82 against 0.26). It does **not** clearly beat per-layer reconstruction error (0.82 against 0.79) — at n=8 configs that gap is noise. The honest verdict is that H3 half-holds: routing predicts what perplexity cannot, but this study does not establish it as the best available cheap predictor. Reconstruction error is the competitor to beat, and beating it needs more configs than a laptop sweep provides.
+| predictor | r (core target) | rho |
+|---|---|---|
+| layer reconstruction error | −0.577 | −0.542 |
+| routing change × compute damage | −0.584 | −0.560 |
+| router expert-set change rate | −0.477 | −0.403 |
+| perplexity ratio | **−0.664** | **−0.217** |
+
+Perplexity has the highest Pearson and nearly the lowest Spearman, which is the signature of one outlier carrying a correlation: `x3-ea-awq` blew perplexity out to 4.5× and dragged the line with it. Nobody deploys that config.
+
+**So ask the decision-relevant question instead.** Restricted to the 21 configs whose perplexity stayed within 25% of baseline — the ones that *look fine*, which is what this whole study is about:
+
+| predictor | r (core target) | rho |
+|---|---|---|
+| **layer reconstruction error** | **−0.590** | **−0.561** |
+| router expert-set change rate | −0.509 | −0.455 |
+| router top-k jaccard | −0.487 | −0.452 |
+| routing change × compute damage | −0.290 | −0.409 |
+| perplexity ratio | −0.118 | −0.012 |
+
+And as a decision rule rather than a correlation — split the 25 configs into healthy (agentic score ≥ 0.95) and damaged (< 0.90), then find each predictor's best threshold:
+
+| rule | accuracy |
+|---|---|
+| reconstruction error < 0.100 | **84%** |
+| router set-change rate < 0.385 | **84%** |
+| perplexity ratio < 0.850 | 60% |
+
+Fifteen of 25 configs were damaged, so 60% is the base rate. **As a decision rule, perplexity is exactly as good as guessing.** That is the study's central claim, and it is now measured on 27 configs rather than argued.
+
+But router divergence and reconstruction error tie, at 84% each, and reconstruction error wins every correlation in the deployable regime. **H3 does not hold.** Router divergence is a good predictor and a decisively better one than perplexity; it is not the best available cheap predictor, and the method's own contingency plan applies — the capability-degradation result stands on its own, and the mechanism claim becomes a secondary contribution rather than the headline.
+
+### Why routing alone is not enough
+
+The gate-only configs are what killed it, and they are interesting in their own right:
+
+| config | tokens re-routed | agentic score | perplexity |
+|---|---|---|---|
+| 4-bit router only | 15.0% | 1.012 | 0.971 |
+| 3-bit router only | 26.2% | 0.899 | 1.006 |
+| 2-bit router only | 48.1% | 1.009 | 1.714 |
+
+**Quantizing only the router to 2 bits re-routed nearly half of all tokens and cost nothing.** Sending a token to a different expert is harmless when every expert it might land on is intact — the alternative expert is a legitimately trained function, not a broken one. Routing divergence over-predicts damage exactly when the destinations are undamaged.
+
+That suggests the damage is the *product* of routing change and destination damage, so I tested `routing change × weight error of the computing components`. It is the best predictor over the full range (−0.584) and one of the worst inside the deployable regime (−0.290). The interaction idea is not supported by this data.
 
 ## Mechanism — the flips are where the router was undecided
 
@@ -96,6 +132,43 @@ What does **not** replicate here is the capability half — no probes were run a
 
 ---
 
+## The search agent
+
+`search.py` closes the loop. It walks each component's bit-width down one rung at a time, scores each candidate by how much model size it buys per unit of damage, and keeps the best step — where damage is the worse of the two signals above, each measured against its own cut point. Every few accepted steps it stops trusting that cheap signal and pays for a real probe run.
+
+Run on the 1.3B subject with a floor of 0.95 relative agentic score, it converged in 24 evaluations and 30 minutes:
+
+```
+accept expert -> 8    gate 16, attn 16, expert  8   mean 8.48 bits   cost 0.19
+accept attention -> 8 gate 16, attn  8, expert  8   mean 8.00 bits   cost 0.23
+  VALIDATE: agentic 0.985
+accept expert -> 6    gate 16, attn  8, expert  6   mean 6.12 bits   cost 0.47
+accept expert -> 5    gate 16, attn  8, expert  5   mean 5.18 bits   cost 0.91
+  VALIDATE: agentic 0.983
+accept gate -> 6      gate  6, attn  8, expert  5   mean 5.18 bits   cost 0.88
+  VALIDATE: agentic 1.059
+accept gate -> 5      gate  5, attn  8, expert  5   mean 5.18 bits   cost 0.96
+no step left within budget
+```
+
+Its first decision is the interesting one. Lowering the router to 8-bit and lowering the experts to 8-bit cost the same damage (0.19), but the router is 0.1% of the parameters, so it saves 0.00 bits against the experts' 7.52. The agent went for the experts and left the router alone until nothing else was affordable — arriving at the exemption `gpt-oss-20b` ships, from the cheap signal alone.
+
+It also stopped attention at 8-bit while pushing experts to 5-bit, which is the study's attention finding rediscovered rather than told.
+
+Against the config a practitioner would actually pick, verified afterwards with the full probe suite:
+
+| config | mean bit-width | agentic (long-horizon + format) | recall |
+|---|---|---|---|
+| BF16 | 16.00 | 1.000 | 0.650 |
+| uniform 4-bit, experts + attention | 4.01 | 0.783 | 0.625 |
+| **what the agent found** | **5.18** | **0.952** | 0.675 |
+
+For 1.2 more bits than uniform 4-bit — still 68% smaller than BF16 — it keeps 95% of the agentic capability instead of 78%.
+
+**What the loop cannot do.** It is greedy: an early choice is only undone when an audit fails. Its cut points come from one 1.3B model. Its auditor uses the same probe suite the study used, so it cannot catch a failure mode those probes do not cover — a self-improving loop is bounded by the quality of its own judge, and that is the honest limit of this design, not a detail. And each evaluation is one forward pass per calibration text plus a model load, so on a 30B model the wall-clock cost per step is far higher than the 40 seconds it takes here.
+
+---
+
 ## Threats to validity
 
 Stated in full, because the finding is only worth what survives them.
@@ -103,11 +176,17 @@ Stated in full, because the finding is only worth what survives them.
 1. **Scale.** 1.3B parameters for the capability results, not 30B. The routing results replicate at 3.3B; the probe results do not have a second subject. Small models have less redundancy, so they should degrade *earlier*; whether the crossing point sits at the same bit-width on a 30B MoE is exactly what this study cannot say.
 2. **Statistical power.** 100 probe items, 12–40 per probe. A single item is 2.5–8 percentage points. Single-config deltas are noisy; the monotone trend across the bit sweep is the signal, not any one cell.
 3. **Perplexity sample.** The sweep uses 794 calibration tokens, which is too few to trust a 5% move. The two claims that depend on the direction of that move were re-measured on 12,663 tokens: the 4-bit improvement replicated (0.954 vs 0.955), the attention-only improvement shrank from 15% to 3.1%. Every other perplexity figure in the tables is still the 794-token measure and should be read as indicative only.
-4. **Two probes were at their floor.** `recovery` scored 0.10 at BF16 and `calibration` 0.50, which is exactly what always-answering scores. A 1.3B model cannot do those tasks, so they measure nothing about degradation and are excluded from the agentic mean. H1/H2 here rest on long-horizon adherence and format stability.
-5. **Fake quantization.** Round-to-nearest through a quantized grid, not GPTQ or AWQ kernels. It isolates the arithmetic from any one implementation, and it is not what a serving stack runs.
-6. **The `awq` config is not AWQ.** It is activation-aware scaling with a fixed alpha and no search. It produced *higher* weight error than plain RTN (0.165 against 0.110 on attention) and worse perplexity. Read it as evidence that method matters at fixed bit-width, not as a result about AWQ.
-7. **The control is a proxy.** 40 open-ended recall items, not MMLU. On a GPU box, swap in lm-eval-harness.
-8. **n=8 for every correlation.** The H3 table is suggestive, not conclusive.
+4. **The calibration probe is confounded.** It scores abstention on unanswerable questions, and a damaged model hedges more. At 2-bit router quantization the model's fluency visibly degraded while its calibration score rose from 0.50 to 0.80 — it was abstaining more, not calibrating better. Every correlation is therefore reported twice: over all probes with headroom, and over a `core` target of long-horizon adherence and format stability only. That split was chosen after seeing the confound, not before.
+
+5. **Two probes were at their floor.** `recovery` scored 0.10 at BF16 and `calibration` 0.50, which is exactly what always-answering scores. A 1.3B model cannot do those tasks, so they measure nothing about degradation and are excluded from the agentic mean. H1/H2 here rest on long-horizon adherence and format stability.
+6. **Fake quantization.** Round-to-nearest through a quantized grid, not GPTQ or AWQ kernels. It isolates the arithmetic from any one implementation, and it is not what a serving stack runs.
+7. **The `awq` config is not AWQ.** It is activation-aware scaling with a fixed alpha and no search. It produced *higher* weight error than plain RTN (0.165 against 0.110 on attention) and worse perplexity. Read it as evidence that method matters at fixed bit-width, not as a result about AWQ.
+8. **The control is a proxy.** 40 open-ended recall items, not MMLU. On a GPU box, swap in lm-eval-harness.
+9. **Batch composition is not neutral.** Probes are generated in left-padded batches, and changing the batch composition moves a score by about one item — the BF16 format score was 0.875 in the 100-item run and 0.917 in the 60-item run, same model, same items, greedy decoding. Each run is therefore normalised against its own baseline, and roughly one item of noise is unavoidable.
+
+10. **n=27, still small.** Enough to separate perplexity from the other two predictors decisively; not enough to separate router divergence from reconstruction error, which tie.
+
+11. **Two post-hoc analysis choices.** The `core` target and the deployable-regime restriction were both made after seeing the data, for reasons stated above. Both are reported alongside the unrestricted numbers rather than replacing them.
 
 ## What needs a GPU box
 
