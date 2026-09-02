@@ -179,6 +179,40 @@ Gates that return selected expert ids rather than logits are handled, minus the 
 
 ---
 
+## Running the study
+
+```bash
+pip install -e .
+python sweep.py granite-1b-a400m --device mps --out results.jsonl   # the grid
+python analyze.py results.jsonl                                     # figures + RESULTS.md
+python compat.py                                                    # architecture check, no weights
+```
+
+`sweep.py` runs nine configs: a bit-width sweep (BF16, W8, W6, W4, W3) applied to experts and attention, a second W4 method to separate method from bit-width, and three component ablations (experts only, attention only, everything including the router). Each config is measured five ways — the probe suite, perplexity, decoder-layer reconstruction error, router divergence, and quantized-weight error — so H3's competing predictors are all scored against the same target on the same configs.
+
+Quantization is round-to-nearest over groups of the input dimension, applied to parameters rather than modules, because MoE experts are usually one 3D weight bank rather than a Linear per expert. It runs on any device, which is what makes the component ablation affordable. Vendor-quantized checkpoints (FP8, NVFP4, MXFP4) are swept by loading them instead, with `--vendor`.
+
+`compat.py` builds a model on the meta device from its config alone, so gate discovery and component classification can be verified for a 105B model without downloading a byte of weights.
+
+## Architecture compatibility
+
+Verified by constructing each model on the meta device (`python compat.py`):
+
+| model | architecture | experts | top-k | gates found | status |
+|---|---|---|---|---|---|
+| `sarvamai/sarvam-30b` | SarvamMoE | 128 | 6 | 18/18 | instrumentation attaches |
+| `openai/gpt-oss-20b` | GptOss | 32 | 4 | 24/24 | instrumentation attaches, ships MXFP4 |
+| `allenai/OLMoE-1B-7B-0125-Instruct` | Olmoe | 64 | 8 | 16/16 | instrumentation attaches |
+| `ibm-granite/granite-3.0-1b-a400m-instruct` | GraniteMoe | 32 | 8 | 24/24 | instrumentation attaches |
+| `sarvamai/sarvam-105b` | SarvamMoE | — | — | — | its bundled modeling code needs transformers < 5 |
+| `nvidia/Nemotron-3-Nano-30B-A3B` | NemotronH | 128 | 6 | — | hybrid Mamba, needs `mamba-ssm` and CUDA |
+
+Most MoE routers return the selection rather than the logits behind it, so the logits are recomputed from the router weight against the hidden state it saw. That keeps the margin analysis available on any architecture, while the model's own reported selection is still used where it gives one, so group-limited routing is not misread as plain top-k.
+
+Worth noting what OpenAI already does in `gpt-oss-20b`: its `modules_to_not_convert` exempts `mlp.router` and `self_attn` from MXFP4. The router is kept at full precision by the one vendor shipping a natively quantized agentic MoE — which is the practice this study is trying to give evidence for or against.
+
+---
+
 ## Roadmap
 
 Ship the study, then ship the CLI that operationalises it. A diagnostic with no validation behind it is a number generator, and that is the first thing a reviewer would spot.

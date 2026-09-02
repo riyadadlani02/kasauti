@@ -63,16 +63,33 @@ def test_flips_concentrate_in_narrow_margins():
     assert q[0] > 0.9 and max(q[1:]) < 0.1, q
 
 
+def test_selection_prefers_the_models_own_choice():
+    """A router that reports group-limited ids must not be second-guessed by argmax."""
+    rec = {"logits": torch.tensor([[9.0, 8.0, 1.0, 0.0]]), "ids": torch.tensor([[2, 3]])}
+    assert K.selection(rec, 2).tolist() == [[2, 3]]
+    assert K.selection({"logits": rec["logits"]}, 2).tolist() == [[0, 1]]
+
+
 def test_verdict_bands():
-    assert (K.verdict(0.01, 0.02, 0.08), K.verdict(0.05, 0.02, 0.08),
-            K.verdict(0.2, 0.02, 0.08)) == ("LOW", "MEDIUM", "HIGH")
+    assert (K.verdict(0.01, 0.06, 0.15), K.verdict(0.10, 0.06, 0.15),
+            K.verdict(0.2, 0.06, 0.15)) == ("LOW", "MEDIUM", "HIGH")
+
+
+def test_set_change_uses_membership_not_order():
+    """Reordering the same experts is not a routing change; swapping one is."""
+    base = {"g": {"logits": torch.tensor([[4.0, 3.0, 2.0, 1.0]] * 2),
+                  "ids": torch.tensor([[0, 1], [0, 1]])}}
+    reordered = {"g": {"ids": torch.tensor([[1, 0], [0, 1]])}}
+    swapped = {"g": {"ids": torch.tensor([[1, 0], [0, 2]])}}
+    assert K.compare(base, reordered, 4, 2)["set_change_rate"] == 0.0
+    assert K.compare(base, swapped, 4, 2)["set_change_rate"] == 0.5
 
 
 def test_capture_and_compare_end_to_end():
     ids = torch.randint(0, 32, (1, 16))
     base = K.keep_router_outputs(K.capture_routing(FakeMoE(), ids), 4, 2)
     quant = K.keep_router_outputs(K.capture_routing(FakeMoE(noise=0.5), ids), 4, 2)
-    assert len(base) == 3 and base["layers.0.mlp.gate"].shape == (16, 4)
+    assert len(base) == 3 and base["layers.0.mlp.gate"]["logits"].shape == (16, 4)
 
     same = K.compare(base, base, 4, 2)
     assert same["flip_rate"] == 0.0 and same["jaccard"] == 0.0

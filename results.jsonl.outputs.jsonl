@@ -1,0 +1,900 @@
+{"config": "bf16", "id": "recall-0", "probe": "recall", "output": "Iron (Fe).", "score": 1.0}
+{"config": "bf16", "id": "recall-1", "probe": "recall", "output": "Jupiter.", "score": 1.0}
+{"config": "bf16", "id": "recall-2", "probe": "recall", "output": "373\u00b0C (at 100\u00b0C, 1 atm).", "score": 0.0}
+{"config": "bf16", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "bf16", "id": "recall-4", "probe": "recall", "output": "Canberra is the capital of Australia.", "score": 1.0}
+{"config": "bf16", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic Acid.", "score": 1.0}
+{"config": "bf16", "id": "recall-6", "probe": "recall", "output": "1 byte is equal to 8 bits.", "score": 1.0}
+{"config": "bf16", "id": "recall-7", "probe": "recall", "output": "\u00a5 (Yen)", "score": 1.0}
+{"config": "bf16", "id": "recall-8", "probe": "recall", "output": "Chloroplasts.", "score": 0.0}
+{"config": "bf16", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the largest of the world's oceanic divisions.", "score": 0.0}
+{"config": "bf16", "id": "recall-10", "probe": "recall", "output": "404 Not Found. The server could not find the requested resource.", "score": 1.0}
+{"config": "bf16", "id": "recall-11", "probe": "recall", "output": "12", "score": 1.0}
+{"config": "bf16", "id": "recall-12", "probe": "recall", "output": "Nepal.", "score": 0.0}
+{"config": "bf16", "id": "recall-13", "probe": "recall", "output": "The element with atomic number 1 is Hydrogen.", "score": 1.0}
+{"config": "bf16", "id": "recall-14", "probe": "recall", "output": "10 days.", "score": 0.0}
+{"config": "bf16", "id": "recall-15", "probe": "recall", "output": "The Mona Lisa was painted by Leonardo da Vinci.", "score": 1.0}
+{"config": "bf16", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas.", "score": 1.0}
+{"config": "bf16", "id": "recall-17", "probe": "recall", "output": "1,100,000,000 meters per second.", "score": 0.0}
+{"config": "bf16", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "bf16", "id": "recall-19", "probe": "recall", "output": "The longest river in Africa is the Nile.", "score": 1.0}
+{"config": "bf16", "id": "recall-20", "probe": "recall", "output": "Alexander Fleming.", "score": 1.0}
+{"config": "bf16", "id": "recall-21", "probe": "recall", "output": "32\u00b0F", "score": 1.0}
+{"config": "bf16", "id": "recall-22", "probe": "recall", "output": "6 sides.", "score": 0.0}
+{"config": "bf16", "id": "recall-23", "probe": "recall", "output": "Australia.", "score": 1.0}
+{"config": "bf16", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "bf16", "id": "recall-25", "probe": "recall", "output": "106 pairs of bones.", "score": 0.0}
+{"config": "bf16", "id": "recall-26", "probe": "recall", "output": "Mahatma Gandhi led the salt march from Porbandar to Baroda in 1930 to protest against British salt taxes.", "score": 1.0}
+{"config": "bf16", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Antarctic Desert.", "score": 1.0}
+{"config": "bf16", "id": "recall-28", "probe": "recall", "output": "10.", "score": 1.0}
+{"config": "bf16", "id": "recall-29", "probe": "recall", "output": "Earthquake study involves understanding the physics of seismic waves, fault systems, and the aftershock phenomenon. It also includes seismic hazard assessment and risk reduction strategies.", "score": 0.0}
+{"config": "bf16", "id": "recall-30", "probe": "recall", "output": "1st element, hydrogen.", "score": 1.0}
+{"config": "bf16", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 2 distinct values.", "score": 0.0}
+{"config": "bf16", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "bf16", "id": "recall-33", "probe": "recall", "output": "Malaria is transmitted by female Anopheles mosquitoes.", "score": 1.0}
+{"config": "bf16", "id": "recall-34", "probe": "recall", "output": "Guido van Rossum created Python.", "score": 1.0}
+{"config": "bf16", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly composed of nitrogen and oxygen.", "score": 0.0}
+{"config": "bf16", "id": "recall-36", "probe": "recall", "output": "360 degrees. This is a fundamental property of triangles.", "score": 0.0}
+{"config": "bf16", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean Sea to the Red Sea.", "score": 1.0}
+{"config": "bf16", "id": "recall-38", "probe": "recall", "output": "TCP, or Transmission Control Protocol, is a protocol used for transmitting data over the internet.", "score": 0.0}
+{"config": "bf16", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency, also known as scurvy, occurs when the body is unable to produce enough vitamin C, which is essential for collagen production and wound healing. It can lead to symptoms such as", "score": 1.0}
+{"config": "bf16", "id": "lh-1-0", "probe": "long_horizon", "output": "The current status is that the system has started and is reporting its status in one short sentence.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12, reporting status in one short sentence.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-1-2", "probe": "long_horizon", "output": "Understood. I will end my replies with the line [[ack]] and avoid using the word certainly. I will also write steps_used: 1 before each reply, starting from 1.", "score": 0.0}
+{"config": "bf16", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-3-1", "probe": "long_horizon", "output": "The current status is that there are no alerts firing and the region is eu-west-2.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is \"Development\".\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-6-0", "probe": "long_horizon", "output": "The current status is that the build tag is 4.2.1.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with 61 percent disk headroom.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-6-2", "probe": "long_horizon", "output": "The current status is running smoothly.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-12-2", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy in progress, no alerts firing.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy in progress, no issues reported.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy is in progress, with a queue depth of 12 and no pending retries.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is that the deployment is in progress.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-30-2", "probe": "long_horizon", "output": "The current status is that the system is operational and no issues have been reported.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien 'Sam' Ltd\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a{b}c\",\n  \"length\": 6\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path/to/file\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 10\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 15\n}", "score": 0.0}
+{"config": "bf16", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"\\\\\"\n}", "score": 0.5}
+{"config": "bf16", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": 0\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"nested\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"comma, separated, values\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "bf16", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "bf16", "id": "cal-a1", "probe": "calibration", "output": "ANSWER: eu-west-2", "score": 1.0}
+{"config": "bf16", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "bf16", "id": "cal-a3", "probe": "calibration", "output": "12", "score": 0.0}
+{"config": "bf16", "id": "cal-a4", "probe": "calibration", "output": "88\n\nExplanation: The context states that ticket 88 is assigned to the platform team.", "score": 1.0}
+{"config": "bf16", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "bf16", "id": "cal-a6", "probe": "calibration", "output": "240", "score": 1.0}
+{"config": "bf16", "id": "cal-a7", "probe": "calibration", "output": "7", "score": 0.0}
+{"config": "bf16", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "bf16", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "bf16", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not provided in the given context.", "score": 1.0}
+{"config": "bf16", "id": "cal-u1", "probe": "calibration", "output": "1000", "score": 0.0}
+{"config": "bf16", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: The release notes indicate that the deploy was approved by the release notes manager.", "score": 0.0}
+{"config": "bf16", "id": "cal-u3", "probe": "calibration", "output": "ANSWER: Approximately 12 seconds.", "score": 0.0}
+{"config": "bf16", "id": "cal-u4", "probe": "calibration", "output": "8th\n\nExplanation: The context provides information about ticket 88 being assigned to the platform team. However, it does not contain specific information about when the ticket will be closed. Therefore, I cannot provide a definitive answer", "score": 1.0}
+{"config": "bf16", "id": "cal-u5", "probe": "calibration", "output": "5", "score": 0.0}
+{"config": "bf16", "id": "cal-u6", "probe": "calibration", "output": "24%", "score": 0.0}
+{"config": "bf16", "id": "cal-u7", "probe": "calibration", "output": "50GB (ANSWER)", "score": 0.0}
+{"config": "bf16", "id": "cal-u8", "probe": "calibration", "output": "40%, as the cache TTL is 900 seconds, most requests will not be served from the cache, resulting in a cache hit rate of 40%.", "score": 0.0}
+{"config": "bf16", "id": "cal-u9", "probe": "calibration", "output": "8443", "score": 0.0}
+{"config": "bf16", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "bf16", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: In stock\n\nRETRY: The tool did not return a value. Please try again with the sku=\"SKU-77\" parameter.", "score": 0.0}
+{"config": "bf16", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: Active", "score": 0.0}
+{"config": "bf16", "id": "rec-1-1", "probe": "recovery", "output": "RESULT: Not usable", "score": 0.0}
+{"config": "bf16", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: 5", "score": 0.0}
+{"config": "bf16", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: None\nRETRY: get_stock(sku=\"SKU-77\")", "score": 1.0}
+{"config": "bf16", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: 502 Bad Gateway", "score": 0.0}
+{"config": "bf16", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The tool was unable to retrieve the stock level for the given SKU.", "score": 0.0}
+{"config": "bf16", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "bf16", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: The tool was unable to retrieve the stock level for the given SKU.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-0", "probe": "recall", "output": "Iron (Fe).", "score": 1.0}
+{"config": "w8-ea", "id": "recall-1", "probe": "recall", "output": "Jupiter.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-2", "probe": "recall", "output": "At sea level, water boils at 100 degrees Celsius or 212 degrees Fahrenheit.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-4", "probe": "recall", "output": "Canberra is the capital of Australia.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic Acid.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-6", "probe": "recall", "output": "1 byte is equal to 8 bits.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-7", "probe": "recall", "output": "\u00a5 (Yen)", "score": 1.0}
+{"config": "w8-ea", "id": "recall-8", "probe": "recall", "output": "Chloroplasts.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the largest of the world's oceanic divisions.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-10", "probe": "recall", "output": "404 Not Found.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-11", "probe": "recall", "output": "12.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-12", "probe": "recall", "output": "Nepal.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-13", "probe": "recall", "output": "H, the first element.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-14", "probe": "recall", "output": " A leap year has 366 days.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-15", "probe": "recall", "output": "Leonardo da Vinci.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-17", "probe": "recall", "output": "1. The speed of light is closest to in meters per second (m/s).\n2. The exact speed of light is approximately 299,792,458 m/s.\n3. The", "score": 0.0}
+{"config": "w8-ea", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-19", "probe": "recall", "output": "The longest river in Africa is the Nile.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-20", "probe": "recall", "output": "Alexander Fleming.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-21", "probe": "recall", "output": "32\u00b0F", "score": 1.0}
+{"config": "w8-ea", "id": "recall-22", "probe": "recall", "output": "6 sides.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-23", "probe": "recall", "output": "Australia.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-25", "probe": "recall", "output": "106 parts.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-26", "probe": "recall", "output": "Mahatma Gandhi led the salt march from Porbandar to Kaliya dam in 1930 to protest against unjust salt tax.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Antarctic Desert.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-28", "probe": "recall", "output": "1000 in binary.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-29", "probe": "recall", "output": "Earthquake study involves understanding the physics of seismic waves, fault systems, and the aftershock phenomenon.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-30", "probe": "recall", "output": "1st element, Hydrogen (H).", "score": 1.0}
+{"config": "w8-ea", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 256 distinct values.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-33", "probe": "recall", "output": "Mosquitoes.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-34", "probe": "recall", "output": "Python was created by Guido van Rossum.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-35", "probe": "recall", "output": " The Earth's atmosphere is mostly composed of nitrogen and oxygen.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-36", "probe": "recall", "output": "360 degrees. This is a fundamental property of triangles.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean to the Red Sea.", "score": 1.0}
+{"config": "w8-ea", "id": "recall-38", "probe": "recall", "output": "TCP, or Transmission Control Protocol, is a protocol used for reliable, end-to-end data transfer between devices on a network.", "score": 0.0}
+{"config": "w8-ea", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency, also known as scurvy, occurs when the body is unable to produce enough vitamin C, which is essential for the production of collagen and the maintenance of healthy skin, tendons, and blood", "score": 1.0}
+{"config": "w8-ea", "id": "lh-1-0", "probe": "long_horizon", "output": "The current status is report_started.", "score": 0.3333333333333333}
+{"config": "w8-ea", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12, reporting status in one short sentence.", "score": 0.3333333333333333}
+{"config": "w8-ea", "id": "lh-1-2", "probe": "long_horizon", "output": "Understood. I will end each reply with the line [[ack]] and avoid using the word certainly. I will also write steps_used: 1 before each reply, starting from 1.", "score": 0.0}
+{"config": "w8-ea", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-3-1", "probe": "long_horizon", "output": "The current status is that the system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is \"Development\".\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-6-0", "probe": "long_horizon", "output": "The current status is that the build tag is 4.2.1.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with 61 percent disk headroom.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-6-2", "probe": "long_horizon", "output": "The current status is operational.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-12-2", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy is running with no pending retries.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy in progress, no issues reported.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy in progress, no issues reported.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w8-ea", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy is running with no pending retries.", "score": 0.3333333333333333}
+{"config": "w8-ea", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is that the deployment is in progress.", "score": 0.3333333333333333}
+{"config": "w8-ea", "id": "lh-30-2", "probe": "long_horizon", "output": "The current status is that the system is running smoothly with no issues.", "score": 0.3333333333333333}
+{"config": "w8-ea", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien 'Sam' Ltd\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a{b}c\",\n  \"length\": 6\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path/to/file\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 10\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 15\n}", "score": 0.0}
+{"config": "w8-ea", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"\\\\\"\n}", "score": 0.5}
+{"config": "w8-ea", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": 0\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"nested\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"comma, separated, values\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "w8-ea", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a1", "probe": "calibration", "output": "ANSWER: eu-west-2", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a3", "probe": "calibration", "output": "13", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a4", "probe": "calibration", "output": "Answer: Platform team", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a6", "probe": "calibration", "output": "240", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a7", "probe": "calibration", "output": "7", "score": 0.0}
+{"config": "w8-ea", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "w8-ea", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "w8-ea", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not provided in the given context.", "score": 1.0}
+{"config": "w8-ea", "id": "cal-u1", "probe": "calibration", "output": "1000", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: The release notes indicate that the deploy was approved by the \"Release Team\".", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u3", "probe": "calibration", "output": "10.5 minutes", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u4", "probe": "calibration", "output": "88 will be closed by 14:30, as the platform team is currently working on it.", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u5", "probe": "calibration", "output": "5", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u6", "probe": "calibration", "output": "17.5% (ANSWER: 17.5%).", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u7", "probe": "calibration", "output": "50GB (ANSWER)", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u8", "probe": "calibration", "output": "100%", "score": 0.0}
+{"config": "w8-ea", "id": "cal-u9", "probe": "calibration", "output": "8.1.3.1, as per the context provided.", "score": 0.0}
+{"config": "w8-ea", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "w8-ea", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: In stock", "score": 0.0}
+{"config": "w8-ea", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: Completed", "score": 0.0}
+{"config": "w8-ea", "id": "rec-1-1", "probe": "recovery", "output": "RESULT:cancelled", "score": 0.0}
+{"config": "w8-ea", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: ERROR", "score": 0.0}
+{"config": "w8-ea", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w8-ea", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: The order status could not be retrieved due to a 502 Bad Gateway error. Please try again later.", "score": 0.0}
+{"config": "w8-ea", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The tool did not return a valid stock level for the given SKU-77. Please try again with a valid SKU.", "score": 0.0}
+{"config": "w8-ea", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w8-ea", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: The tool did not return a value for the given SKU.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-0", "probe": "recall", "output": "Iron (Fe).", "score": 1.0}
+{"config": "w6-ea", "id": "recall-1", "probe": "recall", "output": "The largest planet is Jupiter.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-2", "probe": "recall", "output": "At sea level, water boils at 100 degrees Celsius or 212 degrees Fahrenheit.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-4", "probe": "recall", "output": "Canberra is the capital of Australia.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic Acid.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-6", "probe": "recall", "output": "1 byte is equal to 8 bits.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-7", "probe": "recall", "output": "\u00a5 (Yen)", "score": 1.0}
+{"config": "w6-ea", "id": "recall-8", "probe": "recall", "output": "Chloroplasts.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the largest of the world's oceanic divisions.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-10", "probe": "recall", "output": "404 means \"Not Found\". It indicates that the requested resource could not be found on the server.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-11", "probe": "recall", "output": "12", "score": 1.0}
+{"config": "w6-ea", "id": "recall-12", "probe": "recall", "output": "Mount Everest is located on the border of Nepal and China (Tibet).", "score": 1.0}
+{"config": "w6-ea", "id": "recall-13", "probe": "recall", "output": "The element with atomic number 1 is Hydrogen.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-14", "probe": "recall", "output": " A leap year has 366 days.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-15", "probe": "recall", "output": "The Mona Lisa was painted by Leonardo da Vinci.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas gland.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-17", "probe": "recall", "output": "100% pure, unadulterated truth. The speed of light is the fastest speed in the universe, period.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-19", "probe": "recall", "output": "The longest river in Africa is the Nile River.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-20", "probe": "recall", "output": "Alexander Fleming.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-21", "probe": "recall", "output": "32\u00b0F.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-22", "probe": "recall", "output": "A hexagon has six sides.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is located off the coast of Queensland, Australia.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-25", "probe": "recall", "output": "1.4 billion bones make up the human skeleton in an adult.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-26", "probe": "recall", "output": "Mahatma Gandhi led the salt march from Porbandar to Kutch in 1930 to protest against British rule and the exploitation of Indian salt by them.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Antarctic Desert.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-28", "probe": "recall", "output": "100.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-29", "probe": "recall", "output": "Earthquake study involves understanding the physical processes, hazards, and mitigation strategies related to seismic activity on Earth.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-30", "probe": "recall", "output": "1st element by mass is Hydrogen (H).", "score": 1.0}
+{"config": "w6-ea", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 256 distinct values.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-33", "probe": "recall", "output": "Mosquitoes.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-34", "probe": "recall", "output": "Python was created by Guido van Rossum.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly composed of nitrogen and oxygen.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-36", "probe": "recall", "output": "The sum of the interior angles of a triangle is always 180 degrees.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean Sea to the Red Sea.", "score": 1.0}
+{"config": "w6-ea", "id": "recall-38", "probe": "recall", "output": "TCP stands for Transmission Control Protocol.", "score": 0.0}
+{"config": "w6-ea", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency, also known as scurvy, occurs when the body doesn't have enough vitamin C to maintain healthy collagen and connective tissues. It's caused by inadequate dietary intake", "score": 1.0}
+{"config": "w6-ea", "id": "lh-1-0", "probe": "long_horizon", "output": "The assistant is reporting its current status as \"Deploy started.\"", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-1-2", "probe": "long_horizon", "output": "The user is following the rules and reporting their status.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-3-1", "probe": "long_horizon", "output": "The current status is in the eu-west-2 region.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is in build 4.2.1.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-6-0", "probe": "long_horizon", "output": "The system is running smoothly.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with 61 percent disk headroom.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-6-2", "probe": "long_horizon", "output": "The assistant is operational and ready to assist.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy in progress, expected completion in 1 hour.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in progress, no alerts firing.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-12-2", "probe": "long_horizon", "output": "Deploy in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy in eu-west-2 region, build tag 4.2.1, operator on shift.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy started, queue depth is 12, no alerts firing.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy in progress, expected completion in 1 hour.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy is in progress, with a queue depth of 12 and no alerts firing.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "lh-30-1", "probe": "long_horizon", "output": "Deploy in eu-west-2 region, using build tag 4.2.1, with 61 percent disk headroom.\nsteps_used: 31\n[[ack]]", "score": 1.0}
+{"config": "w6-ea", "id": "lh-30-2", "probe": "long_horizon", "output": "Deploy status: 4.2.1, Disk headroom: 61 percent, No retries pending.", "score": 0.3333333333333333}
+{"config": "w6-ea", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a\",\n  \"length\": 3\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path\\to\\file\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 13\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 17\n}", "score": 0.0}
+{"config": "w6-ea", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": 16\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"\\\\\"\n}", "score": 0.5}
+{"config": "w6-ea", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": 0\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"nested\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"comma\",\n  \"length\": 4\n}", "score": 1.0}
+{"config": "w6-ea", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a1", "probe": "calibration", "output": "eu-west-2", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a3", "probe": "calibration", "output": "ANSWER: 3", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a4", "probe": "calibration", "output": "88 is owned by the platform team.", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a6", "probe": "calibration", "output": "240 GBP", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a7", "probe": "calibration", "output": "123: The primary index is on the column 123.", "score": 0.0}
+{"config": "w6-ea", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "w6-ea", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "w6-ea", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not provided in the given context.", "score": 1.0}
+{"config": "w6-ea", "id": "cal-u1", "probe": "calibration", "output": "1000", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: Not provided in the context.", "score": 1.0}
+{"config": "w6-ea", "id": "cal-u3", "probe": "calibration", "output": "10 seconds (ANSWER: 10)", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: The ticket will be closed soon.", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u5", "probe": "calibration", "output": "5", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u6", "probe": "calibration", "output": "17.5%", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u7", "probe": "calibration", "output": "50GB (ANSWER). This is because the primary index is on user_id, and the size depends on the database management system and the specific index type.", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u8", "probe": "calibration", "output": "50%", "score": 0.0}
+{"config": "w6-ea", "id": "cal-u9", "probe": "calibration", "output": "8443", "score": 0.0}
+{"config": "w6-ea", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "w6-ea", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: In stock", "score": 0.0}
+{"config": "w6-ea", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "w6-ea", "id": "rec-1-1", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "w6-ea", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w6-ea", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: ERROR: upstream timeout after 30s", "score": 0.0}
+{"config": "w6-ea", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: The result is not usable. It returned a 502 Bad Gateway error.", "score": 0.0}
+{"config": "w6-ea", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: 502 Bad Gateway", "score": 0.0}
+{"config": "w6-ea", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: The tool returned null.", "score": 0.0}
+{"config": "w6-ea", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w4-ea", "id": "recall-0", "probe": "recall", "output": "Iron (Fe) is a chemical symbol.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-1", "probe": "recall", "output": "Jupiter.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-2", "probe": "recall", "output": "1000 feet above sea level.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-4", "probe": "recall", "output": "Can you provide a brief explanation for your answer?", "score": 0.0}
+{"config": "w4-ea", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic Acid.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-6", "probe": "recall", "output": "1 bit.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-7", "probe": "recall", "output": "Japanese Yen (JPY).", "score": 1.0}
+{"config": "w4-ea", "id": "recall-8", "probe": "recall", "output": "Chloroplasts.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the world's largest ocean, covering an area of about 6.9 million square kilometers (2.7 million square miles).", "score": 1.0}
+{"config": "w4-ea", "id": "recall-10", "probe": "recall", "output": "404 status code indicates that the requested resource could not be found.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-11", "probe": "recall", "output": "12, because 12 * 12 = 126. However, the square root of 144 is not a single number, but a set of numbers that, when multiplied by themselves, give ", "score": 1.0}
+{"config": "w4-ea", "id": "recall-12", "probe": "recall", "output": "Nepal. Mount Everest is located on the border of Nepal and China (Tibet).", "score": 1.0}
+{"config": "w4-ea", "id": "recall-13", "probe": "recall", "output": "H, the first element.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-14", "probe": "recall", "output": "29 days. This is because the year starts on a January 1st and ends on a December 31st, which is less than a complete year.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-15", "probe": "recall", "output": "Leonardo da Vinci.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-17", "probe": "recall", "output": "1. The speed of light is closest to 100% in all directions.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-19", "probe": "recall", "output": "The Nile River is the longest river in Africa, with a length of over 7,000 kilometers.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-20", "probe": "recall", "output": "Penicillin was discovered by Alexander Fleming in 1928.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-21", "probe": "recall", "output": "0\u00b0F", "score": 0.0}
+{"config": "w4-ea", "id": "recall-22", "probe": "recall", "output": "6 sides.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is off the coast of Australia.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-25", "probe": "recall", "output": "An adult human skeleton consists of 206 bones.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-26", "probe": "recall", "output": "1930.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Sahara Desert.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-28", "probe": "recall", "output": "1010 in decimal is 10.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-29", "probe": "recall", "output": "Earthquake study involves understanding the causes, prediction, and mitigation of seismic hazards.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-30", "probe": "recall", "output": "The first element of the periodic table by mass is Hydrogen (H).", "score": 1.0}
+{"config": "w4-ea", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 2^8 (256) distinct values.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-33", "probe": "recall", "output": "Mosquitoes.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-34", "probe": "recall", "output": "Python was created by Guido van Rossum.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly composed of nitrogen and oxygen, with trace amounts of other gases.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-36", "probe": "recall", "output": "The sum of the interior angles of a triangle is always 180 degrees.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean to the Red Sea.", "score": 1.0}
+{"config": "w4-ea", "id": "recall-38", "probe": "recall", "output": "TCP (Transmission Control Protocol) is a communication protocol for transmitting data over a network.", "score": 0.0}
+{"config": "w4-ea", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency, also known as scurvy, occurs when the body does not have enough vitamin C.", "score": 1.0}
+{"config": "w4-ea", "id": "lh-1-0", "probe": "long_horizon", "output": "Deploy is ready.\nsteps_used: 2", "score": 0.6666666666666666}
+{"config": "w4-ea", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-1-2", "probe": "long_horizon", "output": "You're on a 2-step conversation.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-3-1", "probe": "long_horizon", "output": "The EU-based data center is fully operational.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is that the system is running smoothly.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-6-0", "probe": "long_horizon", "output": "The system is running smoothly.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with no issues.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-6-2", "probe": "long_horizon", "output": "The system is running smoothly and has no issues.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy to eu-west-2 with build tag 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in progress in eu-west-2.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-ea", "id": "lh-12-2", "probe": "long_horizon", "output": "The system is running smoothly.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy in eu-west-2 region with build tag 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy in eu-west-2 region with build tag 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy started in eu-west-2 region.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-30-0", "probe": "long_horizon", "output": "The system is ready for deployment.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is that the system is ready to deploy.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "lh-30-2", "probe": "long_horizon", "output": "The system is ready to deploy.", "score": 0.3333333333333333}
+{"config": "w4-ea", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien \\\"Sam\\\" Ltd\",\n  \"length\": 31\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a\",\n  \"length\": 3\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path\\to\\file\",\n  \"length\": \"path to file\"\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 31\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": \"line1.txt\"\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": \"line2.txt\"\n}", "score": 0.0}
+{"config": "w4-ea", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": \"([brackets])([braces])\"\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 40\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"trailing backslash\",\n  \"length\": \"trailing backslash\"\n}", "score": 1.0}
+{"config": "w4-ea", "id": "fmt-8", "probe": "format", "output": "1 JSON object:\n{\n  \"label\": \"null\",\n  \"length\": 0\n}\n\n2 JSON object:\n{\n  \"label\": \"true\",\n  \"length\": 0\n}\n\n3 JSON", "score": 0.0}
+{"config": "w4-ea", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"input_string\",\n  \"length\": string_length(input_string)\n}\n\n{\n  \"label\": \"nested_data\",\n  \"length\": nested_data_length(nested_", "score": 0.0}
+{"config": "w4-ea", "id": "fmt-10", "probe": "format", "output": "Here is a Python solution using the built-in `len()` function:\n\n```python\ndef jsonify(input_string):\n    return {\n        \"label\": input_string,\n        \"length\": len(input_string", "score": 0.0}
+{"config": "w4-ea", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode\",\n  \"length\": \"cafe.count\"\n}", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: SHIPPED", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a1", "probe": "calibration", "output": "ANSWER: Eu-west-2", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a3", "probe": "calibration", "output": "ANSWER: 3", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a4", "probe": "calibration", "output": "ANSWER: <team1>\n\nExplanation: Since ticket 88 is assigned to the platform team, it is likely that the team owns the ticket. However, the context does not provide information about the team that owns the", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a5", "probe": "calibration", "output": "ANSWER: 5. The retry limit is 5, as mentioned in the context.", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a6", "probe": "calibration", "output": "240 GBP", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a7", "probe": "calibration", "output": "The primary index is on the 'user_id' column.", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a8", "probe": "calibration", "output": "900 seconds", "score": 1.0}
+{"config": "w4-ea", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "w4-ea", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not explicitly provided in the given context.", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u1", "probe": "calibration", "output": "1000 (as of the given context, the tenant has 1000 users in the eu-west-2 region.)", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: The deploy was approved by the system administrator.", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u3", "probe": "calibration", "output": "10.5", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: The context does not provide a specific time for ticket 88.", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u5", "probe": "calibration", "output": "ANSWER: 1.5\n\nExplanation: The retry limit is 5, and the timeout is 30 seconds. The backoff multiplier is a factor by which the algorithm of the system to retry a failed task increases the", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u6", "probe": "calibration", "output": "24", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u7", "probe": "calibration", "output": "1.5 GB", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u8", "probe": "calibration", "output": "100%", "score": 0.0}
+{"config": "w4-ea", "id": "cal-u9", "probe": "calibration", "output": "8443 is not specified in the context, so it does not have a TLS version.\n\nAnswer: None", "score": 1.0}
+{"config": "w4-ea", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: {\"status\": \"success\", \"data\": {\"order_id\": \"A-1182\", \"status\": \"shipped\"}}]", "score": 0.0}
+{"config": "w4-ea", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: 100\n\n[RETRY]\nRESULT: 123\n\n[RETRY]\nRESULT: 200\n\n[RETRY]\nRESULT: 50\n\n[RETRY]\nRESULT", "score": 0.0}
+{"config": "w4-ea", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: 50000", "score": 0.0}
+{"config": "w4-ea", "id": "rec-1-1", "probe": "recovery", "output": "RESULT: 0", "score": 0.0}
+{"config": "w4-ea", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: 23005", "score": 0.0}
+{"config": "w4-ea", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: 50", "score": 0.0}
+{"config": "w4-ea", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: RETRY: get_order(id=\"A-1182\")", "score": 1.0}
+{"config": "w4-ea", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The get_stock tool did not return a valid result, as it returned a 404 Not Found error.", "score": 0.0}
+{"config": "w4-ea", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: GET_ORDER_REQUEST_ERROR", "score": 0.0}
+{"config": "w4-ea", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-0", "probe": "recall", "output": "Iron (Fe) is the chemical symbol for a metal. The answer is iron.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-1", "probe": "recall", "output": "The largest planet in the solar system is Jupiter.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-2", "probe": "recall", "output": "Water boils at 100\u00b0C at sea level.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-3", "probe": "recall", "output": "The author of \"Nineteen Eighty-Four\" is George Orwell.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-4", "probe": "recall", "output": "The capital of Australia is Canberra.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-5", "probe": "recall", "output": "\"Is\"\n\nExplanation: DNA stands for Deoxyribonucleic acid, which is a type of molecule that contains the genetic instructions for a living organism.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-6", "probe": "recall", "output": "1 bit.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-7", "probe": "recall", "output": "The currency of Japan is the Yen.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-8", "probe": "recall", "output": "Chloroplasts.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the world's largest ocean.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-10", "probe": "recall", "output": "404 status code indicates that the requested resource could not be found.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-11", "probe": "recall", "output": "144 is a perfect square, and its square root is 12.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-12", "probe": "recall", "output": "Mount Everest is on the border of Nepal and China (Tibet).", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-13", "probe": "recall", "output": "The element with atomic number 1 is hydrogen.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-14", "probe": "recall", "output": "A leap year has 366 days.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-15", "probe": "recall", "output": "The Mona Lisa was painted by Leonardo da Vinci.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-17", "probe": "recall", "output": "The speed of light is closest to 300,000 kilometers per second.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-19", "probe": "recall", "output": "The longest river in Africa is the Nile River.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-20", "probe": "recall", "output": "Penicillin was discovered by Alexander Fleming.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-21", "probe": "recall", "output": "212 Fahrenheit.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-22", "probe": "recall", "output": "12 sides", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is located off the coast of Australia.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-25", "probe": "recall", "output": "The human skeleton of an adult has about 206 bones.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-26", "probe": "recall", "output": "The Salt March was led by Mahatma Gandhi.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Arctic Dry Arctic Desert.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-28", "probe": "recall", "output": "1010 in decimal is 24.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-29", "probe": "recall", "output": "Earthquakes are a study of natural seismic events involving the ground, their origin, and the resulting tectonic movements.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-30", "probe": "recall", "output": "The first element of the periodic table is Uranium (Uranium-235).", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-31", "probe": "recall", "output": "A byte can represent up to 256 distinct values.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-33", "probe": "recall", "output": "Malaria is transmitted by female Anopheles mosquitoes.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-34", "probe": "recall", "output": "Python was created by Guido van Rossum.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly nitrogen (70%) and oxygen (21%).", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-36", "probe": "recall", "output": "108 degrees.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean to the Red Sea.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "recall-38", "probe": "recall", "output": "TCP (Transmission Control Protocol) is a protocol in the Internet Protocol suite.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency causes anemia and skin blemishes.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "lh-1-0", "probe": "long_horizon", "output": "The assistant is currently active and processing your request.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-1-1", "probe": "long_horizon", "output": "The chat is currently handling 12 messages.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-1-2", "probe": "long_horizon", "output": "The current status is within your assigned tasks for this session.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning normally.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-ea-awq", "id": "lh-3-1", "probe": "long_horizon", "output": "The system is currently in eu-west-2 region.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-3-2", "probe": "long_horizon", "output": "The system is currently in the 4.2.1 build tag.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-6-0", "probe": "long_horizon", "output": "The system is currently on shift in europe-west2.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is fully charged and ready for use.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-ea-awq", "id": "lh-6-2", "probe": "long_horizon", "output": "The system is currently in a maintenance mode.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-12-0", "probe": "long_horizon", "output": "The deploy is currently in the build stage.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-ea-awq", "id": "lh-12-1", "probe": "long_horizon", "output": "The current status is that the deployment is ongoing.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-ea-awq", "id": "lh-12-2", "probe": "long_horizon", "output": "The system is currently in a healthy state.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-ea-awq", "id": "lh-20-0", "probe": "long_horizon", "output": "The deploy is currently in the queue depth of 12 and the build tag is 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-20-1", "probe": "long_horizon", "output": "The current status is 12-12-2022.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-20-2", "probe": "long_horizon", "output": "The operator is ready for the shift.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w4-ea-awq", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy is in progress.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is 4.2.1 and the queue depth is 12.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "lh-30-2", "probe": "long_horizon", "output": "The current status is that the operator is on shift and there are no pending retries.", "score": 0.3333333333333333}
+{"config": "w4-ea-awq", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"Sam\" Ltd\",\n  \"length\": 31\n}", "score": 0.0}
+{"config": "w4-ea-awq", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a\",\n  \"length\": 2\n}\n\n{\n  \"label\": \"b\",\n  \"length\": 1\n}\n\n{\n  \"label\": \"c\",\n  \"length\":", "score": 0.0}
+{"config": "w4-ea-awq", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"file\",\n  \"length\": \"length of the input string\"\n}\n\nInput: path\\to\\file\n\n{\n  \"label\": \"input string\",\n  \"length\": \"number of", "score": 1.0}
+{"config": "w4-ea-awq", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said \\\"done\\\" loudly\",\n  \"length\": 24\n}", "score": 1.0}
+{"config": "w4-ea-awq", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 5\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 7\n}", "score": 0.0}
+{"config": "w4-ea-awq", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji free, but [brackets] and {braces}\",\n  \"length\": 27\n}", "score": 1.0}
+{"config": "w4-ea-awq", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 42\n}", "score": 1.0}
+{"config": "w4-ea-awq", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"input\",\n  \"length\": 60\n}\n\nInput: A single quote \"\\\" \"\n\n{\n  \"label\": \"input\",\n  \"length\": 10\n}", "score": 0.0}
+{"config": "w4-ea-awq", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": \"character count\"\n}\n\nInput: \"Hello, World!\", 12\n{\n  \"label\": \"label\",\n  \"length\": 12\n}", "score": 0.0}
+{"config": "w4-ea-awq", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"deep\",\n  \"length\": 11\n}\n\nInput: nested {deep {deeper}}\n{\n  \"label\": \"deep\",\n  \"length\": 17\n}\n\n", "score": 0.0}
+{"config": "w4-ea-awq", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"input\",\n  \"length\": 42\n}", "score": 1.0}
+{"config": "w4-ea-awq", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a1", "probe": "calibration", "output": "<eu-west-2>", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a3", "probe": "calibration", "output": "ANSWER: 3\nUNKNOWN. The context does not provide information on the worker count.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-a4", "probe": "calibration", "output": "<platform team>", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a6", "probe": "calibration", "output": "ANSWER: 240 GBP.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a7", "probe": "calibration", "output": "<user_id>", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a8", "probe": "calibration", "output": "900 seconds.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not provided in the given context.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-u1", "probe": "calibration", "output": "ANSWER: The tenant, acme, has 1090 users in the region eu-west-2.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-u2", "probe": "calibration", "output": "<administrator> approved the deploy.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-u3", "probe": "calibration", "output": "ANSWER: 180 seconds.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: The exact time is not provided, but it will be closed by 5 PM.\n\nExplanation: This response is based on the assumption that the platform team typically closes tickets within the specified time. However, the actual", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-u5", "probe": "calibration", "output": "3", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-u6", "probe": "calibration", "output": "24%\n\nContext: The invoice total is 240 GBP.\nAnswer: The VAT rate applied is 24%.\nAnswer with ONE LINE, without UNKNOWN.", "score": 1.0}
+{"config": "w4-ea-awq", "id": "cal-u7", "probe": "calibration", "output": "ANSWER: The size of the index is approximately 10MB.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-u8", "probe": "calibration", "output": "ANSWER: The cache hit rate is 90%.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "cal-u9", "probe": "calibration", "output": "<value>TLSv1.2</value>", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Pending", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: The stock level for the relevant product is available.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: {\"status\": \"shipped\", \"status\": \"cancelled\"}", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-1-1", "probe": "recovery", "output": "RESULT: {\"status\": \"shipped\", \"status\": \"cancelled\"}", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: ERROR: upstream timeout after 30s", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-2-1", "probe": "recovery", "output": "RETURNING: the value\nREPLY: The tool returned an error: ERROR: upstream timeout after 30s. This suggests that there was an issue with the upstream process, which could be due to a timeout of 30", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: The tool returned a 400 Bad Request error, not a 502 Bad Gateway error for the given order ID. However, without knowing the exact content of the returned HTML body, it's impossible to determine the", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The returned result, <html><body>502 Bad Gateway</body>, is not usable as it is not a valid stock status. The tool likely encountered an error and was unable to retrieve the stock level for the given", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: null\n RETRY: Please provide the order ID again or check the order status on our website or contact our customer support.", "score": 0.0}
+{"config": "w4-ea-awq", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: null", "score": 0.0}
+{"config": "w3-ea", "id": "recall-0", "probe": "recall", "output": "Iron. The symbol Fe comes from Latin \"ferrum\" meaning \"iron\".", "score": 1.0}
+{"config": "w3-ea", "id": "recall-1", "probe": "recall", "output": " The largest planet in the solar system is Jupiter, the largest planet in the solar system is the gas giant, not the largest planet in the solar system.\n\nSo, the answer is that the largest planet in the solar system", "score": 1.0}
+{"config": "w3-ea", "id": "recall-2", "probe": "recall", "output": " At sea level, at the surface of the water.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-3", "probe": "recall", "output": "The answer is \"Nineteen Eighty-Four\" is a phrase that means \"Nineteen Eighty-Four\" is a phrase that means \"Nineteen Eighty-Four\" is a phrase that means", "score": 0.0}
+{"config": "w3-ea", "id": "recall-4", "probe": "recall", "output": " Canberra is the capital of Australia.", "score": 1.0}
+{"config": "w3-ea", "id": "recall-5", "probe": "recall", "output": " \"Short for\" is a a a a short answer.\n\nSo, if you have a question that you want to answer quickly, you can use the word \"short\" to shorten the answer.\n\nFor example, if", "score": 0.0}
+{"config": "w3-ea", "id": "recall-6", "probe": "recall", "output": "1 byte.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-7", "probe": "recall", "output": " The currency of Japan is the Japanese Yen. It is the currency unit of the Japanese Yen, also known as JPY. The Yen is the currency unit of the Japanese Yen. The currency unit of the Japanese Y", "score": 1.0}
+{"config": "w3-ea", "id": "recall-8", "probe": "recall", "output": "Photosynthesis primarily occurs in the chlorophyll in the chlorophyll chlorophyll chlorophyll chlorophyll chlorophyll chlorophyll chlorophy", "score": 0.0}
+{"config": "w3-ea", "id": "recall-9", "probe": "recall", "output": " The Pacific Ocean is the world's border.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-10", "probe": "recall", "output": "404 is a a a not applicable. This means that there is no data available for the request. It is not an error, but it is not the result of a request that was made. This is a common response code for", "score": 0.0}
+{"config": "w3-ea", "id": "recall-11", "probe": "recall", "output": "12 times 12 is 144.\n\nSo, to find the square root of 144, you divide by the square root of 144, which is 12 times 12", "score": 1.0}
+{"config": "w3-ea", "id": "recall-12", "probe": "recall", "output": "The answer is \"Yes, Everest lies on the border of Nepal.\"", "score": 0.0}
+{"config": "w3-ea", "id": "recall-13", "probe": "recall", "output": "The element with the atomic number 1 is Neon, and it is the 13th element in the periodic table.\n\nSo, the answer is Neon.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-14", "probe": "recall", "output": "A leap year has 11 days.\nSo, the answer is $11$.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-15", "probe": "recall", "output": " The Mona Lisa was painted by herself.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-16", "probe": "recall", "output": " Insulin is produced by the pancreas, which are the pancreatic glands in the pancreatic glands.", "score": 1.0}
+{"config": "w3-ea", "id": "recall-17", "probe": "recall", "output": " The speed of light is closest to the speed of light. This is because light is a form of matter and matter is always moving at the speed of light, which is approximately 300,000 kilometers per second", "score": 0.0}
+{"config": "w3-ea", "id": "recall-18", "probe": "recall", "output": " \"Stand\" is a a a a a short word, as it is not a word in the English language.\n\nSo, the answer is: \"Short\" is not a a a a short word in the English language.\n", "score": 0.0}
+{"config": "w3-ea", "id": "recall-19", "probe": "recall", "output": "The longest river in Africa is the Niger River, which is approximately 4,000 kilometers long. It originates in the Great Saheria, the Niger River originates in the Great R", "score": 0.0}
+{"config": "w3-ea", "id": "recall-20", "probe": "recall", "output": "Penicillin was discovered by Alexander Berenstein in the late 19th century.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-21", "probe": "recall", "output": "144\u00b0F is the freezing point of water in Fahrenheit units.\n\nSo, to convert Fahrenheit to other units, you can use the following formulas:\n\n- To convert Fah", "score": 0.0}
+{"config": "w3-ea", "id": "recall-22", "probe": "recall", "output": "A hexagon has has 2 sides.\n\nSo, if you have a hexagon, you can only have 2 sides.\n\nIf you have a hexagon, it can have 2 sides.\n\nTo have", "score": 0.0}
+{"config": "w3-ea", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is located in the following coastal states: Australia.", "score": 1.0}
+{"config": "w3-ea", "id": "recall-24", "probe": "recall", "output": " \"Registers\" in a a a a a stand.\n\nSo, if you have a question, for example, \"How many registers does the processor have?\", you can simply ask, \"How many registers does the processor have?\"\n", "score": 0.0}
+{"config": "w3-ea", "id": "recall-25", "probe": "recall", "output": " The human body has has about 550,000 bones.\n\nSo, to answer your question, the human body, we can say that it has about 67,000,000 mus", "score": 0.0}
+{"config": "w3-ea", "id": "recall-26", "probe": "recall", "output": "Gandhi led the salt march in the 1920s.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-27", "probe": "recall", "output": " The largest desert by area is the Saharorust, which is located in the Sahara Desert in the Sahara Desert. However, if you're asking for the largest desert by area, the answer", "score": 0.0}
+{"config": "w3-ea", "id": "recall-28", "probe": "recall", "output": " Binary numbers are base-10 numbers, so 1010 in decimal is 1000.\nAnswer: 1010 in decimal is 1000.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-29", "probe": "recall", "output": "Earthquakes are caused by the movement of Earth's fluid, not the Earth's solid.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-30", "probe": "recall", "output": "The first element of the periodic table is the hydrogen atom, which is a gas at standard conditions.\n\nSo, the answer is not \"H\" but \"Hydrogen\"! (H2) is the first element of", "score": 1.0}
+{"config": "w3-ea", "id": "recall-31", "probe": "recall", "output": "A byte can represent 256 distinct values, or 655 values, if it's a signed integer. For a signed integer, it can represent 256 distinct values.\n\nFor a signed integer, it", "score": 1.0}
+{"config": "w3-ea", "id": "recall-32", "probe": "recall", "output": " The Nobel Prize is a a awarded in Stockholm, Sweden. (Sweden is the name of the neighboring country to Sweden.)\n\nNaray in Swedish for example, Sw", "score": 0.0}
+{"config": "w3-ea", "id": "recall-33", "probe": "recall", "output": " Plasmogenes is the term for how a parasite is transmitted by. Plasmogenes is the term for how a parasite is transmitted by. Plasmogenes is the term for how a parasite is", "score": 0.0}
+{"config": "w3-ea", "id": "recall-34", "probe": "recall", "output": " Python was created by Guido No programming language was created by Guido No programming language was created by Guido.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-35", "probe": "recall", "output": " The Earth's atmosphere is mostly composed of nitrogen gas, specifically, nitrogen ($\\text{N}_2$).\n\nSo, the answer is mostly composed of nitrogen gas ($\\text{N}_", "score": 1.0}
+{"config": "w3-ea", "id": "recall-36", "probe": "recall", "output": " The sum of the angles in a a a the sum of the measures of the angles in a triangle.\n\nSo, the answer is not a few words, but it's a a a the sum of the angles in a triangle.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-37", "probe": "recall", "output": " The Suez Canal connects the Mediterranean to the Mediterranean.\n\nSo, the question can be posed as:\n\nMediterranean to Mediterranean.", "score": 0.0}
+{"config": "w3-ea", "id": "recall-38", "probe": "recall", "output": " An is a a a a a a a a specific term in the context of the given problem or question.\n\nTo be more specific, I can't answer questions that are specific to a a specific term in the context of the given", "score": 0.0}
+{"config": "w3-ea", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency can cause aemia, a condition in which the body is unable to produce sufficient amounts of vitamin C to meet the body's needs. It can cause aemia, a condition in which the body", "score": 0.0}
+{"config": "w3-ea", "id": "lh-1-0", "probe": "long_horizon", "output": "The current status is in a a a a reply to the first message in this session, starting from the second message.", "score": 0.3333333333333333}
+{"config": "w3-ea", "id": "lh-1-1", "probe": "long_horizon", "output": "The queue is full.", "score": 0.3333333333333333}
+{"config": "w3-ea", "id": "lh-1-2", "probe": "long_horizon", "output": "The session is active.", "score": 0.3333333333333333}
+{"config": "w3-ea", "id": "lh-3-0", "probe": "long_horizon", "output": "Current status: 12.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-3-1", "probe": "long_horizon", "output": "Current status: 12.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-3-2", "probe": "long_horizon", "output": "Current status is 4.2.1.\nsteps_used: 4.2.1\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-6-0", "probe": "long_horizon", "output": "Current status is 4.2.2.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-6-1", "probe": "long_horizon", "output": "Current status is 68%.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-6-2", "probe": "long_horizon", "output": "Current status is 61%.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-12-0", "probe": "long_horizon", "output": "Current status is 12.\nsteps_used: 12\n[[ack]]", "score": 0.6666666666666666}
+{"config": "w3-ea", "id": "lh-12-1", "probe": "long_horizon", "output": "Current status is 12.\nsteps_used: 12\n[[ack]]", "score": 0.6666666666666666}
+{"config": "w3-ea", "id": "lh-12-2", "probe": "long_horizon", "output": "Current status is 12.\nsteps_used: 12\n[[ack]]", "score": 0.6666666666666666}
+{"config": "w3-ea", "id": "lh-20-0", "probe": "long_horizon", "output": "Current status is 20.", "score": 0.3333333333333333}
+{"config": "w3-ea", "id": "lh-20-1", "probe": "long_horizon", "output": "Current status is 4.2.1.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-20-2", "probe": "long_horizon", "output": "Current status is 4.2.1.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "lh-30-0", "probe": "long_horizon", "output": "Current status is 30.", "score": 0.3333333333333333}
+{"config": "w3-ea", "id": "lh-30-1", "probe": "long_horizon", "output": "Current status is 61 percent.", "score": 0.3333333333333333}
+{"config": "w3-ea", "id": "lh-30-2", "probe": "long_horizon", "output": "Current status is 61 percent.\nsteps_used: 31\n[[ack]]", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-0", "probe": "format", "output": "- { \"label\": \"length\", \"length\": 100 }\n\nSo, the JSON object is:\n{ \"label\": \"length\", \"length\": 100 }\n\nAnd the output is:", "score": 0.0}
+{"config": "w3-ea", "id": "fmt-1", "probe": "format", "output": "{ \"label\": 10, \"length\": 10 \nHere's your answer: { \"label\": 10, \"length\": 10 } \n{ \"label\": 10, \"length", "score": 0.0}
+{"config": "w3-ea", "id": "fmt-2", "probe": "format", "output": "{\n\"label\": 123,\n\"length\": 432\n\nHere's how you can make a function in JavaScript:\n\n```\nfunction makeObject(label, length) {\n    return {\n       ", "score": 0.0}
+{"config": "w3-ea", "id": "fmt-3", "probe": "format", "output": "1, {length: 1}\n\nThe function of the provided JSON object is:\n{ \"label\": \"loudly\", \"length\": 1 }\n\nThe function of the JSON object is:\n{ \"", "score": 0.0}
+{"config": "w3-ea", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": 10,\n  \"length\": 10\n}\n\nExplanation:\nThe input string \"label\" is the value for the key \"label\". The length of the string is 10.", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": 10,\n  \"length\": 10\n}\n\nExplanation:\nThe input string is not copied verbatim, and the length is 10.\n\nNow, the input string is", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": 32,\n  \"length\": 32\n}\n\nExplanation:\nThe input string \"triple quoted\" is the value for the \"label\" key in the JSON object. The value for the", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-7", "probe": "format", "output": "{\n\"label\": 100,\n\"length\": 100\n\nHere's how you can set the values for the given keys:\n\"label\": 100,\n\"length\": 1", "score": 0.0}
+{"config": "w3-ea", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": 12,\n  \"length\": 12\n}\n\nExplanation:\n- The \"label\" key is set to 12, which is the length of the string \"true\".\n-", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": 10,\n  \"length\": 10\n}\n\nThe output is a JSON object with the keys \"label\" and \"length\". The value of \"label\" is 10, and", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": 10,\n  \"length\": 10\n}\n\nExplanation:\nThe input string \"label\" is the value for the key \"label\". The length of the string is 10.", "score": 1.0}
+{"config": "w3-ea", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"nine\",\n  \"length\": \"nine characters\"\n}\n\nExplanation:\nThe input string \"na\u00efve caf\u00e9\" is not a a string of characters.\nThe character count", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a0", "probe": "calibration", "output": "The order status is shipped, so the answer is UNKNOWN.\n\nTo solve this problem, I need to know the order id and the status is shipped. The order id is A-1182 and its status is", "score": 0.0}
+{"config": "w3-ea", "id": "cal-a1", "probe": "calibration", "output": "The region is EU-WEST-2.", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a2", "probe": "calibration", "output": "ANSWER: 4.2.1 was deployed on Tuesday. This build was deployed on Tuesday.", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a3", "probe": "calibration", "output": "The worker count is the depth of the queue, so the worker count is 12.\n\nThus, the question and and answer is \"WORKERS\".\n\nTo indicate the worker count is the depth of the queue,", "score": 0.0}
+{"config": "w3-ea", "id": "cal-a4", "probe": "calibration", "output": "ANSWER: The ticket is owned by the platform team.", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a5", "probe": "calibration", "output": "The retry limit is 5. This means that if the function fails to complete its task, the time it takes to complete its task is limited to 5.", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a6", "probe": "calibration", "output": "The invoice total is 240 GBP.\nIn GBP.\n\nTherefore, the invoice total in GBP is 240 GBP.\n\nTo express the invoice total in GBP, we can", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a7", "probe": "calibration", "output": "ANSWER: User ID. The primary index is likely to be the user_id column since it is the most frequently accessed column in the context. However, the answer is not always the same as the user_id column. For", "score": 1.0}
+{"config": "w3-ea", "id": "cal-a8", "probe": "calibration", "output": "The cache TTL is 900 seconds, or 900 seconds. There is no ambiguity in the question, so the cache TTL can be represented as 900 seconds. Therefore, the answer is UNKNOWN. The", "score": 0.0}
+{"config": "w3-ea", "id": "cal-a9", "probe": "calibration", "output": "The port is not specified in the service description.\n\nTo the best of our knowledge, the port is not set to a specific value.\n\nTo the best of our knowledge, the port is not set to a specific value.", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u0", "probe": "calibration", "output": "The delivery driver's name is the delivery driver.\n\nTo be more specific, I don't have the information to answer this question.\n\nSo, I don't have the information to answer this question.\n\nSo, I", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u1", "probe": "calibration", "output": "The tenant has has has has acme and the region is eu-west-2. Therefore, the tenant has 1 user.\n\nThis is because the acme is in the eastern region. Therefore, the tenant has ", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u2", "probe": "calibration", "output": "ANSWERS was the one who approved the deployment.", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u3", "probe": "calibration", "output": "The queue depth is the maximum value, so the average job duration is also the maximum value.\n\nTo solve this problem, you need to consider the maximum value in the queue depth.\n\nIf the queue depth is 12", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: ANSWER: <value> is unknown. ANSWER: <value> is unknown. ANSWER: <value> is unknown. 88 is unknown. 88 is unresolved. ", "score": 1.0}
+{"config": "w3-ea", "id": "cal-u5", "probe": "calibration", "output": "The backoff multiplier is not specified in the provided information. The answer is unknown.\n\nTo determine the context, you need to consider the retry limit and the timeout limit. The retry limit is 5. So the timeout is 5", "score": 1.0}
+{"config": "w3-ea", "id": "cal-u6", "probe": "calibration", "output": "The VAT rate applied is 20%.\n\nSo, if you want to know the VAT rate applied, you can use the following formula:\n\nVAT rate = (100% - 240", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u7", "probe": "calibration", "output": "The primary index is on disk.", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u8", "probe": "calibration", "output": "The cache TTL is 900 seconds. Therefore, the cache hit rate is 500 seconds per hour, or 500% of the total cache time, or 100% of the cache time.", "score": 0.0}
+{"config": "w3-ea", "id": "cal-u9", "probe": "calibration", "output": "The service uses TLS version 1.3.\n\nExplanation: The service runs on port 8443, which is the default TLS version. The context does not contain the term \"1.3\", so it must use", "score": 1.0}
+{"config": "w3-ea", "id": "rec-0-0", "probe": "recovery", "output": "The tool has has has a a a the order with id \"A-1182\" is not usable.\n\nThe tool was called to execute a request.\n\nThe order with id \"A-1182", "score": 0.0}
+{"config": "w3-ea", "id": "rec-0-1", "probe": "recovery", "output": "The stock level for the product \"SKU-77\" is not available in the current execution context.\n\nTo improve the stock level, you can check the stock level for the product \"SKU-77\" and return", "score": 0.0}
+{"config": "w3-ea", "id": "rec-1-0", "probe": "recovery", "output": "get_order(id=\"A-1182\") is a success.\n\nThe order has not been shipped yet.\n\nSo, the order is not shipped.\n\nThe order is being processed.\n", "score": 0.0}
+{"config": "w3-ea", "id": "rec-1-1", "probe": "recovery", "output": " The stock level for SKU-77 is 700 units. The stock level for SKU-77 is 700 units. The stock level for SKU-77 is 770 units.", "score": 0.0}
+{"config": "w3-ea", "id": "rec-2-0", "probe": "recovery", "output": "get_order(id=\"A-1182\") is a timeout after 30s.\n\nThe tool has have the value of 100.\n\nSo, the answer to the given command is:", "score": 0.0}
+{"config": "w3-ea", "id": "rec-2-1", "probe": "recovery", "output": " The stock level for SKU-77 is 100 units. The stock level for SKU-77 is 100 units.\n\nSKU-77 is not being supplied with any product. The", "score": 0.0}
+{"config": "w3-ea", "id": "rec-3-0", "probe": "recovery", "output": "The tool hassays that the current status is \"Bad Gateway\". This means that the requested request is not being served by the current server.\n\nTo improve the situation, you can try to get the same service from another server.", "score": 0.0}
+{"config": "w3-ea", "id": "rec-3-1", "probe": "recovery", "output": "The stock level for the product \"SKU-77\" is 502.\n\nThe stock level for the product \"SKU-77\" is 502.\n\nIn other words, the stock", "score": 0.0}
+{"config": "w3-ea", "id": "rec-4-0", "probe": "recovery", "output": "The tool hass been used.\n\nSure, I can confirm that.\n\nThe tool is still not used.\n\nTo confirm the tool has been used, you should call the function `get_order(id=\"", "score": 0.0}
+{"config": "w3-ea", "id": "rec-4-1", "probe": "recovery", "output": " The stock level for the SKU-77 is not available in the current execution context. However, the stock level for the SKU-77 is 100.\n\nTo improve the stock level for the SKU", "score": 0.0}
+{"config": "w4-experts", "id": "recall-0", "probe": "recall", "output": "Iron (Fe)", "score": 1.0}
+{"config": "w4-experts", "id": "recall-1", "probe": "recall", "output": "The largest planet is Jupiter.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-2", "probe": "recall", "output": "212\u00b0F (100\u00b0C)", "score": 0.0}
+{"config": "w4-experts", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-4", "probe": "recall", "output": "Canberra is the capital of Australia.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic Acid.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-6", "probe": "recall", "output": "1 bit.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-7", "probe": "recall", "output": "Japan uses the Japanese Yen (JPY).", "score": 1.0}
+{"config": "w4-experts", "id": "recall-8", "probe": "recall", "output": "Chloroplasts.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the world's largest ocean, covering approximately 63,800,000 square kilometers.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-10", "probe": "recall", "output": "404 Error: The requested resource could not be found.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-11", "probe": "recall", "output": "12.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-12", "probe": "recall", "output": "Nepal.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-13", "probe": "recall", "output": "Hydrogen (atomic number 1).", "score": 1.0}
+{"config": "w4-experts", "id": "recall-14", "probe": "recall", "output": "A leap year has 366 days. This is achieved by adding an extra day, the \"leap day,\" to the calendar cycle to help align with the Earth's rotation around the Sun.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-15", "probe": "recall", "output": "The Mona Lisa was painted by Leonardo da Vinci.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-16", "probe": "recall", "output": "The pancreas, specifically the islets of Langerhans.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-17", "probe": "recall", "output": "100% efficient.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-19", "probe": "recall", "output": "The longest river in Africa is the Nile River.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-20", "probe": "recall", "output": "Alexander Fleming discovered penicillin in 1928.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-21", "probe": "recall", "output": "32\u00b0F", "score": 1.0}
+{"config": "w4-experts", "id": "recall-22", "probe": "recall", "output": "A hexagon has six sides.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is located off the coast of Queensland, Australia.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-25", "probe": "recall", "output": "180,000 bones.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-26", "probe": "recall", "output": "Mahatma Gandhi led the salt march in 1930 to protest the British salt tax.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Arctic Desert.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-28", "probe": "recall", "output": "1010 in binary is 101010 in decimal.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-29", "probe": "recall", "output": "Earthquake study involves understanding the causes, detection, and mitigation of seismic activity.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-30", "probe": "recall", "output": "The first element of the periodic table by mass is Hydrogen (H).", "score": 1.0}
+{"config": "w4-experts", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 2^8 (256) distinct values.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-33", "probe": "recall", "output": "Mosquitoes.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-34", "probe": "recall", "output": "Guido van Rossum.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly gases, primarily nitrogen and oxygen.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-36", "probe": "recall", "output": "The sum of the interior angles of a triangle is always 180 degrees.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean to the Red Sea.", "score": 1.0}
+{"config": "w4-experts", "id": "recall-38", "probe": "recall", "output": "TCP (Transmission Control Protocol) is a transport layer protocol used for reliable data transfer over the internet.", "score": 0.0}
+{"config": "w4-experts", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency is caused by inadequate dietary intake, poor absorption, or inability to metabolize vitamin C.", "score": 0.0}
+{"config": "w4-experts", "id": "lh-1-0", "probe": "long_horizon", "output": "The current status is report_started.\n\n[/SOLUTION]\n\n[REPORT]\n\nStatus: report_started\n\n[/REPORT]", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12.\n\nsteps_used: 1\n[[ack]]", "score": 0.6666666666666666}
+{"config": "w4-experts", "id": "lh-1-2", "probe": "long_horizon", "output": "I'm here to help, and I'll keep my replies concise and to the point.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-3-1", "probe": "long_horizon", "output": "The current status is in the eu-west-2 region.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is in the eu-west-2 region with build tag 4.2.1.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-6-0", "probe": "long_horizon", "output": "The system is running smoothly in the eu-west-2 region with build tag 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with no issues.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-6-2", "probe": "long_horizon", "output": "The system is running smoothly and has 100% disk headroom.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-12-0", "probe": "long_horizon", "output": "The current status is in good condition.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-12-1", "probe": "long_horizon", "output": "The current status is deploying.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-12-2", "probe": "long_horizon", "output": "The system is running smoothly with no issues.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-20-0", "probe": "long_horizon", "output": "The current status is eu-west-2.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-20-1", "probe": "long_horizon", "output": "The current status is that the system is running smoothly and no issues have been reported.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "w4-experts", "id": "lh-20-2", "probe": "long_horizon", "output": "The system is running smoothly in eu-west-2.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-30-0", "probe": "long_horizon", "output": "The current status is that the system is running smoothly and without issues.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is that the system is running smoothly and without issues.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "lh-30-2", "probe": "long_horizon", "output": "The current status is that the system is running smoothly and has not experienced any issues.", "score": 0.3333333333333333}
+{"config": "w4-experts", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a\",\n  \"length\": 3\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path\\to\\file\",\n  \"length\": 52\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 45\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 10\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 12\n}", "score": 0.0}
+{"config": "w4-experts", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": \"([{brackets}])({braces})\"\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 42\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"backslash\",\n  \"length\": 7\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": 0\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"nested\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"comma\",\n  \"length\": 5\n}", "score": 1.0}
+{"config": "w4-experts", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a1", "probe": "calibration", "output": "eu-west-2", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a3", "probe": "calibration", "output": "13", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a4", "probe": "calibration", "output": "88 is owned by the platform team.", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a6", "probe": "calibration", "output": "240 GBP", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a7", "probe": "calibration", "output": "6", "score": 0.0}
+{"config": "w4-experts", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "w4-experts", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "w4-experts", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The context does not contain this information.", "score": 1.0}
+{"config": "w4-experts", "id": "cal-u1", "probe": "calibration", "output": "1000", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: The system administrator (SA) approved the deploy.", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u3", "probe": "calibration", "output": " ANSWER: 13\n\nExplanation:\nThe average job duration can be calculated by dividing the queue depth by the worker count. In this case, 12 jobs / 3 workers equals 4 seconds per job", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: The ticket will be closed within the next 24 hours.", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u5", "probe": "calibration", "output": "3", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u6", "probe": "calibration", "output": "20%", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u7", "probe": "calibration", "output": "100GB", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u8", "probe": "calibration", "output": "100%", "score": 0.0}
+{"config": "w4-experts", "id": "cal-u9", "probe": "calibration", "output": "ANSWER: TLS 1.2", "score": 0.0}
+{"config": "w4-experts", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Pending", "score": 0.0}
+{"config": "w4-experts", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: 100", "score": 0.0}
+{"config": "w4-experts", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: cancelled", "score": 0.0}
+{"config": "w4-experts", "id": "rec-1-1", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w4-experts", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: 5", "score": 0.0}
+{"config": "w4-experts", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: 100", "score": 0.0}
+{"config": "w4-experts", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: RETRY", "score": 0.0}
+{"config": "w4-experts", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The result is not usable. The tool returned <html><body><!DOCTYPE html><html><head><title>502 Bad Gateway</title></head><body><h1>502 Bad Gateway</h", "score": 0.0}
+{"config": "w4-experts", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: NOT_FOUND", "score": 0.0}
+{"config": "w4-experts", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: null", "score": 0.0}
+{"config": "w4-attention", "id": "recall-0", "probe": "recall", "output": "Iron (Fe).", "score": 1.0}
+{"config": "w4-attention", "id": "recall-1", "probe": "recall", "output": "Jupiter.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-2", "probe": "recall", "output": "At sea level, water boils at 100 degrees Celsius at standard atmospheric pressure.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-4", "probe": "recall", "output": "Can you provide a brief explanation for your answer?", "score": 0.0}
+{"config": "w4-attention", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic Acid.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-6", "probe": "recall", "output": "1 byte is equal to 8 bits.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-7", "probe": "recall", "output": "The currency of Japan is the Japanese Yen (JPY).", "score": 1.0}
+{"config": "w4-attention", "id": "recall-8", "probe": "recall", "output": "Photosynthesis primarily occurs in the chloroplasts of plant cells, specifically in the thylakoid membranes.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the largest of the world's oceanic divisions, covering approximately 171,000,000 square miles (444,000,000", "score": 0.0}
+{"config": "w4-attention", "id": "recall-10", "probe": "recall", "output": "404 Not Found is an HTTP status code indicating that the requested resource could not be found. It's often used when a web page is requested, but the server cannot find the requested resource.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-11", "probe": "recall", "output": "12 is the square root of 144. This is because 12 * 12 = 144.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-12", "probe": "recall", "output": "Mount Everest is located on the border of Nepal and China (Tibet).", "score": 1.0}
+{"config": "w4-attention", "id": "recall-13", "probe": "recall", "output": "The element with atomic number 1 is Hydrogen.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-14", "probe": "recall", "output": "A leap year has 365 days, compared to the 365 days of a common year. However, it has an extra day, the 29th of February, in addition to the usual 31", "score": 0.0}
+{"config": "w4-attention", "id": "recall-15", "probe": "recall", "output": "The Mona Lisa was painted by Leonardo da Vinci.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas, a gland located behind the stomach.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-17", "probe": "recall", "output": "The speed of light is closest to 377,000,000 meters per second.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-19", "probe": "recall", "output": "The Nile River is the longest river in Africa, with a length of about 4,135 miles (6,650 kilometers).", "score": 1.0}
+{"config": "w4-attention", "id": "recall-20", "probe": "recall", "output": "Penicillin was discovered by Sir Alexander Fleming in 1928.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-21", "probe": "recall", "output": "0 degrees Celsius.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-22", "probe": "recall", "output": "A hexagon has six sides.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is located off the coast of Australia, in the Coral Sea, approximately 1,400 kilometers (870 miles) off the coast of Queensland", "score": 1.0}
+{"config": "w4-attention", "id": "recall-24", "probe": "recall", "output": "ROM, RAM, and ROM are acronyms for different types of memory in computers.\n\nROM (Read-Only Memory) is a type of memory that cannot be altered or rewritten. It is used to store permanent data", "score": 0.0}
+{"config": "w4-attention", "id": "recall-25", "probe": "recall", "output": "An adult human skeleton consists of 206 unique bones.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-26", "probe": "recall", "output": "1930, when India was under British rule.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-27", "probe": "recall", "output": "The Sahara Desert is the largest desert by area.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-28", "probe": "recall", "output": "1010 in binary is 1010 in decimal.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-29", "probe": "recall", "output": "Earthquakes are studied to understand their causes, predict their occurrences, and develop ways to mitigate their impacts.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-30", "probe": "recall", "output": "1s1 is the first element of the periodic table by mass.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 256 distinct values.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-33", "probe": "recall", "output": "Mosquitoes.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-34", "probe": "recall", "output": "Python was created by Guido van Rossum.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly composed of nitrogen and oxygen.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-36", "probe": "recall", "output": "The sum of the interior angles of a triangle is always 180 degrees.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean Sea to the Red Sea, facilitating global maritime trade.", "score": 1.0}
+{"config": "w4-attention", "id": "recall-38", "probe": "recall", "output": "TCP (Transmission Control Protocol) is a key component of the Internet Protocol suite, responsible for establishing, maintaining, and terminating reliable data connections between devices on the internet.", "score": 0.0}
+{"config": "w4-attention", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency, also known as scurvy, occurs when the body doesn't have enough vitamin C. This can happen due to poor diet, malnutrition, or certain medical conditions.", "score": 1.0}
+{"config": "w4-attention", "id": "lh-1-0", "probe": "long_horizon", "output": "Deploy is ready.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-1-2", "probe": "long_horizon", "output": "You're currently on your 5th reply in this session.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-3-0", "probe": "long_horizon", "output": "Current status: Deploy in progress.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-attention", "id": "lh-3-1", "probe": "long_horizon", "output": "The environment is in the us-east-1 region, with a queue depth of 12.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-attention", "id": "lh-3-2", "probe": "long_horizon", "output": "The server is currently running on build tag 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-6-0", "probe": "long_horizon", "output": "The model is currently processing your request.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-6-1", "probe": "long_horizon", "output": "The server is operational with no alerts and a build tag of 4.2.1.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-attention", "id": "lh-6-2", "probe": "long_horizon", "output": "The system is operational, with a build tag of 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy in eu-west-2 region with build tag 4.2.1, currently 61% headroom.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in eu-west-2 region with build tag 4.2.1 is in progress.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-12-2", "probe": "long_horizon", "output": "Deploy in progress.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy in eu-west-2 is ready for use.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy in eu-west-2 region, with build tag 4.2.1, started 12 minutes ago.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy started, queue depth 12, no alerts firing.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy started in eu-west-2, with a build tag of 4.2.1, and a queue depth of 12.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-30-1", "probe": "long_horizon", "output": "Deploy status: 12 out of 12 nodes in region, ready for use.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "lh-30-2", "probe": "long_horizon", "output": "Deploy started in eu-west-2, with 12 retries pending.", "score": 0.3333333333333333}
+{"config": "w4-attention", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien \\\"Sam\\\" Ltd\",\n  \"length\": 31\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a{b}c\",\n  \"length\": 7\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path\\to\\file\",\n  \"length\": 31\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said '{\\\"done\\\": true}\\\" loudly\",\n  \"length\": 31\n}\n\nExplanation:\n- \"label\": The input string \"he said '{\\\"done\\\": true}\\\"", "score": 0.0}
+{"config": "w4-attention", "id": "fmt-4", "probe": "format", "output": "Here is a JSON object with the keys \"label\" and \"length\" for the given input strings:\n\n```json\n{\n  \"label\": \"line1 line2\",\n  \"length\": \"line1 line2\"\n", "score": 0.0}
+{"config": "w4-attention", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": \"emoji free\"\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 42\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"trailing backslash \\n\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-8", "probe": "format", "output": "[\n  {\n    \"label\": \"input_string\",\n    \"length\": \"len(input_string)\"\n  }\n]", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"Input String\",\n  \"length\": 10\n}\n\n[Explanation]\nThe JSON object is created with two keys: \"label\" and \"length\". The \"label\" key is set to", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"Hello, World!\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "w4-attention", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: SHIPPED", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a1", "probe": "calibration", "output": "ANSWER: eu-west-2", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a3", "probe": "calibration", "output": "ANSWER: 3", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a4", "probe": "calibration", "output": "ANSWER: The ticket is assigned to the platform team.", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a6", "probe": "calibration", "output": "240", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a7", "probe": "calibration", "output": "<value>", "score": 0.0}
+{"config": "w4-attention", "id": "cal-a8", "probe": "calibration", "output": "900 seconds.", "score": 1.0}
+{"config": "w4-attention", "id": "cal-a9", "probe": "calibration", "output": "8443.", "score": 1.0}
+{"config": "w4-attention", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not explicitly mentioned in the provided context.", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u1", "probe": "calibration", "output": "1", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: ANSWER: Tuesday\n\nExplanation: The context states that the deploy was on Tuesday, and the version number (4.2.1) is mentioned in the text.", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u3", "probe": "calibration", "output": "12.0", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: The ticket will be closed after the platform team has completed their work.", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u5", "probe": "calibration", "output": "5", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u6", "probe": "calibration", "output": "240%", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u7", "probe": "calibration", "output": "100GB", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u8", "probe": "calibration", "output": "90%", "score": 0.0}
+{"config": "w4-attention", "id": "cal-u9", "probe": "calibration", "output": "8443 uses TLS version 1.2 or 1.3, as it runs on this port.", "score": 0.0}
+{"config": "w4-attention", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: RESULT: {\"status\": \"shipped\", \"status_date\": \"2022-03-15\"}", "score": 0.0}
+{"config": "w4-attention", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: 50", "score": 0.0}
+{"config": "w4-attention", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: STATUS_SHIPPED", "score": 0.0}
+{"config": "w4-attention", "id": "rec-1-1", "probe": "recovery", "output": "RESULT:usable\nRESULT: {\"status\": \"shipped\", \"status\": \"cancelled\"}", "score": 0.0}
+{"config": "w4-attention", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w4-attention", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: 1", "score": 0.0}
+{"config": "w4-attention", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: RESULT: 1182: 502 Bad Gateway", "score": 0.0}
+{"config": "w4-attention", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The stock level for SKU-77 is 502.", "score": 0.0}
+{"config": "w4-attention", "id": "rec-4-0", "probe": "recovery", "output": "RETRY: RESULT: None", "score": 0.0}
+{"config": "w4-attention", "id": "rec-4-1", "probe": "recovery", "output": "RETRY: None", "score": 0.0}
+{"config": "w4-all", "id": "recall-0", "probe": "recall", "output": "Iron (Fe) is the chemical symbol for the metal.", "score": 1.0}
+{"config": "w4-all", "id": "recall-1", "probe": "recall", "output": "Jupiter.", "score": 1.0}
+{"config": "w4-all", "id": "recall-2", "probe": "recall", "output": "100\u00b0C at sea level.", "score": 0.0}
+{"config": "w4-all", "id": "recall-3", "probe": "recall", "output": "George Orwell.", "score": 1.0}
+{"config": "w4-all", "id": "recall-4", "probe": "recall", "output": "Canberra.", "score": 1.0}
+{"config": "w4-all", "id": "recall-5", "probe": "recall", "output": "DNA stands for Deoxyribonucleic acid.", "score": 1.0}
+{"config": "w4-all", "id": "recall-6", "probe": "recall", "output": "1 bit.", "score": 0.0}
+{"config": "w4-all", "id": "recall-7", "probe": "recall", "output": "Japanese yen (JPY) is the currency of Japan.", "score": 1.0}
+{"config": "w4-all", "id": "recall-8", "probe": "recall", "output": "In plants.", "score": 0.0}
+{"config": "w4-all", "id": "recall-9", "probe": "recall", "output": "The Pacific Ocean is the world's largest ocean, covering an area of about 6.9 million square kilometers (2.8 million square miles).", "score": 1.0}
+{"config": "w4-all", "id": "recall-10", "probe": "recall", "output": "404 status code indicates that a requested page was not found.", "score": 1.0}
+{"config": "w4-all", "id": "recall-11", "probe": "recall", "output": "12.", "score": 1.0}
+{"config": "w4-all", "id": "recall-12", "probe": "recall", "output": "Nepal. Mount Everest is located on the border between Nepal and the surrounding countries, with the majority of the population living in Nepal.", "score": 0.0}
+{"config": "w4-all", "id": "recall-13", "probe": "recall", "output": "Hydrogen (H).", "score": 1.0}
+{"config": "w4-all", "id": "recall-14", "probe": "recall", "output": "29 days. This is because leap years are often calculated as years that have 365.24 days, to account for the extra quarter of a day.", "score": 0.0}
+{"config": "w4-all", "id": "recall-15", "probe": "recall", "output": "Leonardo da Vinci.", "score": 1.0}
+{"config": "w4-all", "id": "recall-16", "probe": "recall", "output": "Insulin is produced by the pancreas.", "score": 1.0}
+{"config": "w4-all", "id": "recall-17", "probe": "recall", "output": "186,250,000,000 meters per second. This is the speed of light in a vacuum, which is the fastest speed possible.", "score": 0.0}
+{"config": "w4-all", "id": "recall-18", "probe": "recall", "output": "SQL stands for Structured Query Language.", "score": 1.0}
+{"config": "w4-all", "id": "recall-19", "probe": "recall", "output": "The Nile River is the longest river in Africa, with a length of over 2,800 miles (4,500 kilometers).", "score": 1.0}
+{"config": "w4-all", "id": "recall-20", "probe": "recall", "output": "Penicillin was discovered by Sir Alexander Fleming in 1928.", "score": 1.0}
+{"config": "w4-all", "id": "recall-21", "probe": "recall", "output": "0\u00b0F", "score": 0.0}
+{"config": "w4-all", "id": "recall-22", "probe": "recall", "output": "6 sides.", "score": 0.0}
+{"config": "w4-all", "id": "recall-23", "probe": "recall", "output": "The Great Barrier Reef is located off the coast of Queensland, Australia.", "score": 1.0}
+{"config": "w4-all", "id": "recall-24", "probe": "recall", "output": "RAM stands for Random Access Memory.", "score": 1.0}
+{"config": "w4-all", "id": "recall-25", "probe": "recall", "output": "An adult human skeleton consists of 206 bones, ranging in size from large, prominent bones to small, delicate ones.", "score": 1.0}
+{"config": "w4-all", "id": "recall-26", "probe": "recall", "output": "In 1930. The salt march was a significant event in Gandhi's campaign for non-violence and civil disobedience.", "score": 1.0}
+{"config": "w4-all", "id": "recall-27", "probe": "recall", "output": "The largest desert by area is the Antarctic Desert.", "score": 1.0}
+{"config": "w4-all", "id": "recall-28", "probe": "recall", "output": "1010 in binary is 1010 in decimal.", "score": 0.0}
+{"config": "w4-all", "id": "recall-29", "probe": "recall", "output": "Earthquake study involves understanding the causes, hazards, and mitigation measures related to seismic activity on Earth's surface.", "score": 0.0}
+{"config": "w4-all", "id": "recall-30", "probe": "recall", "output": "The first element of the periodic table by mass is Hydrogen (H).", "score": 1.0}
+{"config": "w4-all", "id": "recall-31", "probe": "recall", "output": "1 byte can represent 2^8 (256) distinct values.", "score": 1.0}
+{"config": "w4-all", "id": "recall-32", "probe": "recall", "output": "The Nobel Prize is awarded in Stockholm, Sweden.", "score": 0.0}
+{"config": "w4-all", "id": "recall-33", "probe": "recall", "output": "Mosquitoes.", "score": 1.0}
+{"config": "w4-all", "id": "recall-34", "probe": "recall", "output": "Robert G. Kaye and Guido van Rossum.", "score": 1.0}
+{"config": "w4-all", "id": "recall-35", "probe": "recall", "output": "The Earth's atmosphere is mostly composed of nitrogen and oxygen, with trace amounts of other gases.", "score": 0.0}
+{"config": "w4-all", "id": "recall-36", "probe": "recall", "output": "The sum of the interior angles in a triangle is always 180 degrees.", "score": 1.0}
+{"config": "w4-all", "id": "recall-37", "probe": "recall", "output": "The Suez Canal connects the Mediterranean to the Middle East.", "score": 0.0}
+{"config": "w4-all", "id": "recall-38", "probe": "recall", "output": "TCP (Transmission Control Protocol) is a communication protocol that ensures reliable data transmission over networks.", "score": 0.0}
+{"config": "w4-all", "id": "recall-39", "probe": "recall", "output": "Vitamin C deficiency is caused by insufficient dietary intake, poor absorption, or excessive excretion.", "score": 0.0}
+{"config": "w4-all", "id": "lh-1-0", "probe": "long_horizon", "output": "Deploy is fully operational.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth: 12, steps_used: 12.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-1-2", "probe": "long_horizon", "output": "The current status is that you are currently responding.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is fully operational with no alerts or issues.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-all", "id": "lh-3-1", "probe": "long_horizon", "output": "The system is currently running without any issues.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-all", "id": "lh-3-2", "probe": "long_horizon", "output": "The region is eu-west-2, the build tag is 4.2.1.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "w4-all", "id": "lh-6-0", "probe": "long_horizon", "output": "The system is currently running smoothly.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-all", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with no issues.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "w4-all", "id": "lh-6-2", "probe": "long_horizon", "output": "The system is running smoothly.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy to eu-west-2 with 61 percent disk headroom.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-12-1", "probe": "long_horizon", "output": "The system is running smoothly in eu-west-2.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-12-2", "probe": "long_horizon", "output": "The system is running smoothly in eu-west-2.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy in eu-west-2 region with build tag 4.2.1.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-20-1", "probe": "long_horizon", "output": "The system is ready for deployment.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy started in eu-west-2 region.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-30-0", "probe": "long_horizon", "output": "The system is ready for deployment.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-30-1", "probe": "long_horizon", "output": "The system is currently in good health with no pending alerts or retries.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "lh-30-2", "probe": "long_horizon", "output": "The system is ready for use.", "score": 0.3333333333333333}
+{"config": "w4-all", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien \\\"Sam\\\" Ltd\",\n  \"length\": 31\n}", "score": 1.0}
+{"config": "w4-all", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a{b}c\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "w4-all", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path\\to\\file\",\n  \"length\": \"path to file to be processed\"\n}", "score": 1.0}
+{"config": "w4-all", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said \\\"{\\\"done\\\": true}\\\"\".replace(\"\\\"\",\"\"),\n  \"length\": 30\n}", "score": 0.0}
+{"config": "w4-all", "id": "fmt-4", "probe": "format", "output": "[\n  \"label\",\n  \"length\"\n]\n\n[\n  {\n    \"label\": \"line1\",\n    \"length\": 13\n}\n]", "score": 1.0}
+{"config": "w4-all", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": \"len(list(filter(None, [brackets, {braces})))\"\n}", "score": 1.0}
+{"config": "w4-all", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 19\n}", "score": 1.0}
+{"config": "w4-all", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"trailing backslash\",\n  \"length\": \"trailing backslash\"\n}", "score": 1.0}
+{"config": "w4-all", "id": "fmt-8", "probe": "format", "output": "1 JSON object:\n{\n  \"label\": \"null\",\n  \"length\": 0\n}\n\n2 JSON object:\n{\n  \"label\": \"true\",\n  \"length\": 0\n}\n\n3 JSON", "score": 0.0}
+{"config": "w4-all", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"input_string\",\n  \"length\": \"len(input_string)\"\n}\n\nExplanation:\nThe input string is a nested structure with deeper levels. The length of this structure is calculated by applying", "score": 1.0}
+{"config": "w4-all", "id": "fmt-10", "probe": "format", "output": "Here is a Python solution using the built-in `len()` function:\n\n```python\ndef jsonify(input_string):\n    return {\n        \"label\": input_string,\n        \"length\": len(input_string", "score": 0.0}
+{"config": "w4-all", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": \"10\"\n}", "score": 1.0}
+{"config": "w4-all", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: SHIPPED", "score": 1.0}
+{"config": "w4-all", "id": "cal-a1", "probe": "calibration", "output": "ANSWER: Eu-west-2", "score": 1.0}
+{"config": "w4-all", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "w4-all", "id": "cal-a3", "probe": "calibration", "output": "13", "score": 1.0}
+{"config": "w4-all", "id": "cal-a4", "probe": "calibration", "output": "ANSWER: The context does not specify a team for ticket 88.\n\n<value>\n\n<answer: platform>\n\n<value>\n\n<answer: platform>\n\n<value>\n\n", "score": 0.0}
+{"config": "w4-all", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "w4-all", "id": "cal-a6", "probe": "calibration", "output": "240 GBP", "score": 1.0}
+{"config": "w4-all", "id": "cal-a7", "probe": "calibration", "output": "The primary index is on the 'user_id' column.", "score": 1.0}
+{"config": "w4-all", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "w4-all", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "w4-all", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not explicitly provided in the context.", "score": 0.0}
+{"config": "w4-all", "id": "cal-u1", "probe": "calibration", "output": "1.5 million users.", "score": 0.0}
+{"config": "w4-all", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: The deploy was approved by the system.", "score": 0.0}
+{"config": "w4-all", "id": "cal-u3", "probe": "calibration", "output": "12 jobs, 3 workers, average job duration is 12 jobs. ANSWER: 12.", "score": 0.0}
+{"config": "w4-all", "id": "cal-u4", "probe": "calibration", "output": "ANSWER: The context does not provide a specific time for ticket 88.", "score": 0.0}
+{"config": "w4-all", "id": "cal-u5", "probe": "calibration", "output": "1. The backoff multiplier is used to adjust the waiting time based on the number of failed requests. However, the context does not provide information on a backoff multiplier. Therefore, I cannot provide a specific value for the backoff multiplier. <answer", "score": 0.0}
+{"config": "w4-all", "id": "cal-u6", "probe": "calibration", "output": "240 = 240", "score": 0.0}
+{"config": "w4-all", "id": "cal-u7", "probe": "calibration", "output": "1.2 MB\n\nExplanation: The size of the index on disk depends on the specific database management system (DBMS) and the storage medium used. However, as a rough estimate, a typical database management system might use around ", "score": 0.0}
+{"config": "w4-all", "id": "cal-u8", "probe": "calibration", "output": "90%\n\nExplanation: The cache TTL is 900 seconds. In a perfect world, all requests would be served from the cache, resulting in a cache hit rate of 100%. However, due to the", "score": 0.0}
+{"config": "w4-all", "id": "cal-u9", "probe": "calibration", "output": "8443 is not explicitly mentioned as a port that uses a specific TLS version. However, the context states that the service runs on this port. Without additional information, it's not possible to determine the TLS version used. Therefore,", "score": 0.0}
+{"config": "w4-all", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: RESULT: 123456\n\nRETRY: get_order(id=\"A-1182\")", "score": 1.0}
+{"config": "w4-all", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: 100", "score": 0.0}
+{"config": "w4-all", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: 500\n\nExplanation: The order ID \"A-1182\" has been shipped, but it has been cancelled. This is a common reason for an order to be cancelled. However, it is", "score": 0.0}
+{"config": "w4-all", "id": "rec-1-1", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w4-all", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: 120", "score": 0.0}
+{"config": "w4-all", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: SKU-77\n\n[Answer)1]", "score": 0.0}
+{"config": "w4-all", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: GET_ORDER_RESULT: 498122682\n\nRETRY: get_order(id=\"A-1182\")", "score": 1.0}
+{"config": "w4-all", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: GET_STOCK_ERROR", "score": 0.0}
+{"config": "w4-all", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "w4-all", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: None", "score": 0.0}

@@ -109,31 +109,48 @@ def find_gates(model, pattern: re.Pattern = GATE_NAME) -> dict:
 
 
 def capture_routing(model, input_ids, pattern: re.Pattern = GATE_NAME) -> dict:
-    """Router output per gate for one forward pass, as {name: [tokens, *]} on CPU.
+    """Routing decisions per gate for one forward pass.
 
-    Float tensors are router logits, integer tensors are already-selected expert
-    ids (some MoE gates return the selection rather than the logits).
+    Returns {name: {"logits": [tokens, experts], "ids": [tokens, k]}}, either key
+    possibly absent. Most MoE routers return the selection rather than the logits
+    they came from, so logits are recomputed from the router weight against the
+    hidden state it saw. That keeps the margin analysis available on any
+    architecture, while the model's own selection is still used where it reports
+    one, so group-limited or otherwise non-plain top-k routing is not misread.
     """
     gates = find_gates(model, pattern)
     if not gates:
         raise SystemExit("no gate modules matched; pass --gate-pattern for this architecture")
 
-    store: dict[str, torch.Tensor] = {}
+    store: dict[str, dict] = {}
+    seen: set = set()
 
-    def hook(name):
-        def fn(_module, _inputs, output):
-            t = output[0] if isinstance(output, (tuple, list)) else output
-            if not isinstance(t, torch.Tensor):
-                return
-            t = t.reshape(-1, t.shape[-1]).detach().cpu()
-            if name in store:
+    def hook(name, module):
+        def fn(_m, inputs, output):
+            if name in seen:
                 # A second call would silently misalign the two runs' tokens.
                 raise SystemExit(f"gate {name} fired twice in one forward; unsupported architecture")
-            store[name] = t.float() if t.is_floating_point() else t.long()
+            seen.add(name)
+            rec = store.setdefault(name, {})
+            w = getattr(module, "weight", None)
+            if w is None and hasattr(module, "layer"):
+                w = getattr(module.layer, "weight", None)
+            x = inputs[0] if inputs else None
+            if (isinstance(w, torch.Tensor) and isinstance(x, torch.Tensor)
+                    and w.ndim == 2 and x.shape[-1] == w.shape[-1]):
+                x = x.detach().reshape(-1, x.shape[-1]).float()
+                rec["logits"] = (x @ w.detach().float().T).cpu()
+            t = output[0] if isinstance(output, (tuple, list)) else output
+            if isinstance(t, torch.Tensor) and t.ndim >= 2:
+                t = t.detach().reshape(-1, t.shape[-1])
+                if t.is_floating_point():
+                    rec.setdefault("logits", t.float().cpu())
+                else:
+                    rec["ids"] = t.long().cpu()
 
         return fn
 
-    handles = [m.register_forward_hook(hook(n)) for n, m in gates.items()]
+    handles = [m.register_forward_hook(hook(n, m)) for n, m in gates.items()]
     try:
         with torch.no_grad():
             model(input_ids.to(model.device))
@@ -144,16 +161,37 @@ def capture_routing(model, input_ids, pattern: re.Pattern = GATE_NAME) -> dict:
 
 
 def keep_router_outputs(store: dict, n_experts: int, k: int) -> dict:
-    """Drop hooked modules whose output is not a routing decision."""
-    kept = {n: t for n, t in store.items()
-            if (t.is_floating_point() and t.shape[-1] == n_experts)
-            or (not t.is_floating_point() and t.shape[-1] == k)}
+    """Drop hooked modules whose capture is not a routing decision."""
+    kept = {}
+    for name, rec in store.items():
+        out = {}
+        if isinstance(rec.get("logits"), torch.Tensor) and rec["logits"].shape[-1] == n_experts:
+            out["logits"] = rec["logits"]
+        if isinstance(rec.get("ids"), torch.Tensor) and rec["ids"].shape[-1] == k:
+            out["ids"] = rec["ids"]
+        if out:
+            kept[name] = out
     if not kept:
         raise SystemExit(
             f"matched gates produced no [tokens, {n_experts}] logits or [tokens, {k}] ids; "
             "pass --gate-pattern"
         )
     return kept
+
+
+def selection(rec: dict, k: int) -> torch.Tensor:
+    """The experts a token was routed to: the model's own choice where it reports one."""
+    if "ids" in rec:
+        return rec["ids"][:, :k]
+    return rec["logits"].topk(k, dim=-1).indices
+
+
+def cat_runs(runs: list) -> dict:
+    """Concatenate several forward passes into one record per gate."""
+    names = set.intersection(*(set(r) for r in runs))
+    return {n: {key: torch.cat([r[n][key] for r in runs])
+                for key in ("logits", "ids") if all(key in r[n] for r in runs)}
+            for n in names}
 
 
 # --------------------------------------------------------------------- metrics
@@ -175,7 +213,12 @@ def jaccard_distance(base_ids: torch.Tensor, quant_ids: torch.Tensor) -> float:
 
 
 def margins(logits: torch.Tensor, k: int) -> torch.Tensor:
-    """Gap between the k-th and (k+1)-th expert. Narrow = sitting on a boundary."""
+    """Gap between the k-th and (k+1)-th expert. Narrow = sitting on a boundary.
+
+    k=1 gives the top-1 margin, which governs whether the argmax moves; k=top_k
+    gives the selection-boundary margin, which governs whether the set changes.
+    Pairing one margin with the other event measures nothing.
+    """
     vals = logits.topk(k + 1, dim=-1).values
     return vals[:, k - 1] - vals[:, k]
 
@@ -207,7 +250,9 @@ def flips_by_margin(base_margins: torch.Tensor, flipped: torch.Tensor, buckets: 
 
 
 def verdict(flip: float, low: float, high: float) -> str:
-    # ponytail: uncalibrated cut points, replace with the study's crossing point
+    """Cut points from the sweep in RESULTS.md: on granite-1b-a400m, 5.8% top-1
+    flips came with no measurable agentic loss and 18.1% came with format
+    stability down 24%. One 1.3B subject, n=8 configs — treat as provisional."""
     if flip < low:
         return "LOW"
     return "MEDIUM" if flip < high else "HIGH"
@@ -232,21 +277,27 @@ def compare(base_store: dict, quant_store: dict, n_experts: int, k: int) -> dict
     if not names:
         raise SystemExit("base and quantized checkpoints exposed different gate names")
 
-    per_gate, all_margins, all_flipped = {}, [], []
+    per_gate = {}
+    m_top1, e_top1, m_bound, e_bound = [], [], [], []
     for name in names:
         b, q = base_store[name], quant_store[name]
-        if b.shape[0] != q.shape[0]:
+        b_ids, q_ids = selection(b, k), selection(q, k)
+        if b_ids.shape[0] != q_ids.shape[0]:
             raise SystemExit(f"token count differs at {name}; the two runs were not teacher-forced")
-        b_ids, q_ids = top_ids(b, k), top_ids(q, k)
         flipped = b_ids[:, 0] != q_ids[:, 0]
+        shared = (b_ids.unsqueeze(2) == q_ids.unsqueeze(1)).any(-1).sum(-1)
+        set_changed = shared < k
         per_gate[name] = {
             "flip_rate": flip_rate(b_ids, q_ids),
             "jaccard": jaccard_distance(b_ids, q_ids),
             "load_kl": load_kl(b_ids, q_ids, n_experts),
         }
-        if b.is_floating_point():
-            all_margins.append(margins(b, k))
-            all_flipped.append(flipped)
+        if "logits" in b and b["logits"].shape[-1] > k:
+            # Each margin is paired with the event it actually governs.
+            m_top1.append(margins(b["logits"], 1))
+            e_top1.append(flipped)
+            m_bound.append(margins(b["logits"], k))
+            e_bound.append(set_changed)
 
     pooled = lambda key: sum(g[key] for g in per_gate.values()) / len(per_gate)
     per_layer = {}
@@ -259,9 +310,11 @@ def compare(base_store: dict, quant_store: dict, n_experts: int, k: int) -> dict
         "jaccard": pooled("jaccard"),
         "load_kl": pooled("load_kl"),
         "per_layer_flip_rate": {str(i): v for i, v in sorted(per_layer.items(), key=lambda x: (x[0] is None, x[0]))},
-        "flips_by_margin_quartile": (
-            flips_by_margin(torch.cat(all_margins), torch.cat(all_flipped)) if all_margins else []
-        ),
+        "top1_flips_by_margin": (
+            flips_by_margin(torch.cat(m_top1), torch.cat(e_top1)) if m_top1 else []),
+        "set_changes_by_margin": (
+            flips_by_margin(torch.cat(m_bound), torch.cat(e_bound)) if m_bound else []),
+        "set_change_rate": (torch.cat(e_bound).float().mean().item() if e_bound else float("nan")),
     }
     lo, hi = worst_layers(per_layer)
     report["worst_layers"] = [lo, hi] if lo is not None else None
@@ -299,9 +352,7 @@ def run_check(args) -> dict:
     quant_runs = [keep_router_outputs(capture_routing(quant, ids, pattern), n_experts, k)
                   for ids in forced]
 
-    merged = [{name: torch.cat([run[name] for run in runs]) for name in runs[0]}
-              for runs in (base_runs, quant_runs)]
-    report = compare(merged[0], merged[1], n_experts, k)
+    report = compare(cat_runs(base_runs), cat_runs(quant_runs), n_experts, k)
     report.update(
         model=args.model, base=args.base, experts=n_experts, top_k=k,
         tokens=sum(int(i.numel()) for i in forced),
@@ -315,19 +366,20 @@ def render(r: dict) -> str:
     lines = [
         f"router flip rate:              {pct(r['flip_rate'])}",
         f"top-k jaccard distance:        {r['jaccard']:.3f}",
+        f"tokens re-routed:              {pct(r['set_change_rate'])}",
         f"expert load KL:                {r['load_kl']:.3f}",
         f"predicted agentic degradation: {r['verdict']}",
     ]
     if r["worst_layers"]:
         lo, hi = r["worst_layers"]
         lines.append(f"worst layers:                  {lo}-{hi}")
-    if r["flips_by_margin_quartile"]:
-        q = "  ".join(pct(x) for x in r["flips_by_margin_quartile"])
-        lines.append(f"flips by base margin quartile (narrow to wide): {q}")
+    if r.get("set_changes_by_margin"):
+        q = "  ".join(pct(x) for x in r["set_changes_by_margin"])
+        lines.append(f"expert-set changes by boundary margin (narrow to wide): {q}")
     if r["verdict"] != "LOW":
         lines.append("suggested: hold the gate and attention at higher precision and re-check")
     lines.append(f"({r['tokens']} tokens, {r['experts']} experts, top-{r['top_k']}; "
-                 "thresholds are uncalibrated, see README)")
+                 "thresholds calibrated on one 1.3B subject, see RESULTS.md)")
     return "\n".join(lines)
 
 
@@ -343,8 +395,8 @@ def main(argv=None) -> int:
     c.add_argument("--max-tokens", type=int, default=512, help="truncate each prompt")
     c.add_argument("--device", default="auto")
     c.add_argument("--gate-pattern", help="regex for gate module names")
-    c.add_argument("--low", type=float, default=0.02, help="flip rate below this is LOW")
-    c.add_argument("--high", type=float, default=0.08, help="flip rate above this is HIGH")
+    c.add_argument("--low", type=float, default=0.06, help="flip rate below this is LOW")
+    c.add_argument("--high", type=float, default=0.15, help="flip rate above this is HIGH")
     c.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 
