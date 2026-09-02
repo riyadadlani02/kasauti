@@ -39,6 +39,31 @@ VENDOR_PAIRS = {
                             ("nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4", "nvfp4")],
 }
 
+# Configs chosen to spread the predictors apart, not just the bit-width. Gate-only
+# quantization is the discriminator: it moves routing hard while barely touching
+# layer outputs, so router divergence and reconstruction error disagree there.
+EXTENDED = [
+    ("x8-ea", 8, 128, ("expert", "attention"), "rtn"),
+    ("x7-ea", 7, 128, ("expert", "attention"), "rtn"),
+    ("x5-ea", 5, 128, ("expert", "attention"), "rtn"),
+    ("x6-experts", 6, 128, ("expert",), "rtn"),
+    ("x3-experts", 3, 128, ("expert",), "rtn"),
+    ("x6-attention", 6, 128, ("attention",), "rtn"),
+    ("x3-attention", 3, 128, ("attention",), "rtn"),
+    ("x6-gate", 6, 128, ("gate",), "rtn"),
+    ("x4-gate", 4, 128, ("gate",), "rtn"),
+    ("x3-gate", 3, 128, ("gate",), "rtn"),
+    ("x2-gate", 2, 128, ("gate",), "rtn"),
+    ("x3-all", 3, 128, ("expert", "attention", "gate"), "rtn"),
+    ("x4-ea-g32", 4, 32, ("expert", "attention"), "rtn"),
+    ("x4-ea-g512", 4, 512, ("expert", "attention"), "rtn"),
+    ("x4-ea-perchan", 4, 0, ("expert", "attention"), "rtn"),
+    ("x3-ea-g32", 3, 32, ("expert", "attention"), "rtn"),
+    ("x4-experts-awq", 4, 128, ("expert",), "awq"),
+    ("x3-ea-awq", 3, 128, ("expert", "attention"), "awq"),
+    ("x8-gate-only-ea4", 4, 128, ("expert", "attention", "gate"), "awq"),
+]
+
 # bits, group, targets, method. Bit-width sweep first, then component ablation.
 CONFIGS = [
     ("bf16", 16, 0, (), "none"),
@@ -124,6 +149,9 @@ def main(argv=None) -> int:
     p.add_argument("--device", default="auto")
     p.add_argument("--configs", help="comma-separated subset of config names")
     p.add_argument("--vendor", action="store_true", help="also sweep vendor-quantized checkpoints")
+    p.add_argument("--extended", action="store_true", help="add the configs that spread the predictors")
+    p.add_argument("--probe-set", choices=("all", "agentic"), default="all",
+                   help="agentic drops the recall control, halving generation cost")
     p.add_argument("--batch-size", type=int, default=16)
     p.add_argument("--max-new-tokens", type=int, default=48)
     p.add_argument("--gate-pattern")
@@ -135,7 +163,10 @@ def main(argv=None) -> int:
     pattern = re.compile(args.gate_pattern) if args.gate_pattern else K.GATE_NAME
     tok = AutoTokenizer.from_pretrained(base_id, trust_remote_code=True)
     texts, items = K.DEFAULT_CALIBRATION, P.all_items()
-    configs = [c for c in CONFIGS if not args.configs or c[0] in args.configs.split(",")]
+    if args.probe_set == "agentic":
+        items = [i for i in items if P.LAYER[i.probe] == 2]
+    pool = CONFIGS + EXTENDED if args.extended else CONFIGS
+    configs = [c for c in pool if not args.configs or c[0] in args.configs.split(",")]
 
     print(f"{base_id}: {len(items)} probe items, {len(texts)} calibration texts, "
           f"{len(configs)} configs", flush=True)
@@ -173,7 +204,8 @@ def main(argv=None) -> int:
         routing, layers, ppl, results = evaluate(
             model, tok, texts, pattern, items, args.batch_size, args.max_new_tokens)
         report = K.compare(base_routing, routing, n_experts, k)
-        rec = dict(model=base_id, config=name, bits=bits, method=method, targets=list(targets),
+        rec = dict(model=base_id, config=name, bits=bits, group=group, method=method,
+                   targets=list(targets),
                    ppl=ppl, probes=P.aggregate(results), recon_error=recon_error(base_layers, layers),
                    weight_error=werr, seconds=round(time.time() - t1), **{
                        k2: report[k2] for k2 in ("flip_rate", "jaccard", "load_kl", "set_change_rate",

@@ -1,0 +1,120 @@
+{"config": "bf16", "id": "lh-1-0", "probe": "long_horizon", "output": "The current status is report_started.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12, reporting status in one short sentence.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-1-2", "probe": "long_horizon", "output": "Understood. I will end my replies with the line [[ack]] and avoid using the word certainly. I will also write steps_used: 1 before each reply in this session.", "score": 0.0}
+{"config": "bf16", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-3-1", "probe": "long_horizon", "output": "The current status is that there are no alerts firing and the region is eu-west-2.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is \"Development\".\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-6-0", "probe": "long_horizon", "output": "The current status is that the build tag is 4.2.1.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with 61 percent disk headroom.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-6-2", "probe": "long_horizon", "output": "The current status is running smoothly.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-12-2", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy in progress, no issues reported.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "bf16", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy is running with no pending retries.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is that the deployment is in progress.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "lh-30-2", "probe": "long_horizon", "output": "The current status is that the system is operational and no issues have been reported.", "score": 0.3333333333333333}
+{"config": "bf16", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien 'Sam' Ltd\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a{b}c\",\n  \"length\": 6\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path/to/file\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 10\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 15\n}", "score": 0.0}
+{"config": "bf16", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"\\\\\",\n  \"length\": 4\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": 0\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"nested\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"comma, separated, values\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "bf16", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "bf16", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "bf16", "id": "cal-a1", "probe": "calibration", "output": "ANSWER: eu-west-2", "score": 1.0}
+{"config": "bf16", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "bf16", "id": "cal-a3", "probe": "calibration", "output": "12", "score": 0.0}
+{"config": "bf16", "id": "cal-a4", "probe": "calibration", "output": "88\n\nExplanation: The context states that ticket 88 is assigned to the platform team.", "score": 1.0}
+{"config": "bf16", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "bf16", "id": "cal-a6", "probe": "calibration", "output": "240", "score": 1.0}
+{"config": "bf16", "id": "cal-a7", "probe": "calibration", "output": "7", "score": 0.0}
+{"config": "bf16", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "bf16", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "bf16", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not provided in the given context.", "score": 1.0}
+{"config": "bf16", "id": "cal-u1", "probe": "calibration", "output": "1000", "score": 0.0}
+{"config": "bf16", "id": "cal-u2", "probe": "calibration", "output": "ANSWER: The release notes for Build 4.2.1 do not provide information on who approved the deploy.", "score": 0.0}
+{"config": "bf16", "id": "cal-u3", "probe": "calibration", "output": "ANSWER: Approximately 12 seconds.", "score": 0.0}
+{"config": "bf16", "id": "cal-u4", "probe": "calibration", "output": "8\n\nExplanation: The context does not provide information on when ticket 88 will be closed. Therefore, the answer is UNKNOWN.", "score": 1.0}
+{"config": "bf16", "id": "cal-u5", "probe": "calibration", "output": "3", "score": 0.0}
+{"config": "bf16", "id": "cal-u6", "probe": "calibration", "output": "24%", "score": 0.0}
+{"config": "bf16", "id": "cal-u7", "probe": "calibration", "output": "50MB (ANSWER: 50MB)", "score": 0.0}
+{"config": "bf16", "id": "cal-u8", "probe": "calibration", "output": "40%, as the cache TTL is 900 seconds, a cache hit will occur if the requested data is already in the cache.", "score": 0.0}
+{"config": "bf16", "id": "cal-u9", "probe": "calibration", "output": "8.1.2", "score": 0.0}
+{"config": "bf16", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "bf16", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: In stock\n\nRETRY: None", "score": 0.0}
+{"config": "bf16", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: Active", "score": 0.0}
+{"config": "bf16", "id": "rec-1-1", "probe": "recovery", "output": "RESULT:cancelled", "score": 0.0}
+{"config": "bf16", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: 5", "score": 0.0}
+{"config": "bf16", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: 0\nRETRY: The tool did not return a value.", "score": 0.0}
+{"config": "bf16", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: 502 Bad Gateway", "score": 0.0}
+{"config": "bf16", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The tool was unable to retrieve the stock level for the given SKU.", "score": 0.0}
+{"config": "bf16", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "bf16", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: The tool was unable to retrieve the stock level for the given SKU.", "score": 0.0}
+{"config": "x8-ea", "id": "lh-1-0", "probe": "long_horizon", "output": "The current status is: Deploy started.", "score": 0.3333333333333333}
+{"config": "x8-ea", "id": "lh-1-1", "probe": "long_horizon", "output": "Queue depth is 12.", "score": 0.3333333333333333}
+{"config": "x8-ea", "id": "lh-1-2", "probe": "long_horizon", "output": "Understood. I will end each reply with the line [[ack]] and avoid using the word certainly. I will also write steps_used: 1 before each reply, starting from 1.", "score": 0.0}
+{"config": "x8-ea", "id": "lh-3-0", "probe": "long_horizon", "output": "The system is functioning as expected.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-3-1", "probe": "long_horizon", "output": "The current status is that the region eu-west-2 is being monitored.\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-3-2", "probe": "long_horizon", "output": "The current status is \"Development\".\nsteps_used: 4\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-6-0", "probe": "long_horizon", "output": "The current status is that the deployment is in progress.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-6-1", "probe": "long_horizon", "output": "The system is running smoothly with 61 percent disk headroom.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-6-2", "probe": "long_horizon", "output": "The current status is running smoothly.\nsteps_used: 7\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-12-0", "probe": "long_horizon", "output": "Deploy in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-12-1", "probe": "long_horizon", "output": "Deploy in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-12-2", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 13\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-20-0", "probe": "long_horizon", "output": "Deploy is running with no pending retries.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-20-1", "probe": "long_horizon", "output": "Deploy is in progress.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-20-2", "probe": "long_horizon", "output": "Deploy in progress, no issues reported.\nsteps_used: 21\n[[ack]]", "score": 1.0}
+{"config": "x8-ea", "id": "lh-30-0", "probe": "long_horizon", "output": "Deploy is running with no pending retries and 61 percent disk headroom.", "score": 0.3333333333333333}
+{"config": "x8-ea", "id": "lh-30-1", "probe": "long_horizon", "output": "The current status is that the deployment is in progress.", "score": 0.3333333333333333}
+{"config": "x8-ea", "id": "lh-30-2", "probe": "long_horizon", "output": "The current status is that the system is running without issues.", "score": 0.3333333333333333}
+{"config": "x8-ea", "id": "fmt-0", "probe": "format", "output": "{\n  \"label\": \"O'Brien 'Sam' Ltd\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-1", "probe": "format", "output": "{\n  \"label\": \"a{b}c\",\n  \"length\": 6\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-2", "probe": "format", "output": "{\n  \"label\": \"path/to/file\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-3", "probe": "format", "output": "{\n  \"label\": \"he said\",\n  \"length\": 21\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-4", "probe": "format", "output": "{\n  \"label\": \"line1\",\n  \"length\": 10\n}\n\n{\n  \"label\": \"line2\",\n  \"length\": 15\n}", "score": 0.0}
+{"config": "x8-ea", "id": "fmt-5", "probe": "format", "output": "{\n  \"label\": \"emoji\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-6", "probe": "format", "output": "{\n  \"label\": \"triple quoted\",\n  \"length\": 32\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-7", "probe": "format", "output": "{\n  \"label\": \"\\\\\"\n}", "score": 0.5}
+{"config": "x8-ea", "id": "fmt-8", "probe": "format", "output": "{\n  \"label\": \"null\",\n  \"length\": 0\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-9", "probe": "format", "output": "{\n  \"label\": \"nested\",\n  \"length\": 20\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-10", "probe": "format", "output": "{\n  \"label\": \"comma, separated, values\",\n  \"length\": 13\n}", "score": 1.0}
+{"config": "x8-ea", "id": "fmt-11", "probe": "format", "output": "{\n  \"label\": \"unicode: na\u00efve caf\u00e9\",\n  \"length\": 10\n}", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a0", "probe": "calibration", "output": "ANSWER: Shipped", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a1", "probe": "calibration", "output": "eu-west-2", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a2", "probe": "calibration", "output": "4.2.1", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a3", "probe": "calibration", "output": "1", "score": 0.0}
+{"config": "x8-ea", "id": "cal-a4", "probe": "calibration", "output": "Answer: Ticket 88 is owned by the platform team.", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a5", "probe": "calibration", "output": "5", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a6", "probe": "calibration", "output": "240", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a7", "probe": "calibration", "output": "13", "score": 0.0}
+{"config": "x8-ea", "id": "cal-a8", "probe": "calibration", "output": "900", "score": 1.0}
+{"config": "x8-ea", "id": "cal-a9", "probe": "calibration", "output": "8443", "score": 1.0}
+{"config": "x8-ea", "id": "cal-u0", "probe": "calibration", "output": "ANSWER: The delivery driver's name is not provided in the given context.", "score": 1.0}
+{"config": "x8-ea", "id": "cal-u1", "probe": "calibration", "output": "1000", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u2", "probe": "calibration", "output": " ANSWER: None\n\nThe context does not provide information on who approved the deploy. Therefore, I cannot provide a specific answer.", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u3", "probe": "calibration", "output": "ANSWER: Approximately 12 seconds.", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u4", "probe": "calibration", "output": "8th\n\nExplanation: The context only provides information about ticket 88 being assigned to the platform team. However, it does not provide information about when the ticket will be closed. Therefore, the answer is UNKNOWN.", "score": 1.0}
+{"config": "x8-ea", "id": "cal-u5", "probe": "calibration", "output": "5", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u6", "probe": "calibration", "output": "23.\n\n[Explanation] The context does not provide the exact VAT rate, but it does mention that the invoice total is 240 GBP, which includes VAT. The VAT rate is typically a percentage", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u7", "probe": "calibration", "output": "50MB (ANSWER: 50MB)", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u8", "probe": "calibration", "output": "100%", "score": 0.0}
+{"config": "x8-ea", "id": "cal-u9", "probe": "calibration", "output": "8.1.2", "score": 0.0}
+{"config": "x8-ea", "id": "rec-0-0", "probe": "recovery", "output": "RESULT: Shipped", "score": 0.0}
+{"config": "x8-ea", "id": "rec-0-1", "probe": "recovery", "output": "RESULT: In stock", "score": 0.0}
+{"config": "x8-ea", "id": "rec-1-0", "probe": "recovery", "output": "RESULT: {\"status\": \"shipped\"}", "score": 0.0}
+{"config": "x8-ea", "id": "rec-1-1", "probe": "recovery", "output": "RESULT:cancelled", "score": 0.0}
+{"config": "x8-ea", "id": "rec-2-0", "probe": "recovery", "output": "RESULT: ERROR", "score": 0.0}
+{"config": "x8-ea", "id": "rec-2-1", "probe": "recovery", "output": "RESULT: None\n\nExplanation: The tool did not return a value for the input \"SKU-77\". The \"ERROR: upstream timeout\" message suggests that there was a delay in the communication with the upstream server, which may", "score": 0.0}
+{"config": "x8-ea", "id": "rec-3-0", "probe": "recovery", "output": "RESULT: The order status could not be retrieved due to a 502 Bad Gateway error.", "score": 0.0}
+{"config": "x8-ea", "id": "rec-3-1", "probe": "recovery", "output": "RESULT: The tool did not return a valid stock level for the given SKU-77. Please try again with a valid SKU.", "score": 0.0}
+{"config": "x8-ea", "id": "rec-4-0", "probe": "recovery", "output": "RESULT: None", "score": 0.0}
+{"config": "x8-ea", "id": "rec-4-1", "probe": "recovery", "output": "RESULT: The tool did not return a value for the given SKU.", "score": 0.0}

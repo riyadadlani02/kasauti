@@ -99,6 +99,23 @@ def test_capture_and_compare_end_to_end():
     assert perturbed["worst_layers"][0] is not None
 
 
+def test_set_change_rate_survives_a_router_with_no_logits():
+    """Some routers report only ids. The verdict must not go NaN there."""
+    base = {"g": {"ids": torch.tensor([[0, 1], [0, 1]])}}
+    quant = {"g": {"ids": torch.tensor([[0, 1], [0, 2]])}}
+    assert K.compare(base, quant, 4, 2)["set_change_rate"] == 0.5
+
+
+def test_search_weights_bits_by_parameter_count():
+    """Bits saved must be weighted by size, or the search wastes budget on the router."""
+    import search as SR
+    sizes = {"gate": 1_000_000, "attention": 400_000_000, "expert": 900_000_000}
+    assert SR.model_bits({"gate": 16, "attention": 16, "expert": 16}, sizes) == 16.0
+    quantize_experts = SR.model_bits({"gate": 16, "attention": 16, "expert": 4}, sizes)
+    quantize_gate = SR.model_bits({"gate": 2, "attention": 16, "expert": 16}, sizes)
+    assert quantize_experts < 8 < quantize_gate  # the gate is not where the size is
+
+
 if __name__ == "__main__":
     for name, fn in sorted(vars().items()):
         if name.startswith("test_"):

@@ -23,8 +23,24 @@ PREDICTORS = [("set_change_rate", "router expert-set change rate"),
 FLOOR = 0.25
 
 
-def load(path: str) -> list:
-    return [json.loads(l) for l in open(path) if l.strip()]
+def load_runs(paths) -> list:
+    """One list of records per sweep file. Kept separate because each run carries
+    its own BF16 baseline, and batch composition shifts padding enough to move a
+    probe score by an item — so a config must be scored against the baseline
+    measured in the same run, not a different one."""
+    return [[json.loads(l) for l in open(path) if l.strip()]
+            for path in ([paths] if isinstance(paths, str) else paths)]
+
+
+def merge(runs: list) -> list:
+    """Normalise each run against its own baseline, then dedupe by config."""
+    seen, out = set(), []
+    for run in runs:
+        for r in normalise(run):
+            if (r["model"], r["config"]) not in seen:
+                seen.add((r["model"], r["config"]))
+                out.append(r)
+    return out
 
 
 def normalise(records: list) -> list:
@@ -33,7 +49,9 @@ def normalise(records: list) -> list:
     usable = [p for p in AGENTIC if base["probes"].get(p, 0) >= FLOOR]
     out = []
     for r in records:
-        rel = {p: (r["probes"].get(p, 0) / v if v else float("nan"))
+        # A probe absent from a config was not run there; scoring it as zero
+        # would plot a collapse that never happened.
+        rel = {p: (r["probes"][p] / v if p in r["probes"] and v else float("nan"))
                for p, v in base["probes"].items()}
         agentic = [rel[p] for p in usable if p in rel and np.isfinite(rel[p])]
         out.append({**{"set_change_rate": 0.0, "flip_rate": 0.0, "jaccard": 0.0,
@@ -64,7 +82,8 @@ def crossing_point(rows, path):
     import matplotlib.pyplot as plt
 
     sweep = sorted([r for r in rows if r["method"] in ("none", "rtn")
-                    and set(r["targets"]) in ({"expert", "attention"}, set())],
+                    and set(r["targets"]) in ({"expert", "attention"}, set())
+                    and np.isfinite(r["control"]) and r.get("group", 128) == 128],
                    key=lambda r: -r["bits"])
     if len(sweep) < 3:
         return None
@@ -173,12 +192,12 @@ def report(rows) -> str:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("results", nargs="?", default="results.jsonl")
+    p.add_argument("results", nargs="*", default=["results.jsonl"])
     p.add_argument("--out", default="RESULTS.md")
     p.add_argument("--figures", default=".")
     args = p.parse_args(argv)
 
-    rows = normalise(load(args.results))
+    rows = merge(load_runs(args.results))
     open(args.out, "w").write(report(rows))
     a = crossing_point(rows, f"{args.figures}/crossing_point.png")
     b = predictor_figure(rows, f"{args.figures}/predictors.png")

@@ -291,6 +291,7 @@ def compare(base_store: dict, quant_store: dict, n_experts: int, k: int) -> dict
             "flip_rate": flip_rate(b_ids, q_ids),
             "jaccard": jaccard_distance(b_ids, q_ids),
             "load_kl": load_kl(b_ids, q_ids, n_experts),
+            "set_change_rate": set_changed.float().mean().item(),
         }
         if "logits" in b and b["logits"].shape[-1] > k:
             # Each margin is paired with the event it actually governs.
@@ -314,7 +315,7 @@ def compare(base_store: dict, quant_store: dict, n_experts: int, k: int) -> dict
             flips_by_margin(torch.cat(m_top1), torch.cat(e_top1)) if m_top1 else []),
         "set_changes_by_margin": (
             flips_by_margin(torch.cat(m_bound), torch.cat(e_bound)) if m_bound else []),
-        "set_change_rate": (torch.cat(e_bound).float().mean().item() if e_bound else float("nan")),
+        "set_change_rate": pooled("set_change_rate"),
     }
     lo, hi = worst_layers(per_layer)
     report["worst_layers"] = [lo, hi] if lo is not None else None
