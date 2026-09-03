@@ -8,351 +8,360 @@
 <title>Kasauti</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 </head>
 <body>
 <style>
 :root{
-  --basalt:#16191b; --basalt-2:#1f2427; --basalt-3:#2b3134;
-  --stone:#e9ecea; --paper:#f6f7f6; --card:#ffffff;
-  --ink:#171a1c; --ink-2:#4a5356; --ink-3:#727b7e;
-  --line:#d3d9d6; --line-soft:#e3e7e5;
-  --brass:#8a6a16; --brass-hot:#a9781f;
-  --good:#2f6f4f; --alarm:#b23a2e; --warn:#9a6b12;
+  --bg:#fbfbfa; --card:#ffffff; --soft:#f4f4f2; --dark:#171717; --dark-2:#242424;
+  --ink:#171717; --ink-2:#5d5f5d; --ink-3:#8b8d8b;
+  --line:#e8e8e5; --line-2:#dcdcd8;
+  --brass:#a1741c; --good:#2f7d55; --warn:#a8720f; --alarm:#c0392b;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
-  --surface:var(--paper); --on-surface:var(--ink);
-  --shadow:0 1px 2px rgba(22,25,27,.06),0 8px 24px -12px rgba(22,25,27,.18);
-  --r:14px; --maxw:1140px;
-  --display:"Archivo",system-ui,sans-serif;
-  --body:"Source Serif 4",Georgia,serif;
+  --shadow-s:0 1px 2px rgba(23,23,23,.05);
+  --shadow:0 2px 4px rgba(23,23,23,.04),0 12px 28px -14px rgba(23,23,23,.16);
+  --r:18px; --r-lg:26px; --maxw:1180px;
+  --sans:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --stone:#1c2023; --paper:#131618; --card:#1b1f22;
-    --ink:#e7ebe9; --ink-2:#a9b2b4; --ink-3:#828b8e;
-    --line:#2e3437; --line-soft:#242a2d;
-    --brass:#d6a548; --brass-hot:#e0b25c;
-    --good:#5aa37c; --alarm:#e07264; --warn:#d1a34a;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-    --surface:var(--paper); --on-surface:var(--ink);
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
-  }
-}
-:root[data-theme="dark"]{
-  --stone:#1c2023; --paper:#131618; --card:#1b1f22;
-  --ink:#e7ebe9; --ink-2:#a9b2b4; --ink-3:#828b8e;
-  --line:#2e3437; --line-soft:#242a2d;
-  --brass:#d6a548; --brass-hot:#e0b25c;
-  --good:#5aa37c; --alarm:#e07264; --warn:#d1a34a;
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f0f0f; --card:#181818; --soft:#141414; --dark:#000; --dark-2:#1c1c1c;
+  --ink:#f0f0ee; --ink-2:#a8aaa8; --ink-3:#7a7c7a;
+  --line:#282828; --line-2:#333;
+  --brass:#d9a84a; --good:#54a97b; --warn:#d0a248; --alarm:#e2705f;
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-  --surface:var(--paper); --on-surface:var(--ink);
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  --shadow-s:0 1px 2px rgba(0,0,0,.4);
+  --shadow:0 2px 4px rgba(0,0,0,.3),0 12px 28px -14px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --bg:#0f0f0f; --card:#181818; --soft:#141414; --dark:#000; --dark-2:#1c1c1c;
+  --ink:#f0f0ee; --ink-2:#a8aaa8; --ink-3:#7a7c7a;
+  --line:#282828; --line-2:#333;
+  --brass:#d9a84a; --good:#54a97b; --warn:#d0a248; --alarm:#e2705f;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --shadow-s:0 1px 2px rgba(0,0,0,.4);
+  --shadow:0 2px 4px rgba(0,0,0,.3),0 12px 28px -14px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--surface);color:var(--on-surface);
-  font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4,.dsp{font-family:var(--display);font-weight:700;letter-spacing:-.02em;text-wrap:balance;margin:0}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-weight:800;letter-spacing:-.028em;text-wrap:balance;line-height:1.12}
 p{margin:0}
-a{color:inherit}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-section{padding:76px 0}
-.sec-head{text-align:center;max-width:640px;margin:0 auto 44px}
-.sec-head h2{font-size:clamp(26px,3.4vw,38px);margin-bottom:10px}
-.sec-head p{color:var(--ink-2);font-size:17px}
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;
-  font-size:14px;padding:11px 20px;border-radius:999px;border:1px solid transparent;cursor:pointer;
-  text-decoration:none;transition:transform .12s ease,background .15s ease}
+section{padding:64px 0;scroll-margin-top:64px}
+.sh{text-align:center;max-width:620px;margin:0 auto 40px}
+.sh h2{font-size:clamp(27px,3.5vw,36px);margin-bottom:10px}
+.sh p{color:var(--ink-2);font-size:16px}
+.btn{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:14px;
+  padding:11px 20px;border-radius:999px;border:1px solid transparent;cursor:pointer;
+  font-family:var(--sans);transition:transform .1s,opacity .15s}
 .btn:active{transform:translateY(1px)}
-.btn-p{background:var(--brass-hot);color:#fff}
-.btn-g{background:#f0efe9;color:#16191b}
-.btn-o{border-color:currentColor;color:inherit;background:transparent}
-:focus-visible{outline:2px solid var(--brass-hot);outline-offset:3px;border-radius:6px}
+.btn-d{background:var(--dark);color:#fff}
+.btn-l{background:#fff;color:#171717}
+.btn-o{border-color:var(--line-2);color:var(--ink);background:var(--card)}
+.btn:disabled{opacity:.4;cursor:default}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-s)}
 
 /* nav */
-nav{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--surface) 88%,transparent);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
-.nav-in{max-width:var(--maxw);margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:22px}
-.brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:800;
-  font-size:15px;letter-spacing:-.01em;text-decoration:none}
-.mark{width:22px;height:22px;border-radius:5px;background:var(--basalt);position:relative;overflow:hidden;flex:none}
-.mark::after{content:"";position:absolute;left:4px;top:15px;width:14px;height:2.5px;border-radius:2px;
-  background:linear-gradient(90deg,#d6a548,#8a6a16);transform:rotate(-38deg);transform-origin:left}
-.nav-links{display:flex;gap:20px;margin-left:auto;font-family:var(--display);font-size:13.5px;font-weight:500}
-.nav-links a{color:var(--ink-2);text-decoration:none}
-.nav-links a:hover{color:var(--on-surface)}
-@media(max-width:780px){.nav-links{display:none}}
+nav{position:sticky;top:0;z-index:70;background:color-mix(in srgb,var(--bg) 90%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;letter-spacing:-.02em}
+.mk{width:21px;height:21px;border-radius:6px;background:var(--dark);position:relative;overflow:hidden;flex:none}
+.mk::after{content:"";position:absolute;left:3px;top:14px;width:15px;height:2.5px;border-radius:2px;
+  background:linear-gradient(90deg,#e0b25c,#a1741c);transform:rotate(-40deg);transform-origin:left}
+.nav-l{display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:600;color:var(--ink-2)}
+.nav-l a:hover{color:var(--ink)}
+@media(max-width:840px){.nav-l{display:none}}
 
-/* hero */
-.hero{background:var(--basalt);color:#e8ebe9;padding:80px 0 92px;position:relative;overflow:hidden}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
-.hero-in{position:relative;text-align:center;max-width:820px;margin:0 auto}
-.hero h1{font-size:clamp(34px,5.6vw,62px);line-height:1.03;margin:16px 0 18px;color:#fff}
-.hero h1 em{font-style:normal;color:#d6a548}
-.hero-sub{color:#a9b2b4;font-size:18px;max-width:600px;margin:0 auto 30px}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.hero .eyebrow{color:#8a949a}
-.dial-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:660px;margin:44px auto 0;text-align:left}
-.dial{background:#1f2427;border:1px solid #2e3538;border-radius:var(--r);padding:18px 20px}
-.dial .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#8a949a}
-.dial .val{font-family:var(--display);font-size:34px;font-weight:700;margin:6px 0 2px;font-variant-numeric:tabular-nums}
-.dial .cap{font-size:14px;color:#a9b2b4;line-height:1.45}
-.dial.ok .val{color:#7fc4a0} .dial.bad .val{color:#e07264}
-@media(max-width:640px){.dial-row{grid-template-columns:1fr}}
+/* hero card */
+.hero-pad{padding:22px 0 8px;scroll-margin-top:64px}
+.hero{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--dark);
+  min-height:430px;display:flex;align-items:center;justify-content:center;text-align:center}
+.collage{position:absolute;inset:0;display:grid;grid-template-columns:repeat(9,1fr);
+  grid-auto-rows:74px;gap:9px;padding:12px;opacity:.9}
+.tile{border-radius:12px;background:#232323;border:1px solid #303030;padding:8px 9px;overflow:hidden}
+.tile .t-n{font-family:var(--mono);font-size:9.5px;color:#8b8d8b;white-space:nowrap;overflow:hidden}
+.tile .t-v{font-family:var(--mono);font-size:15px;font-weight:600;margin-top:3px}
+.tile .t-b{height:3px;border-radius:2px;background:#3a3a3a;margin-top:7px;overflow:hidden}
+.tile .t-b i{display:block;height:100%;border-radius:2px}
+.hero-vig{position:absolute;inset:0;background:radial-gradient(ellipse 62% 62% at 50% 50%,
+  rgba(0,0,0,.9) 0%,rgba(0,0,0,.72) 46%,rgba(0,0,0,.3) 100%)}
+.hero-in{position:relative;z-index:2;padding:64px 28px;max-width:760px}
+.hero h1{font-size:clamp(32px,5.4vw,58px);color:#fff;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:#e0b25c}
+.hero p{color:#b4b6b4;font-size:17px;margin:18px auto 26px;max-width:530px}
+.hero-b{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-/* verified strip */
-.strip{border-bottom:1px solid var(--line-soft);background:var(--stone)}
-.strip .wrap{padding-top:26px;padding-bottom:26px}
-.strip-lbl{text-align:center;margin-bottom:16px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.chip{font-family:var(--mono);font-size:12px;padding:6px 12px;border:1px solid var(--line);
-  border-radius:999px;color:var(--ink-2);background:var(--card);white-space:nowrap}
-.chip b{color:var(--on-surface);font-weight:600}
-.chip.na{opacity:.6}
+/* strip */
+.logos{padding:26px 0 30px}
+.logos p{text-align:center;font-size:12.5px;color:var(--ink-3);font-weight:600;margin-bottom:16px}
+.logo-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.lg{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);background:var(--soft);
+  border:1px solid var(--line);border-radius:10px;padding:8px 13px;white-space:nowrap}
+.lg b{color:var(--ink);font-weight:600}
+.lg.off{opacity:.45}
 
-/* cards */
-.card{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r);box-shadow:var(--shadow)}
-.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.bento .card{padding:24px}
-.bento h3{font-size:17px;margin-bottom:7px}
-.bento p{font-size:15px;color:var(--ink-2)}
-.span2{grid-column:span 2}
-@media(max-width:860px){.bento{grid-template-columns:1fr}.span2{grid-column:span 1}}
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.bento .card{padding:22px}
+.bento h3{font-size:16.5px;margin-bottom:6px}
+.bento p{font-size:14.5px;color:var(--ink-2)}
+.b-2{grid-column:span 2}
+.b-viz{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.b-viz .b-body{padding:18px 22px 20px}
+.b-top{background:var(--soft);border-bottom:1px solid var(--line);padding:16px 18px}
+@media(max-width:900px){.bento{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.bento{grid-template-columns:1fr}.b-2{grid-column:span 1}}
 
-/* game */
-.game{max-width:820px;margin:0 auto}
-.game-card{padding:0;overflow:hidden}
-.game-top{padding:26px 28px;border-bottom:1px solid var(--line-soft);
-  display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
-.game-top h3{font-size:19px}
-.readout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft)}
-.ro{background:var(--card);padding:22px 28px}
-.ro .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
-.ro .val{font-family:var(--display);font-weight:700;font-size:30px;margin-top:5px;font-variant-numeric:tabular-nums}
-.ro .cap{font-size:13.5px;color:var(--ink-3);margin-top:2px}
-.ro .val.good{color:var(--good)} .ro .val.bad{color:var(--alarm)}
-.ask{padding:22px 28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
-  border-top:1px solid var(--line-soft)}
-.ask p{font-size:15px;color:var(--ink-2);margin-right:auto}
-.reveal{padding:24px 28px;border-top:1px solid var(--line-soft);display:none}
-.reveal.on{display:block;animation:fade .35s ease}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.verdict{font-family:var(--display);font-weight:700;font-size:19px;margin-bottom:12px;display:flex;gap:10px;align-items:center}
-.pill{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-  padding:4px 10px;border-radius:999px;border:1px solid currentColor}
+/* product panel */
+.prod{display:grid;grid-template-columns:238px 1fr;border-radius:var(--r-lg);overflow:hidden;
+  border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.side{background:var(--soft);border-right:1px solid var(--line);padding:18px 12px}
+.side-g{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-3);margin:16px 10px 7px}
+.side-g:first-child{margin-top:0}
+.side button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;font-family:var(--sans);
+  font-size:13.5px;font-weight:600;padding:8px 10px;border:0;background:transparent;color:var(--ink-2);
+  border-radius:10px;cursor:pointer}
+.side button:hover{background:var(--card);color:var(--ink)}
+.side button[aria-current="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow-s)}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--line-2)}
+.side button[aria-current="true"] .dot{background:var(--brass)}
+.stage{padding:26px 30px}
+@media(max-width:860px){.prod{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line);
+  display:flex;gap:6px;overflow-x:auto;padding:12px}.side-g{display:none}.side button{white-space:nowrap;width:auto}}
+
+/* readout */
+.rd-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.rd-head h3{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:-.01em}
+.rd-head .s{font-size:13.5px;color:var(--ink-3);margin-top:3px}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 11px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
 .pill.ok{color:var(--good)} .pill.bad{color:var(--alarm)} .pill.mid{color:var(--warn)}
-.bars{display:flex;flex-direction:column;gap:9px;margin:14px 0 4px}
-.bar-row{display:grid;grid-template-columns:150px 1fr 56px;gap:12px;align-items:center;font-size:14px}
-.bar-track{display:block;height:9px;background:var(--line-soft);border-radius:5px;overflow:hidden;position:relative}
-.bar-fill{display:block;height:100%;border-radius:5px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
-.bar-row .num{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
-.score{font-family:var(--mono);font-size:13px;color:var(--ink-3)}
-@media(max-width:640px){.readout{grid-template-columns:1fr}.bar-row{grid-template-columns:110px 1fr 48px}}
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.gauge{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.gauge .l{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.gauge .v{font-size:29px;font-weight:800;margin-top:5px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.gauge .c{font-size:13px;color:var(--ink-3);margin-top:2px}
+.gauge .v.good{color:var(--good)} .gauge .v.bad{color:var(--alarm)}
+.ask{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 0 4px;border-top:1px solid var(--line)}
+.ask p{font-size:14.5px;color:var(--ink-2);margin-right:auto}
+.rev{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.rev.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.vd{display:flex;gap:10px;align-items:center;font-weight:800;font-size:17px;margin-bottom:8px}
+.bars{display:flex;flex-direction:column;gap:8px;margin:14px 0 2px}
+.br{display:grid;grid-template-columns:142px 1fr 50px;gap:11px;align-items:center;font-size:13.5px}
+.trk{display:block;height:8px;background:var(--line);border-radius:5px;overflow:hidden}
+.fil{display:block;height:100%;border-radius:5px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.br .n{font-family:var(--mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:640px){.gauges{grid-template-columns:1fr}.br{grid-template-columns:104px 1fr 44px}}
 
-/* explorer */
-.explorer{display:grid;grid-template-columns:250px 1fr;gap:0;overflow:hidden;padding:0}
-.rail{background:var(--stone);border-right:1px solid var(--line-soft);padding:18px 14px;max-height:560px;overflow-y:auto}
-.rail-grp{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-3);margin:14px 8px 6px}
-.rail-grp:first-child{margin-top:0}
-.rail button{display:block;width:100%;text-align:left;font-family:var(--mono);font-size:12.5px;
-  padding:7px 10px;border:0;background:transparent;color:var(--ink-2);border-radius:7px;cursor:pointer}
-.rail button:hover{background:var(--card);color:var(--on-surface)}
-.rail button[aria-current="true"]{background:var(--basalt);color:#fff}
-.panel{padding:26px 28px}
-.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.panel-head h3{font-size:22px;font-family:var(--mono);font-weight:600;letter-spacing:-.01em}
-.panel-head .sub{font-size:14px;color:var(--ink-3);margin-top:3px}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);
-  border:1px solid var(--line-soft);border-radius:10px;overflow:hidden;margin-bottom:22px}
-.tile{background:var(--card);padding:14px 16px}
-.tile .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-.tile .val{font-family:var(--display);font-weight:700;font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
-@media(max-width:900px){.explorer{grid-template-columns:1fr}.rail{max-height:200px;border-right:0;border-bottom:1px solid var(--line-soft)}
-  .tiles{grid-template-columns:repeat(2,1fr)}}
+/* orbit */
+.orbit-wrap{position:relative;max-width:820px;margin:0 auto}
+.orbit-wrap svg{width:100%;height:auto}
+.o-lbl{font-family:var(--mono);font-size:11px;fill:var(--ink-3)}
+.o-hub{font-size:26px;font-weight:800;fill:var(--ink);letter-spacing:-.03em}
+@keyframes flow{to{offset-distance:100%}}
+.tok{offset-path:var(--p);animation:flow var(--d) linear infinite;animation-delay:var(--dl)}
+@media (prefers-reduced-motion:reduce){.tok{animation:none;opacity:.5}}
 
-/* charts */
-.chart-card{padding:26px 28px}
-figure{margin:0}
-figcaption{font-size:14px;color:var(--ink-3);margin-top:12px}
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:13.5px}
-.legend span{display:inline-flex;align-items:center;gap:7px;color:var(--ink-2)}
-.swatch{width:14px;height:3px;border-radius:2px;flex:none}
-.swatch.dash{background-image:linear-gradient(90deg,currentColor 55%,transparent 55%);background-size:6px 3px}
-.svg-wrap{overflow-x:auto}
-svg{display:block;max-width:100%}
-.tip{position:fixed;pointer-events:none;background:var(--basalt);color:#fff;font-family:var(--mono);
-  font-size:12px;padding:9px 11px;border-radius:8px;opacity:0;transition:opacity .12s;z-index:80;line-height:1.5}
-.tip.on{opacity:1}
+/* chart */
+.chart{padding:24px 28px}
+.legend{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:12px;font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:3px;border-radius:2px;flex:none}
+.sw.d{background-image:linear-gradient(90deg,currentColor 55%,transparent 55%);background-size:6px 3px}
+.scroll{overflow-x:auto}
+figcaption{font-size:13.5px;color:var(--ink-3);margin-top:12px;max-width:820px}
 
-/* agent */
-.trace{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:13px}
-.step{display:grid;grid-template-columns:26px 1fr auto auto;gap:12px;align-items:center;
-  padding:10px 14px;border:1px solid var(--line-soft);border-radius:9px;background:var(--card);
-  opacity:.25;transition:opacity .3s}
-.step.on{opacity:1}
-.step.rev{border-color:var(--alarm)}
-.step .n{color:var(--ink-3)}
-.step .aud{font-size:12px}
-.step .aud.pass{color:var(--good)} .step .aud.fail{color:var(--alarm)}
-@media(max-width:640px){.step{grid-template-columns:22px 1fr;row-gap:4px}}
+/* two col */
+.twocol{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:start}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ptile{aspect-ratio:1.35;border-radius:16px;border:1px solid var(--line);background:var(--soft);
+  padding:16px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;
+  transition:border-color .15s,transform .15s}
+.ptile:hover{transform:translateY(-2px)}
+.ptile[aria-current="true"]{border-color:var(--brass);background:var(--card);box-shadow:var(--shadow-s)}
+.ptile .pn{font-size:14px;font-weight:700}
+.plist h4{font-size:19px;margin-bottom:7px}
+.plist p{font-size:15px;color:var(--ink-2);margin-bottom:12px}
+.plist .how{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);
+  background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+@media(max-width:840px){.twocol{grid-template-columns:1fr}}
 
 /* findings */
-.finds{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.find{padding:22px 24px}
-.find .big{font-family:var(--display);font-weight:800;font-size:40px;line-height:1;
-  font-variant-numeric:tabular-nums;margin-bottom:8px}
-.find p{font-size:14.5px;color:var(--ink-2)}
-.find .src{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:10px}
-@media(max-width:860px){.finds{grid-template-columns:1fr}}
+.fg{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.fc{padding:18px 20px}
+.fc .fh{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.fc .av{width:30px;height:30px;border-radius:9px;background:var(--soft);border:1px solid var(--line);
+  display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-2);flex:none}
+.fc .fn{font-size:13px;font-weight:700;line-height:1.2}
+.fc .fs{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.fc .big{font-size:31px;font-weight:800;letter-spacing:-.03em;margin-bottom:5px;font-variant-numeric:tabular-nums}
+.fc p{font-size:13.5px;color:var(--ink-2)}
+@media(max-width:1000px){.fg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fg{grid-template-columns:1fr}}
 
-/* probes */
-.probes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.probe{padding:22px 24px}
-.probe h4{font-size:16px;margin-bottom:6px}
-.probe p{font-size:14.5px;color:var(--ink-2)}
-.probe .how{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:10px;
-  padding-top:10px;border-top:1px solid var(--line-soft)}
-@media(max-width:760px){.probes{grid-template-columns:1fr}}
+/* cta banner */
+.cta{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--dark);
+  text-align:center;padding:60px 28px;margin:8px 0}
+.cta h2{font-size:clamp(24px,3.4vw,36px);color:#fff;position:relative;z-index:2}
+.cta p{color:#b4b6b4;max-width:470px;margin:12px auto 20px;position:relative;z-index:2;font-size:15.5px}
+.cta .code{display:inline-block;font-family:var(--mono);font-size:13px;background:#212121;
+  border:1px solid #2e2e2e;border-radius:10px;padding:10px 15px;color:#e0b25c;margin-bottom:18px;position:relative;z-index:2}
+.cta .btn{position:relative;z-index:2}
 
-/* cta + footer */
-.cta{background:var(--basalt);color:#fff;text-align:center;padding:72px 0}
-.cta h2{font-size:clamp(26px,3.6vw,40px);color:#fff;margin-bottom:12px}
-.cta p{color:#a9b2b4;max-width:520px;margin:0 auto 26px}
-.codeline{display:inline-block;font-family:var(--mono);font-size:13.5px;background:#1f2427;
-  border:1px solid #2e3538;border-radius:9px;padding:11px 16px;color:#d6a548;margin-bottom:22px}
-footer{background:var(--basalt-2);color:#8a949a;padding:40px 0;font-size:14px}
-footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-footer a{color:#c3cac9}
-.note{max-width:var(--maxw);margin:0 auto;padding:0 24px 60px}
-.note-in{border-left:2px solid var(--brass);padding:4px 0 4px 18px;color:var(--ink-2);font-size:14.5px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* gallery */
+.tabs{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.tab{font-size:13px;font-weight:600;padding:8px 15px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-2);cursor:pointer;font-family:var(--sans)}
+.tab[aria-selected="true"]{background:var(--dark);color:#fff;border-color:var(--dark)}
+.gal{columns:4;column-gap:13px}
+@media(max-width:1000px){.gal{columns:2}}
+@media(max-width:560px){.gal{columns:1}}
+.gc{break-inside:avoid;margin-bottom:13px;padding:16px 17px;cursor:pointer;transition:transform .14s}
+.gc:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.gc .gn{font-family:var(--mono);font-size:13.5px;font-weight:600;margin-bottom:2px}
+.gc .gm{font-size:12px;color:var(--ink-3);margin-bottom:11px}
+.gc .grow{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);margin-bottom:5px}
+.gc .grow b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.gc .spark{height:26px;margin:9px 0 8px;display:flex;align-items:flex-end;gap:1.5px}
+.gc .spark i{flex:1;background:var(--brass);border-radius:1px;min-height:1px;opacity:.8}
+.gc .gp{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase}
+
+/* footer */
+footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
+.f-top{text-align:center;padding-bottom:34px;border-bottom:1px solid #2a2a2a}
+.f-top .brand{justify-content:center;color:#fff;margin-bottom:12px}
+.f-top h3{color:#fff;font-size:24px;margin-bottom:8px}
+.f-top p{font-size:14.5px;margin-bottom:18px}
+.f-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding-top:30px;font-size:14px}
+.f-cols h5{color:#fff;font-size:12.5px;font-weight:700;margin:0 0 10px;letter-spacing:.04em}
+.f-cols a,.f-cols li{display:block;color:#9a9c9a;padding:3px 0}
+.f-cols a:hover{color:#fff}
+.f-cols ul{list-style:none;margin:0;padding:0}
+@media(max-width:760px){.f-cols{grid-template-columns:repeat(2,1fr)}}
+.note{max-width:var(--maxw);margin:0 auto;padding:0 28px 52px}
+.note-in{border-left:2px solid var(--brass);padding:2px 0 2px 16px;color:var(--ink-2);font-size:14px;max-width:820px}
+.tip{position:fixed;pointer-events:none;background:var(--dark);color:#fff;font-family:var(--mono);
+  font-size:11.5px;padding:8px 10px;border-radius:8px;opacity:0;transition:opacity .12s;z-index:90;line-height:1.5}
+.tip.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition:none!important}}
 </style>
 
 <nav>
   <div class="nav-in">
-    <a class="brand" href="#top"><span class="mark"></span>kasauti</a>
-    <div class="nav-links">
-      <a href="#finding">The finding</a>
-      <a href="#try">Try it</a>
-      <a href="#explore">Explore</a>
-      <a href="#agent">The agent</a>
-      <a href="#method">Method</a>
+    <a class="brand" href="#top"><span class="mk"></span>kasauti</a>
+    <div class="nav-l">
+      <a href="#why">Why kasauti</a><a href="#demo">Live demo</a><a href="#routing">Routing</a>
+      <a href="#probes">Probes</a><a href="#gallery">Configs</a>
     </div>
-    <a class="btn btn-p" href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-d" href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">Get started</a>
   </div>
 </nav>
 
-<header class="hero" id="top">
-  <canvas id="streaks" aria-hidden="true"></canvas>
-  <div class="wrap hero-in">
-    <p class="eyebrow">kasauti · the touchstone</p>
-    <h1>Your quantized model passed the benchmark. <em>It still broke.</em></h1>
-    <p class="hero-sub">Every serious deployment shrinks its model, then checks the shrink with a benchmark. On a real mixture-of-experts model at 4-bit, the benchmark said fine. Half of all tokens were being routed to different experts.</p>
-    <div class="hero-cta">
-      <a class="btn btn-p" href="#try">Try the demo</a>
-      <a class="btn btn-o" href="#finding">See the finding</a>
-    </div>
-    <div class="dial-row">
-      <div class="dial ok">
-        <p class="lbl">What the benchmark saw</p>
-        <p class="val">+4.6%</p>
-        <p class="cap">Perplexity <em>improved</em> at 4-bit. Knowledge recall moved 4%. Every standard check said ship it.</p>
+<div class="wrap hero-pad" id="top">
+  <div class="hero">
+    <div class="collage" id="collage" aria-hidden="true"></div>
+    <div class="hero-vig"></div>
+    <div class="hero-in">
+      <h1>Passed The Benchmark. <em>Still Broke.</em></h1>
+      <p>Quantization is checked with an instrument built for a different workload. On a real mixture-of-experts model at 4-bit, every standard check said ship it — while half of all tokens were routed to different experts.</p>
+      <div class="hero-b">
+        <a class="btn btn-l" href="#demo">Try the live demo</a>
+        <a class="btn btn-o" style="background:transparent;color:#fff;border-color:#3a3a3a" href="#why">See the finding</a>
       </div>
-      <div class="dial bad">
-        <p class="lbl">What actually broke</p>
-        <p class="val">−24%</p>
-        <p class="cap">Format stability. Long-horizon instruction adherence fell 19%. 49% of tokens re-routed.</p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="strip">
-  <div class="wrap">
-    <p class="eyebrow strip-lbl">Instrumentation verified against these architectures</p>
-    <div class="chips">
-      <span class="chip"><b>sarvamai/sarvam-30b</b> · 128 experts, top-6</span>
-      <span class="chip"><b>openai/gpt-oss-20b</b> · 32 experts, top-4</span>
-      <span class="chip"><b>allenai/OLMoE-1B-7B</b> · 64 experts, top-8</span>
-      <span class="chip"><b>ibm-granite/granite-3.0-1b-a400m</b> · 32 experts, top-8</span>
-      <span class="chip na"><b>nvidia/Nemotron-3-Nano-30B</b> · needs CUDA</span>
     </div>
   </div>
 </div>
 
-<section id="finding">
+<div class="wrap logos">
+  <p>Instrumentation verified against these architectures</p>
+  <div class="logo-row">
+    <span class="lg"><b>sarvam-30b</b> · 128 experts</span>
+    <span class="lg"><b>gpt-oss-20b</b> · 32 experts</span>
+    <span class="lg"><b>OLMoE-1B-7B</b> · 64 experts</span>
+    <span class="lg"><b>granite-3.0-a400m</b> · 32 experts</span>
+    <span class="lg"><b>granite-3.1-a800m</b> · 40 experts</span>
+    <span class="lg off"><b>Nemotron-3-Nano</b> · CUDA only</span>
+  </div>
+</div>
+
+<section id="why">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Why the usual check misses it</h2>
+    <div class="sh">
+      <h2>Why kasauti?</h2>
       <p>Benchmarks ask short, independent questions. Agents run long trajectories where errors compound instead of averaging out.</p>
     </div>
     <div class="bento">
-      <div class="card span2">
-        <h3>Routing is a discrete decision</h3>
-        <p>In a mixture-of-experts model a gate picks which experts handle each token. Quantization nudges the gate's scores, and a token sitting near a decision boundary flips to a different expert entirely. The model is no longer a slightly noisier version of itself — it is running a different computational path. Reconstruction error measures continuous drift and cannot see a discrete flip.</p>
+      <div class="card b-2 b-viz">
+        <div class="b-top"><div class="scroll" id="mini-cross"></div></div>
+        <div class="b-body">
+          <h3>The crossing point</h3>
+          <p>At 4-bit, perplexity improved 4.6% and knowledge recall moved 4% — while format stability fell 24% and long-horizon adherence 19%.</p>
+        </div>
       </div>
       <div class="card">
-        <h3>Measured, not argued</h3>
-        <p>27 quantization configs on a real trained MoE: bit-width sweep, component ablations, group sizes, two methods.</p>
+        <h3>Routing is discrete</h3>
+        <p>A gate picks which experts handle each token. Nudge its scores and a token near the boundary flips entirely — a different computational path, not a noisier one.</p>
       </div>
       <div class="card">
-        <h3>Scored by construction</h3>
-        <p>Every probe has mechanical ground truth. No LLM judge — a quantized judge is circular and an API judge adds variance you cannot bound.</p>
+        <h3>27 configs, measured</h3>
+        <p>Bit-width sweep, component ablations, group sizes, two methods. Every number on this page is a real measurement.</p>
+      </div>
+      <div class="card b-2 b-viz">
+        <div class="b-top"><div class="scroll" id="mini-margin"></div></div>
+        <div class="b-body">
+          <h3>The flips are not random</h3>
+          <p>They land almost entirely on tokens where the router was already torn. At 8-bit: one in ten of the most-undecided tokens flips, and none of the most-decided ones do.</p>
+        </div>
       </div>
       <div class="card">
-        <h3>Attention damage is routing damage</h3>
-        <p>Quantizing attention alone, touching no expert or gate weight, re-routed 43% of tokens — the gate reads what attention produced.</p>
+        <h3>No LLM judge</h3>
+        <p>Every probe has mechanical ground truth. A quantized judge is circular and an API judge adds variance you cannot bound.</p>
       </div>
       <div class="card">
-        <h3>Cheap enough to run every time</h3>
-        <p>One forward pass per calibration text. Minutes, not the hours a full agentic evaluation costs.</p>
+        <h3>Minutes, not hours</h3>
+        <p>One forward pass per calibration text against the base model. No agentic eval bill.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="try" style="background:var(--stone)">
+<section id="demo" style="background:var(--soft);border-block:1px solid var(--line)">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sh">
       <h2>You're the engineer. Ship it?</h2>
-      <p>Here are the readings a practitioner actually consults, from real measured configs. Decide, then see what the agentic probes found.</p>
+      <p>Real measured configurations. You see the readings a practitioner actually consults — then what the agentic probes found.</p>
     </div>
-    <div class="game">
-      <div class="card game-card">
-        <div class="game-top">
-          <div>
-            <h3 id="g-name" class="mono">—</h3>
-            <p class="sub mono" id="g-desc" style="font-size:13px;color:var(--ink-3);margin-top:4px">—</p>
-          </div>
-          <p class="score" id="g-score">Config 1 of 6</p>
+    <div class="prod">
+      <div class="side" id="rounds" role="tablist" aria-label="Configurations"></div>
+      <div class="stage">
+        <div class="rd-head">
+          <div><h3 id="g-name">—</h3><p class="s" id="g-desc">—</p></div>
+          <span class="pill" id="g-pill" style="visibility:hidden">—</span>
         </div>
-        <div class="readout">
-          <div class="ro">
-            <p class="lbl">Perplexity vs BF16</p>
-            <p class="val" id="g-ppl">—</p>
-            <p class="cap" id="g-ppl-cap">—</p>
-          </div>
-          <div class="ro">
-            <p class="lbl">Knowledge recall vs BF16</p>
-            <p class="val" id="g-rec">—</p>
-            <p class="cap" id="g-rec-cap">—</p>
-          </div>
+        <div class="gauges">
+          <div class="gauge"><p class="l">Perplexity vs BF16</p><p class="v" id="g-ppl">—</p><p class="c" id="g-ppl-c">—</p></div>
+          <div class="gauge"><p class="l">Knowledge recall vs BF16</p><p class="v" id="g-rec">—</p><p class="c" id="g-rec-c">—</p></div>
         </div>
         <div class="ask">
-          <p>Both standard instruments are in. Would you deploy this configuration?</p>
-          <button class="btn btn-p" id="g-ship">Ship it</button>
+          <p>Both standard instruments are in. Would you deploy this?</p>
+          <button class="btn btn-d" id="g-ship">Ship it</button>
           <button class="btn btn-o" id="g-hold">Hold it</button>
         </div>
-        <div class="reveal" id="g-reveal">
-          <div class="verdict"><span id="g-verdict-txt">—</span><span class="pill" id="g-pill">—</span></div>
-          <p style="font-size:15px;color:var(--ink-2)" id="g-expl">—</p>
+        <div class="rev" id="g-rev">
+          <div class="vd" id="g-vd">—</div>
+          <p style="font-size:14.5px;color:var(--ink-2)" id="g-why">—</p>
           <div class="bars" id="g-bars"></div>
-          <div style="display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap">
-            <button class="btn btn-p" id="g-next">Next config</button>
-            <p class="score" id="g-tally">—</p>
+          <div style="display:flex;gap:11px;align-items:center;margin-top:15px;flex-wrap:wrap">
+            <button class="btn btn-d" id="g-next">Next configuration</button>
+            <p class="mono" style="font-size:12.5px;color:var(--ink-3)" id="g-tally">—</p>
           </div>
         </div>
       </div>
@@ -360,524 +369,431 @@ footer a{color:#c3cac9}
   </div>
 </section>
 
-<section id="explore">
+<section id="routing">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Every config we measured</h2>
-      <p>The full sweep. Pick any configuration to see what each instrument reported.</p>
+    <div class="sh">
+      <h2>Routing, rerouted</h2>
+      <p>Every token is sent to 8 of 32 experts. Quantize the weights and the gate changes its mind — on 49% of tokens at 4-bit.</p>
     </div>
-    <div class="card explorer">
-      <div class="rail" id="rail" role="tablist" aria-label="Quantization configs"></div>
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <h3 id="e-name">—</h3>
-            <p class="sub" id="e-sub">—</p>
-          </div>
-          <span class="pill" id="e-pill">—</span>
-        </div>
-        <div class="tiles">
-          <div class="tile"><p class="lbl">Tokens re-routed</p><p class="val" id="e-setchg">—</p></div>
-          <div class="tile"><p class="lbl">Reconstruction err</p><p class="val" id="e-recon">—</p></div>
-          <div class="tile"><p class="lbl">Perplexity ratio</p><p class="val" id="e-ppl">—</p></div>
-          <div class="tile"><p class="lbl">Knowledge recall</p><p class="val" id="e-recall">—</p></div>
-        </div>
-        <p class="eyebrow" style="margin-bottom:12px">Agentic probes, relative to BF16</p>
-        <div class="bars" id="e-bars"></div>
-        <p class="eyebrow" style="margin:22px 0 10px">Router flips by layer</p>
-        <div class="svg-wrap" id="e-layers"></div>
-      </div>
-    </div>
+    <div class="orbit-wrap" id="orbit"></div>
   </div>
 </section>
 
-<section style="background:var(--stone)">
+<section style="background:var(--soft);border-block:1px solid var(--line)">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>The crossing point</h2>
-      <p>Both instruments a practitioner consults stay flat — one improves — while the capabilities an agent depends on fall away beneath them.</p>
+    <div class="sh">
+      <h2>What each instrument sees</h2>
+      <p>Both checks a practitioner consults stay flat — one improves — while the capabilities an agent depends on fall away beneath them.</p>
     </div>
-    <div class="card chart-card">
-      <div class="legend" id="cp-legend"></div>
-      <figure>
-        <div class="svg-wrap" id="cp-chart"></div>
-        <figcaption>granite-3.0-1b-a400m-instruct, weights quantized to the bit-width shown across experts and attention. Scores relative to BF16; higher is better. Perplexity is inverted so all four read the same direction. Below: the share of tokens the router sent to a different set of experts.</figcaption>
+    <div class="card chart">
+      <div class="legend" id="cp-leg"></div>
+      <figure style="margin:0">
+        <div class="scroll" id="cp"></div>
+        <figcaption>granite-3.0-1b-a400m-instruct, experts and attention quantized to the bit-width shown. Scores relative to BF16, higher is better; perplexity inverted so all four read the same direction. Lower band: share of tokens the router sent to a different set of experts.</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<section>
+<section id="probes">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Where the flips land</h2>
-      <p>Not randomly. Almost entirely on tokens where the router was already torn between two experts — which is why a cheap check is possible at all.</p>
-    </div>
-    <div class="card chart-card">
-      <figure>
-        <div class="svg-wrap" id="mg-chart"></div>
-        <figcaption>Tokens bucketed by how close the router's decision was under BF16, narrowest margin on the left. At 8-bit, one in ten of the most-undecided tokens changes its top expert and none of the most-decided ones do. Monotone in every configuration measured, and replicated on a 3.3B model.</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<section id="agent" style="background:var(--stone)">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>It searches, and it audits itself</h2>
-      <p>The agent walks each component's bit-width down, scoring candidates on the cheap signal — then periodically stops trusting it and pays for a real probe run.</p>
-    </div>
-    <div class="card chart-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px">
-        <p class="mono" style="font-size:13px;color:var(--ink-3)" id="ag-status">10 steps · 24 model evaluations · 2 audits rejected the cheap signal</p>
-        <button class="btn btn-p" id="ag-play">Replay the search</button>
-      </div>
-      <div class="trace" id="ag-trace"></div>
-      <p style="margin-top:18px;font-size:15px;color:var(--ink-2)">Result: <span class="mono" style="color:var(--brass)">gate 5 · attention 8 · expert 5</span> — 5.18 mean bits, 68% smaller than BF16, auditing at 0.966 against a 0.95 floor. Uniform 4-bit, the configuration a practitioner reaches for, scores 0.454.</p>
-    </div>
-  </div>
-</section>
-
-<section id="method">
-  <div class="wrap">
-    <div class="sec-head">
+    <div class="sh">
       <h2>What it actually measures</h2>
-      <p>Four capability probes with ground truth by construction, plus two the agent generated and vetted for itself.</p>
+      <p>Four capability probes with ground truth by construction, plus two the agent wrote and vetted for itself.</p>
     </div>
-    <div class="probes">
-      <div class="card probe">
-        <h4>Long-horizon adherence</h4>
-        <p>Constraints stated at step 0, verified up to 30 turns later. Never use this word; end every reply with this line; keep the running count correct.</p>
-        <p class="how">scored: three independent constraints, fraction satisfied</p>
-      </div>
-      <div class="card probe">
-        <h4>Format stability under pressure</h4>
-        <p>Structured output requested while the input carries nested delimiters, escaped quotes and injected braces.</p>
-        <p class="how">scored: does it parse, and are the keys right</p>
-      </div>
-      <div class="card probe">
-        <h4>Calibration and refusal</h4>
-        <p>Answerable and unanswerable questions mixed. Does abstention survive quantization — the failure most likely to be lost silently.</p>
-        <p class="how">scored both ways, so blanket refusal cannot game it</p>
-      </div>
-      <div class="card probe">
-        <h4>Error recovery</h4>
-        <p>A malformed or self-contradicting tool result injected mid-trajectory. Recovery is retrying, not inventing a plausible value.</p>
-        <p class="how">scored: re-issues the call, asserts nothing it never received</p>
-      </div>
-      <div class="card probe" style="border-color:var(--brass)">
-        <h4>Written by the agent, kept by the vetting</h4>
-        <p>It composed 48 candidate probes across 8 families and kept 2 — the rest were saturated, never moved under damage, or duplicated a probe already in the suite.</p>
-        <p class="how">kept: lower-case discipline (1.00 → 0.00 under damage) · running total across turns (0.50 → 0.17)</p>
-      </div>
-      <div class="card probe">
-        <h4>And it remembers</h4>
-        <p>Measurements and audit verdicts persist between runs. A second run repeats no measurement and never re-proposes a config an earlier audit disproved.</p>
-        <p class="how">run 1: 18 model evaluations · run 2: 0</p>
-      </div>
+    <div class="twocol">
+      <div class="pgrid" id="pgrid"></div>
+      <div class="plist" id="plist"></div>
     </div>
   </div>
 </section>
 
-<section style="background:var(--stone)">
+<section style="background:var(--soft);border-block:1px solid var(--line)">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sh">
       <h2>What the numbers say</h2>
-      <p>Findings from the sweep, including the one that went against the hypothesis.</p>
+      <p>Findings from the sweep — including the one that went against the hypothesis.</p>
     </div>
-    <div class="finds">
-      <div class="card find">
-        <p class="big" style="color:var(--alarm)">60%</p>
-        <p>Accuracy of perplexity as a rule for telling a damaged config from a healthy one. The base rate is also 60% — it is exactly as good as guessing.</p>
-        <p class="src">25 configs, best threshold</p>
-      </div>
-      <div class="card find">
-        <p class="big" style="color:var(--good)">84%</p>
-        <p>Router divergence and layer reconstruction error, on the same split. They tie — which is why the mechanism hypothesis is reported as failed, not confirmed.</p>
-        <p class="src">H3: not supported</p>
-      </div>
-      <div class="card find">
-        <p class="big">48%</p>
-        <p>Tokens re-routed by quantizing only the router to 2-bit — at no measurable capability cost. Routing change is harmless when every expert it lands on is intact.</p>
-        <p class="src">config x2-gate</p>
-      </div>
-      <div class="card find">
-        <p class="big">−41%</p>
-        <p>Long-horizon adherence from quantizing attention alone — while perplexity <em>improved</em>. The most attractive config on the board by the usual reading.</p>
-        <p class="src">config w4-attention</p>
-      </div>
-      <div class="card find">
-        <p class="big">4</p>
-        <p>Bugs found in the agent's own auditor by running it and reading the trace. Each one changed the answer. None were visible in the code.</p>
-        <p class="src">5 runs, documented in full</p>
-      </div>
-      <div class="card find">
-        <p class="big">68%</p>
-        <p>Smaller than BF16, with capability intact, at the configuration the agent found. It kept attention high and the experts low — and left the router alone until last.</p>
-        <p class="src">gate 5 · attention 8 · expert 5</p>
-      </div>
+    <div class="fg" id="finds"></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="cta">
+    <div class="collage" id="collage2" aria-hidden="true" style="opacity:.35"></div>
+    <div class="hero-vig"></div>
+    <h2>Stop shipping quantized models blind.</h2>
+    <p>Router divergence and reconstruction error against the base checkpoint, on a small calibration set, in minutes.</p>
+    <div><span class="code">kasauti check ./model-w4 --base ./model-bf16</span></div>
+    <a class="btn btn-l" href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">Get started</a>
+  </div>
+</div>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="sh" style="max-width:700px">
+      <h2>Every configuration we measured</h2>
+      <p>28 real runs on a 1.3B mixture-of-experts model. Pick any one to see what each instrument reported.</p>
     </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="gal" id="gal"></div>
   </div>
 </section>
 
 <div class="note">
   <div class="note-in">
-    <strong>About this page.</strong> Every number here is a real measurement from the sweep in the repository — 27 quantization configurations on <span class="mono">granite-3.0-1b-a400m-instruct</span>, a 1.3B mixture-of-experts model, run on one laptop. Nothing is simulated or interpolated: the demo above reads the same results files the paper does. The 30B-class subjects the method targets need a GPU box, and the capability findings rest on one small model. All thirteen threats to validity are in the repository, not hidden.
-  </div>
-</div>
-
-<div class="cta">
-  <div class="wrap">
-    <h2>Point it at a checkpoint.</h2>
-    <p>Router divergence and reconstruction error on a small calibration set, against the base model, in minutes.</p>
-    <div><span class="codeline">kasauti check ./model-w4 --base ./model-bf16</span></div>
-    <div class="hero-cta">
-      <a class="btn btn-g" href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">Get it on GitHub</a>
-    </div>
+    <strong>About this page.</strong> Every number is a real measurement from the sweep in the repository — 27 quantization configurations plus the BF16 baseline on <span class="mono">granite-3.0-1b-a400m-instruct</span>, run on one laptop. Nothing is simulated or interpolated; the demo reads the same results files the write-up does. The 30B-class subjects the method targets need a GPU box, and the capability findings rest on one small model. All thirteen threats to validity are documented in the repository.
   </div>
 </div>
 
 <footer>
   <div class="wrap">
-    <span class="brand" style="color:#fff"><span class="mark"></span>kasauti</span>
-    <span>The touchstone — the slate you streak gold against to test whether it is really gold.</span>
-    <a href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">github.com/riyadadlani02/kasauti</a>
+    <div class="f-top">
+      <span class="brand"><span class="mk"></span>kasauti</span>
+      <h3>Get started with kasauti.</h3>
+      <p>Open source. Point it at any open mixture-of-experts checkpoint.</p>
+      <a class="btn btn-l" href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">Get started</a>
+    </div>
+    <div class="f-cols">
+      <div><h5>Study</h5><ul>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/RESULTS.md" target="_blank" rel="noopener">Results</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti#readme" target="_blank" rel="noopener">Problem &amp; method</a></li>
+        <li><a href="#why">The crossing point</a></li>
+        <li><a href="#routing">Mechanism</a></li></ul></div>
+      <div><h5>Tool</h5><ul>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/kasauti.py" target="_blank" rel="noopener">kasauti check</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/sweep.py" target="_blank" rel="noopener">Sweep runner</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/compat.py" target="_blank" rel="noopener">Compatibility check</a></li>
+        <li><a href="#gallery">Configurations</a></li></ul></div>
+      <div><h5>Agent</h5><ul>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/search.py" target="_blank" rel="noopener">Config search</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/probegen.py" target="_blank" rel="noopener">Probe generation</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/memory.py" target="_blank" rel="noopener">Memory</a></li>
+        <li><a href="#probes">Probe suite</a></li></ul></div>
+      <div><h5>Honest notes</h5><ul>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/RESULTS.md#h3--fails-router-divergence-beats-perplexity-it-does-not-beat-reconstruction-error" target="_blank" rel="noopener">H3 failed</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti/blob/main/RESULTS.md#threats-to-validity" target="_blank" rel="noopener">13 threats to validity</a></li>
+        <li><a href="#">One 1.3B subject</a></li>
+        <li><a href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">Read the source</a></li></ul></div>
+    </div>
   </div>
 </footer>
 
 <div class="tip" id="tip" role="status" aria-live="polite"></div>
 <script>
-const DATA = [{"config":"bf16","bits":16,"method":"none","targets":[],"ppl":27.65,"ppl_ratio":1.0,"flip":0.0,"setchg":0.0,"recon":0.0,"probes":{"recall":0.65,"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.1},"rel":{"recall":1.0,"long_horizon":1.0,"format":1.0,"calibration":1.0,"recovery":1.0},"core":1.0,"control":1.0,"margin":[],"margin1":[],"layers":{}},{"config":"w8-ea","bits":8,"method":"rtn","targets":["expert","attention"],"ppl":27.72,"ppl_ratio":1.003,"flip":0.0255,"setchg":0.0873,"recon":0.0203,"probes":{"recall":0.65,"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.0},"rel":{"recall":1.0,"long_horizon":1.0,"format":1.0,"calibration":1.0,"recovery":0.0},"core":1.0,"control":1.0,"margin":[0.2894626259803772,0.05142737179994583,0.007976490072906017,0.00020990763732697815],"margin1":[0.10012594610452652,0.0016792610986158252,0.0,0.0],"layers":{"0":0.017632242292165756,"1":0.0,"2":0.005037783179432154,"3":0.012594458647072315,"4":0.013853903859853745,"5":0.010075566358864307,"6":0.02518891729414463,"7":0.02141057886183262,"8":0.02141057886183262,"9":0.028967253863811493,"10":0.020151132717728615,"11":0.03526448458433151,"12":0.04030226543545723,"13":0.04030226543545723,"14":0.04030226543545723,"15":0.03778337687253952,"16":0.03400503844022751,"17":0.032745592296123505,"18":0.03400503844022751,"19":0.0314861461520195,"20":0.01889168843626976,"21":0.01889168843626976,"22":0.041561711579561234,"23":0.028967253863811493}},{"config":"w6-ea","bits":6,"method":"rtn","targets":["expert","attention"],"ppl":27.21,"ppl_ratio":0.984,"flip":0.058,"setchg":0.1899,"recon":0.0552,"probes":{"recall":0.75,"long_horizon":0.7037,"format":0.875,"calibration":0.55,"recovery":0.0},"rel":{"recall":1.1538,"long_horizon":0.9268,"format":1.0,"calibration":1.1,"recovery":0.0},"core":0.9634,"control":1.1538,"margin":[0.4806884825229645,0.21326616406440735,0.05940386280417442,0.006297229323536158],"margin1":[0.21095718443393707,0.019101595506072044,0.0018891687504947186,0.0],"layers":{"0":0.01889168843626976,"1":0.0,"2":0.02141057886183262,"3":0.030226700007915497,"4":0.045340050011873245,"5":0.04030226543545723,"6":0.05415617302060127,"7":0.057934507727622986,"8":0.05919395387172699,"9":0.04282115772366524,"10":0.04785894230008125,"11":0.07682619988918304,"12":0.07934508472681046,"13":0.0957178846001625,"14":0.07934508472681046,"15":0.07178841531276703,"16":0.07430730760097504,"17":0.07052896916866302,"18":0.061712846159935,"19":0.057934507727622986,"20":0.07808564603328705,"21":0.08816120773553848,"22":0.09068010002374649,"23":0.04911838844418526}},{"config":"w4-ea","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":26.39,"ppl_ratio":0.955,"flip":0.1814,"setchg":0.4934,"recon":0.2301,"probes":{"recall":0.625,"long_horizon":0.6111,"format":0.6667,"calibration":0.55,"recovery":0.1},"rel":{"recall":0.9615,"long_horizon":0.8049,"format":0.7619,"calibration":1.1,"recovery":1.0},"core":0.7834,"control":0.9615,"margin":[0.7172544002532959,0.6143996715545654,0.4615868926048279,0.18052056431770325],"margin1":[0.44290512800216675,0.2054995745420456,0.06633081287145615,0.01070528943091631],"layers":{"0":0.07304786145687103,"1":0.002518891589716077,"2":0.13476070761680603,"3":0.12090680003166199,"4":0.19773299992084503,"5":0.14105793833732605,"6":0.190176323056221,"7":0.183879092335701,"8":0.186397984623909,"9":0.1586901694536209,"10":0.20528967678546906,"11":0.250629723072052,"12":0.23299747705459595,"13":0.21158690750598907,"14":0.22544080018997192,"15":0.24307304620742798,"16":0.2166246920824051,"17":0.19269521534442902,"18":0.20403023064136505,"19":0.20654912292957306,"20":0.20780856907367706,"21":0.19773299992084503,"22":0.21158690750598907,"23":0.1574307233095169}},{"config":"w4-ea-awq","bits":4,"method":"awq","targets":["expert","attention"],"ppl":38.02,"ppl_ratio":1.375,"flip":0.205,"setchg":0.529,"recon":0.2877,"probes":{"recall":0.575,"long_horizon":0.5556,"format":0.5,"calibration":0.6,"recovery":0.0},"rel":{"recall":0.8846,"long_horizon":0.7317,"format":0.5714,"calibration":1.2,"recovery":0.0},"core":0.6516,"control":0.8846,"margin":[0.7458018660545349,0.6570109128952026,0.49769100546836853,0.21557514369487762],"margin1":[0.46998322010040283,0.24034424126148224,0.0919395461678505,0.01784214936196804],"layers":{"0":0.08564231544733047,"1":0.0012594457948580384,"2":0.09697733074426651,"3":0.09823677688837051,"4":0.17758186161518097,"5":0.14735516905784607,"6":0.16876573860645294,"7":0.22418135404586792,"8":0.20528967678546906,"9":0.186397984623909,"10":0.22544080018997192,"11":0.2833753228187561,"12":0.26322418451309204,"13":0.258186399936676,"14":0.2884131073951721,"15":0.2846347689628601,"16":0.25944584608078003,"17":0.23803526163101196,"18":0.23803526163101196,"19":0.2795969843864441,"20":0.23425692319869995,"21":0.2153652459383011,"22":0.26574307680130005,"23":0.19521410763263702}},{"config":"w3-ea","bits":3,"method":"rtn","targets":["expert","attention"],"ppl":53.33,"ppl_ratio":1.929,"flip":0.3546,"setchg":0.7693,"recon":0.3316,"probes":{"recall":0.25,"long_horizon":0.7222,"format":0.5833,"calibration":0.45,"recovery":0.0},"rel":{"recall":0.3846,"long_horizon":0.9512,"format":0.6667,"calibration":0.9,"recovery":0.0},"core":0.8089,"control":0.3846,"margin":[0.8851805329322815,0.8497061133384705,0.7777078151702881,0.5646515488624573],"margin1":[0.5797649025917053,0.4370277225971222,0.2951301336288452,0.10642317682504654],"layers":{"0":0.1549118459224701,"1":0.002518891589716077,"2":0.32997480034828186,"3":0.25944584608078003,"4":0.42821159958839417,"5":0.3513853847980499,"6":0.3413098156452179,"7":0.39672544598579407,"8":0.39420655369758606,"9":0.3425692617893219,"10":0.4156171381473541,"11":0.48236775398254395,"12":0.4345088303089142,"13":0.45843827724456787,"14":0.42443326115608215,"15":0.42947104573249817,"16":0.38287153840065,"17":0.3387909233570099,"18":0.366498738527298,"19":0.36523929238319397,"20":0.36272040009498596,"21":0.371536523103714,"22":0.39042821526527405,"23":0.2858942151069641}},{"config":"w4-experts","bits":4,"method":"rtn","targets":["expert"],"ppl":30.77,"ppl_ratio":1.113,"flip":0.1225,"setchg":0.348,"recon":0.1312,"probes":{"recall":0.65,"long_horizon":0.6481,"format":0.9167,"calibration":0.5,"recovery":0.0},"rel":{"recall":1.0,"long_horizon":0.8537,"format":1.0476,"calibration":1.0,"recovery":0.0},"core":0.9506,"control":1.0,"margin":[0.6047438979148865,0.46200671792030334,0.2615449130535126,0.06381192058324814],"margin1":[0.3578925132751465,0.10768262296915054,0.02308984100818634,0.0014693534467369318],"layers":{"0":0.0,"1":0.0,"2":0.060453400015830994,"3":0.07178841531276703,"4":0.0944584384560585,"5":0.0944584384560585,"6":0.12972292304039001,"7":0.11460956931114197,"8":0.124685138463974,"9":0.11209067702293396,"10":0.14357683062553406,"11":0.14357683062553406,"12":0.15994961559772491,"13":0.1586901694536209,"14":0.16624684631824493,"15":0.16624684631824493,"16":0.1574307233095169,"17":0.14987406134605408,"18":0.14861461520195007,"19":0.15239295363426208,"20":0.14987406134605408,"21":0.15113350749015808,"22":0.16498740017414093,"23":0.125944584608078}},{"config":"w4-attention","bits":4,"method":"rtn","targets":["attention"],"ppl":23.52,"ppl_ratio":0.851,"flip":0.1506,"setchg":0.4277,"recon":0.1625,"probes":{"recall":0.6,"long_horizon":0.4444,"format":0.8333,"calibration":0.45,"recovery":0.0},"rel":{"recall":0.9231,"long_horizon":0.5854,"format":0.9524,"calibration":0.9,"recovery":0.0},"core":0.7689,"control":0.9231,"margin":[0.6754828095436096,0.5543660521507263,0.3654491901397705,0.11565911024808884],"margin1":[0.39588579535484314,0.15848027169704437,0.04303106665611267,0.004827875643968582],"layers":{"0":0.07304786145687103,"1":0.002518891589716077,"2":0.125944584608078,"3":0.10579345375299454,"4":0.17758186161518097,"5":0.13350126147270203,"6":0.1586901694536209,"7":0.16624684631824493,"8":0.14483627676963806,"9":0.14609572291374207,"10":0.16372795403003693,"11":0.2153652459383011,"12":0.20025189220905304,"13":0.183879092335701,"14":0.18010075390338898,"15":0.17380352318286896,"16":0.17758186161518097,"17":0.16372795403003693,"18":0.15994961559772491,"19":0.15994961559772491,"20":0.1561712920665741,"21":0.14735516905784607,"22":0.17632241547107697,"23":0.12090680003166199}},{"config":"w4-all","bits":4,"method":"rtn","targets":["expert","attention","gate"],"ppl":26.72,"ppl_ratio":0.966,"flip":0.2297,"setchg":0.55,"recon":0.2055,"probes":{"recall":0.625,"long_horizon":0.5185,"format":0.75,"calibration":0.45,"recovery":0.2},"rel":{"recall":0.9615,"long_horizon":0.6829,"format":0.8571,"calibration":0.9,"recovery":2.0},"core":0.77,"control":0.9615,"margin":[0.7598656415939331,0.6842989325523376,0.520361065864563,0.23530647158622742],"margin1":[0.49685138463974,0.2938706874847412,0.11083123087882996,0.01721242628991604],"layers":{"0":0.125944584608078,"1":0.011335012502968311,"2":0.191435769200325,"3":0.14357683062553406,"4":0.27078086137771606,"5":0.1586901694536209,"6":0.22795969247817993,"7":0.21032746136188507,"8":0.20403023064136505,"9":0.19773299992084503,"10":0.25314861536026,"11":0.30226701498031616,"12":0.372795969247818,"13":0.2783375382423401,"14":0.29848867654800415,"15":0.3136020004749298,"16":0.2216624617576599,"17":0.23677581548690796,"18":0.2795969843864441,"19":0.3073047995567322,"20":0.245591938495636,"21":0.21284635365009308,"22":0.26322418451309204,"23":0.185138538479805}},{"config":"x8-ea","bits":8,"method":"rtn","targets":["expert","attention"],"ppl":27.72,"ppl_ratio":1.003,"flip":0.0255,"setchg":0.0873,"recon":0.0203,"probes":{"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.0},"rel":{"long_horizon":1.0,"format":0.9545,"calibration":1.0,"recovery":null},"core":0.9773,"control":null,"margin":[0.2894626259803772,0.05142737179994583,0.007976490072906017,0.00020990763732697815],"margin1":[0.10012594610452652,0.0016792610986158252,0.0,0.0],"layers":{"0":0.017632242292165756,"1":0.0,"2":0.005037783179432154,"3":0.012594458647072315,"4":0.013853903859853745,"5":0.010075566358864307,"6":0.02518891729414463,"7":0.02141057886183262,"8":0.02141057886183262,"9":0.028967253863811493,"10":0.020151132717728615,"11":0.03526448458433151,"12":0.04030226543545723,"13":0.04030226543545723,"14":0.04030226543545723,"15":0.03778337687253952,"16":0.03400503844022751,"17":0.032745592296123505,"18":0.03400503844022751,"19":0.0314861461520195,"20":0.01889168843626976,"21":0.01889168843626976,"22":0.041561711579561234,"23":0.028967253863811493}},{"config":"x7-ea","bits":7,"method":"rtn","targets":["expert","attention"],"ppl":27.51,"ppl_ratio":0.995,"flip":0.0383,"setchg":0.1231,"recon":0.0277,"probes":{"long_horizon":0.8519,"format":0.8333,"calibration":0.5,"recovery":0.3},"rel":{"long_horizon":1.122,"format":0.9091,"calibration":1.0,"recovery":null},"core":1.0155,"control":null,"margin":[0.3711166977882385,0.1024349257349968,0.01721242628991604,0.0014693534467369318],"margin1":[0.14714525640010834,0.005457598716020584,0.0004198152746539563,0.0],"layers":{"0":0.013853903859853745,"1":0.0,"2":0.010075566358864307,"3":0.023929471150040627,"4":0.02770780771970749,"5":0.026448363438248634,"6":0.032745592296123505,"7":0.03400503844022751,"8":0.03400503844022751,"9":0.03526448458433151,"10":0.03778337687253952,"11":0.04030226543545723,"12":0.04408060386776924,"13":0.045340050011873245,"14":0.051637280732393265,"15":0.060453400015830994,"16":0.04785894230008125,"17":0.04659949615597725,"18":0.04659949615597725,"19":0.04408060386776924,"20":0.05667506158351898,"21":0.05289672687649727,"22":0.060453400015830994,"23":0.045340050011873245}},{"config":"x5-ea","bits":5,"method":"rtn","targets":["expert","attention"],"ppl":29.0,"ppl_ratio":1.049,"flip":0.1043,"setchg":0.3092,"recon":0.1142,"probes":{"long_horizon":0.6667,"format":0.75,"calibration":0.5,"recovery":0.3},"rel":{"long_horizon":0.878,"format":0.8182,"calibration":1.0,"recovery":null},"core":0.8481,"control":null,"margin":[0.5938287377357483,0.40596136450767517,0.20277078449726105,0.03442485257983208],"margin1":[0.3276658356189728,0.07640638202428818,0.012384550645947456,0.0008396305493079126],"layers":{"0":0.04030226543545723,"1":0.0,"2":0.04659949615597725,"3":0.06549118459224701,"4":0.09068010002374649,"5":0.0944584384560585,"6":0.08564231544733047,"7":0.08564231544733047,"8":0.11083123087882996,"9":0.0944584384560585,"10":0.12216624617576599,"11":0.13727959990501404,"12":0.14609572291374207,"13":0.12216624617576599,"14":0.14231738448143005,"15":0.13350126147270203,"16":0.13476070761680603,"17":0.14861461520195007,"18":0.11838790774345398,"19":0.128463476896286,"20":0.11335012316703796,"21":0.124685138463974,"22":0.13853904604911804,"23":0.07934508472681046}},{"config":"x6-experts","bits":6,"method":"rtn","targets":["expert"],"ppl":26.47,"ppl_ratio":0.957,"flip":0.039,"setchg":0.129,"recon":0.0423,"probes":{"long_horizon":0.7778,"format":0.75,"calibration":0.55,"recovery":0.0},"rel":{"long_horizon":1.0244,"format":0.8182,"calibration":1.1,"recovery":null},"core":0.9213,"control":null,"margin":[0.378463476896286,0.11943744868040085,0.017002519220113754,0.0010495382593944669],"margin1":[0.14924433827400208,0.006507136858999729,0.0004198152746539563,0.0],"layers":{"0":0.0,"1":0.0,"2":0.013853903859853745,"3":0.012594458647072315,"4":0.026448363438248634,"5":0.01889168843626976,"6":0.04030226543545723,"7":0.04030226543545723,"8":0.030226700007915497,"9":0.03778337687253952,"10":0.028967253863811493,"11":0.03778337687253952,"12":0.05919395387172699,"13":0.04408060386776924,"14":0.07052896916866302,"15":0.05415617302060127,"16":0.05415617302060127,"17":0.041561711579561234,"18":0.04785894230008125,"19":0.04911838844418526,"20":0.04911838844418526,"21":0.061712846159935,"22":0.07556675374507904,"23":0.04282115772366524}},{"config":"x3-experts","bits":3,"method":"rtn","targets":["expert"],"ppl":34.47,"ppl_ratio":1.247,"flip":0.233,"setchg":0.5624,"recon":0.2347,"probes":{"long_horizon":0.7407,"format":0.9167,"calibration":0.65,"recovery":0.3},"rel":{"long_horizon":0.9756,"format":1.0,"calibration":1.3,"recovery":null},"core":0.9878,"control":null,"margin":[0.7567170262336731,0.6712846159934998,0.5472292304039001,0.2745591998100281],"margin1":[0.4840470254421234,0.28673383593559265,0.1376994103193283,0.02350965514779091],"layers":{"0":0.0,"1":0.0,"2":0.16750629246234894,"3":0.16498740017414093,"4":0.2833753228187561,"5":0.2191435694694519,"6":0.23551636934280396,"7":0.24685138463974,"8":0.23677581548690796,"9":0.2191435694694519,"10":0.255667507648468,"11":0.3476070463657379,"12":0.2884131073951721,"13":0.29722923040390015,"14":0.26448363065719604,"15":0.29974812269210815,"16":0.25314861536026,"17":0.2758186459541321,"18":0.249370276927948,"19":0.25944584608078003,"20":0.26322418451309204,"21":0.258186399936676,"22":0.2795969843864441,"23":0.22670024633407593}},{"config":"x6-attention","bits":6,"method":"rtn","targets":["attention"],"ppl":27.54,"ppl_ratio":0.996,"flip":0.0533,"setchg":0.1686,"recon":0.0511,"probes":{"long_horizon":0.7037,"format":0.875,"calibration":0.55,"recovery":0.0},"rel":{"long_horizon":0.9268,"format":0.9545,"calibration":1.1,"recovery":null},"core":0.9407,"control":null,"margin":[0.4439546465873718,0.17758186161518097,0.048488665372133255,0.0041981530375778675],"margin1":[0.19983206689357758,0.0128043657168746,0.0006297228974290192,0.0],"layers":{"0":0.01889168843626976,"1":0.0,"2":0.015113350003957748,"3":0.026448363438248634,"4":0.03778337687253952,"5":0.03526448458433151,"6":0.04659949615597725,"7":0.04911838844418526,"8":0.05541561543941498,"9":0.04911838844418526,"10":0.04659949615597725,"11":0.07934508472681046,"12":0.07808564603328705,"13":0.08564231544733047,"14":0.07052896916866302,"15":0.064231738448143,"16":0.07304786145687103,"17":0.05667506158351898,"18":0.05919395387172699,"19":0.061712846159935,"20":0.07052896916866302,"21":0.07430730760097504,"22":0.08564231544733047,"23":0.04030226543545723}},{"config":"x3-attention","bits":3,"method":"rtn","targets":["attention"],"ppl":31.73,"ppl_ratio":1.148,"flip":0.2702,"setchg":0.6706,"recon":0.2016,"probes":{"long_horizon":0.8889,"format":0.9167,"calibration":0.6,"recovery":0.1},"rel":{"long_horizon":1.1707,"format":1.0,"calibration":1.2,"recovery":null},"core":1.0854,"control":null,"margin":[0.8234676718711853,0.7730898261070251,0.6679261326789856,0.4179261028766632],"margin1":[0.5167925953865051,0.33228379487991333,0.17884130775928497,0.052686817944049835],"layers":{"0":0.1549118459224701,"1":0.003778337500989437,"2":0.2732997536659241,"3":0.19521410763263702,"4":0.33375313878059387,"5":0.255667507648468,"6":0.2783375382423401,"7":0.2795969843864441,"8":0.29722923040390015,"9":0.256926953792572,"10":0.32997480034828186,"11":0.3387909233570099,"12":0.32871535420417786,"13":0.3488664925098419,"14":0.32997480034828186,"15":0.3463476002216339,"16":0.26322418451309204,"17":0.2758186459541321,"18":0.2896725535392761,"19":0.2871536612510681,"20":0.250629723072052,"21":0.26574307680130005,"22":0.2821158766746521,"23":0.2178841382265091}},{"config":"x6-gate","bits":6,"method":"rtn","targets":["gate"],"ppl":27.74,"ppl_ratio":1.003,"flip":0.0468,"setchg":0.1253,"recon":0.0243,"probes":{"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.0},"rel":{"long_horizon":1.0,"format":0.9545,"calibration":1.0,"recovery":null},"core":0.9773,"control":null,"margin":[0.39231738448143005,0.0938287153840065,0.01364399679005146,0.0012594457948580384],"margin1":[0.18219983577728271,0.004827875643968582,0.00020990763732697815,0.0],"layers":{"0":0.030226700007915497,"1":0.0,"2":0.022670025005936623,"3":0.026448363438248634,"4":0.04659949615597725,"5":0.020151132717728615,"6":0.03526448458433151,"7":0.041561711579561234,"8":0.04408060386776924,"9":0.04408060386776924,"10":0.05037783458828926,"11":0.05667506158351898,"12":0.07430730760097504,"13":0.07052896916866302,"14":0.06549118459224701,"15":0.07178841531276703,"16":0.06675063073635101,"17":0.05289672687649727,"18":0.05541561543941498,"19":0.05415617302060127,"20":0.045340050011873245,"21":0.03400503844022751,"22":0.06675063073635101,"23":0.04785894230008125}},{"config":"x4-gate","bits":4,"method":"rtn","targets":["gate"],"ppl":26.85,"ppl_ratio":0.971,"flip":0.1502,"setchg":0.3292,"recon":0.0546,"probes":{"long_horizon":0.7778,"format":0.9167,"calibration":0.55,"recovery":0.0},"rel":{"long_horizon":1.0244,"format":1.0,"calibration":1.1,"recovery":null},"core":1.0122,"control":null,"margin":[0.6083123683929443,0.44857263565063477,0.22460117936134338,0.03547438979148865],"margin1":[0.4141477644443512,0.15973971784114838,0.025818640366196632,0.0010495382593944669],"layers":{"0":0.0931989923119545,"1":0.010075566358864307,"2":0.12342569231987,"3":0.10201511532068253,"4":0.16750629246234894,"5":0.08438286930322647,"6":0.124685138463974,"7":0.124685138463974,"8":0.10327456146478653,"9":0.12090680003166199,"10":0.16876573860645294,"11":0.19899244606494904,"12":0.2846347689628601,"13":0.16246850788593292,"14":0.2204030156135559,"15":0.250629723072052,"16":0.15239295363426208,"17":0.14357683062553406,"18":0.188916876912117,"19":0.20528967678546906,"20":0.13098236918449402,"21":0.13098236918449402,"22":0.183879092335701,"23":0.128463476896286}},{"config":"x3-gate","bits":3,"method":"rtn","targets":["gate"],"ppl":27.82,"ppl_ratio":1.006,"flip":0.2623,"setchg":0.5543,"recon":0.1107,"probes":{"long_horizon":0.7778,"format":0.7083,"calibration":0.6,"recovery":0.0},"rel":{"long_horizon":1.0244,"format":0.7727,"calibration":1.2,"recovery":null},"core":0.8986,"control":null,"margin":[0.759655773639679,0.6801007390022278,0.531696081161499,0.245591938495636],"margin1":[0.520990788936615,0.34361881017684937,0.15827035903930664,0.0262384545058012],"layers":{"0":0.185138538479805,"1":0.010075566358864307,"2":0.20403023064136505,"3":0.19899244606494904,"4":0.3136020004749298,"5":0.16372795403003693,"6":0.22292190790176392,"7":0.3098236918449402,"8":0.22670024633407593,"9":0.21410579979419708,"10":0.2808564305305481,"11":0.35516372323036194,"12":0.3085642457008362,"13":0.42443326115608215,"14":0.26952141523361206,"15":0.4105793535709381,"16":0.32619646191596985,"17":0.29974812269210815,"18":0.3098236918449402,"19":0.3098236918449402,"20":0.249370276927948,"21":0.23425692319869995,"22":0.23425692319869995,"23":0.23299747705459595}},{"config":"x2-gate","bits":2,"method":"rtn","targets":["gate"],"ppl":47.39,"ppl_ratio":1.714,"flip":0.4808,"setchg":0.8639,"recon":0.323,"probes":{"long_horizon":0.7037,"format":1.0,"calibration":0.8,"recovery":0.2},"rel":{"long_horizon":0.9268,"format":1.0909,"calibration":1.6,"recovery":null},"core":1.0089,"control":null,"margin":[0.9296809434890747,0.9139378666877747,0.8751049637794495,0.7369857430458069],"margin1":[0.6633081436157227,0.5841729640960693,0.4643157124519348,0.21137699484825134],"layers":{"0":0.33249369263648987,"1":0.022670025005936623,"2":0.379093199968338,"3":0.45465993881225586,"4":0.5302267074584961,"5":0.39798489212989807,"6":0.4319899380207062,"7":0.51259446144104,"8":0.5,"9":0.5352644920349121,"10":0.4672544002532959,"11":0.5403022766113281,"12":0.5843828916549683,"13":0.5491183996200562,"14":0.5906801223754883,"15":0.6007556915283203,"16":0.47984886169433594,"17":0.5239294767379761,"18":0.5277078151702881,"19":0.5667506456375122,"20":0.492443323135376,"21":0.501259446144104,"22":0.47732996940612793,"23":0.5403022766113281}},{"config":"x3-all","bits":3,"method":"rtn","targets":["expert","attention","gate"],"ppl":50.56,"ppl_ratio":1.828,"flip":0.4121,"setchg":0.8271,"recon":0.2909,"probes":{"long_horizon":0.6481,"format":0.75,"calibration":0.4,"recovery":0.0},"rel":{"long_horizon":0.8537,"format":0.8182,"calibration":0.8,"recovery":null},"core":0.8359,"control":null,"margin":[0.9175062775611877,0.8944164514541626,0.8371116518974304,0.6593198776245117],"margin1":[0.6303526163101196,0.497481107711792,0.37006717920303345,0.15050378441810608],"layers":{"0":0.21284635365009308,"1":0.026448363438248634,"2":0.3375314772129059,"3":0.32115867733955383,"4":0.49370276927948,"5":0.379093199968338,"6":0.377833753824234,"7":0.4722921848297119,"8":0.3992443382740021,"9":0.3992443382740021,"10":0.491183876991272,"11":0.5327455997467041,"12":0.4722921848297119,"13":0.5264483690261841,"14":0.496221661567688,"15":0.5440806150436401,"16":0.45340049266815186,"17":0.4319899380207062,"18":0.4710327386856079,"19":0.44458436965942383,"20":0.42569270730018616,"21":0.4042821228504181,"22":0.45214104652404785,"23":0.32493701577186584}},{"config":"x4-ea-g32","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":28.54,"ppl_ratio":1.032,"flip":0.1534,"setchg":0.426,"recon":0.13,"probes":{"long_horizon":0.5556,"format":0.8333,"calibration":0.6,"recovery":0.0},"rel":{"long_horizon":0.7317,"format":0.9091,"calibration":1.2,"recovery":null},"core":0.8204,"control":null,"margin":[0.6853484511375427,0.5413517951965332,0.3660789132118225,0.11104114353656769],"margin1":[0.4019731283187866,0.16498740017414093,0.0419815294444561,0.004617968108505011],"layers":{"0":0.06926952302455902,"1":0.0,"2":0.0944584384560585,"3":0.11586901545524597,"4":0.16498740017414093,"5":0.11586901545524597,"6":0.17002518475055695,"7":0.1549118459224701,"8":0.16372795403003693,"9":0.13979849219322205,"10":0.16624684631824493,"11":0.21032746136188507,"12":0.18010075390338898,"13":0.22292190790176392,"14":0.18136020004749298,"15":0.19269521534442902,"16":0.16750629246234894,"17":0.18010075390338898,"18":0.16750629246234894,"19":0.16624684631824493,"20":0.1586901694536209,"21":0.17758186161518097,"22":0.190176323056221,"23":0.13098236918449402}},{"config":"x4-ea-g512","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":32.59,"ppl_ratio":1.179,"flip":0.2217,"setchg":0.5696,"recon":0.2109,"probes":{"long_horizon":0.463,"format":1.0,"calibration":0.6,"recovery":0.0},"rel":{"long_horizon":0.6098,"format":1.0909,"calibration":1.2,"recovery":null},"core":0.8503,"control":null,"margin":[0.770361065864563,0.6845088005065918,0.5499579906463623,0.2735096514225006],"margin1":[0.4865659177303314,0.2684718668460846,0.10915197432041168,0.022670025005936623],"layers":{"0":0.09697733074426651,"1":0.005037783179432154,"2":0.16498740017414093,"3":0.1574307233095169,"4":0.27078086137771606,"5":0.19269521534442902,"6":0.22292190790176392,"7":0.26070529222488403,"8":0.21410579979419708,"9":0.20528967678546906,"10":0.23677581548690796,"11":0.32115867733955383,"12":0.2745591998100281,"13":0.2871536612510681,"14":0.2745591998100281,"15":0.2745591998100281,"16":0.23299747705459595,"17":0.22795969247817993,"18":0.256926953792572,"19":0.24055415391921997,"20":0.24307304620742798,"21":0.22544080018997192,"22":0.249370276927948,"23":0.185138538479805}},{"config":"x4-ea-perchan","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":33.27,"ppl_ratio":1.203,"flip":0.2431,"setchg":0.6013,"recon":0.2244,"probes":{"long_horizon":0.4815,"format":0.5833,"calibration":0.45,"recovery":0.2},"rel":{"long_horizon":0.6341,"format":0.6364,"calibration":0.9,"recovery":null},"core":0.6353,"control":null,"margin":[0.7928211688995361,0.709487795829773,0.5948782563209534,0.3081444203853607],"margin1":[0.4945423901081085,0.2989084720611572,0.13937866687774658,0.03946263715624809],"layers":{"0":0.11460956931114197,"1":0.002518891589716077,"2":0.17758186161518097,"3":0.1536523997783661,"4":0.2758186459541321,"5":0.20025189220905304,"6":0.24181360006332397,"7":0.2795969843864441,"8":0.2770780920982361,"9":0.2204030156135559,"10":0.2795969843864441,"11":0.3438287079334259,"12":0.3148614466190338,"13":0.32367756962776184,"14":0.2795969843864441,"15":0.32997480034828186,"16":0.26070529222488403,"17":0.24055415391921997,"18":0.26826196908950806,"19":0.2783375382423401,"20":0.26700252294540405,"21":0.251889169216156,"22":0.2821158766746521,"23":0.17002518475055695}},{"config":"x3-ea-g32","bits":3,"method":"rtn","targets":["expert","attention"],"ppl":31.24,"ppl_ratio":1.13,"flip":0.272,"setchg":0.6535,"recon":0.2431,"probes":{"long_horizon":0.7037,"format":0.25,"calibration":0.5,"recovery":0.1},"rel":{"long_horizon":0.9268,"format":0.2727,"calibration":1.0,"recovery":null},"core":0.5998,"control":null,"margin":[0.8094038367271423,0.7548278570175171,0.6553316712379456,0.3946263790130615],"margin1":[0.526658296585083,0.3314441740512848,0.18052056431770325,0.049538202583789825],"layers":{"0":0.10453400760889053,"1":0.003778337500989437,"2":0.190176323056221,"3":0.18136020004749298,"4":0.29848867654800415,"5":0.26322418451309204,"6":0.2858942151069641,"7":0.3123425841331482,"8":0.2858942151069641,"9":0.27078086137771606,"10":0.2909319996833801,"11":0.36272040009498596,"12":0.3450881540775299,"13":0.3450881540775299,"14":0.33123424649238586,"15":0.3476070463657379,"16":0.2884131073951721,"17":0.2846347689628601,"18":0.3073047995567322,"19":0.3173803389072418,"20":0.29471033811569214,"21":0.2896725535392761,"22":0.3098236918449402,"23":0.2178841382265091}},{"config":"x4-experts-awq","bits":4,"method":"awq","targets":["expert"],"ppl":31.75,"ppl_ratio":1.148,"flip":0.1441,"setchg":0.3894,"recon":0.1029,"probes":{"long_horizon":0.5926,"format":0.75,"calibration":0.65,"recovery":0.0},"rel":{"long_horizon":0.7805,"format":0.8182,"calibration":1.3,"recovery":null},"core":0.7993,"control":null,"margin":[0.6442065238952637,0.49979010224342346,0.3209487795829773,0.09277917444705963],"margin1":[0.3826616406440735,0.14273719489574432,0.04659949615597725,0.004408060573041439],"layers":{"0":0.0,"1":0.0,"2":0.05541561543941498,"3":0.08060453087091446,"4":0.11586901545524597,"5":0.10327456146478653,"6":0.13602015376091003,"7":0.16498740017414093,"8":0.14609572291374207,"9":0.13350126147270203,"10":0.17128463089466095,"11":0.2178841382265091,"12":0.191435769200325,"13":0.190176323056221,"14":0.20528967678546906,"15":0.20025189220905304,"16":0.16876573860645294,"17":0.1574307233095169,"18":0.18136020004749298,"19":0.19521410763263702,"20":0.16750629246234894,"21":0.1549118459224701,"22":0.20151133835315704,"23":0.11964735388755798}},{"config":"x3-ea-awq","bits":3,"method":"awq","targets":["expert","attention"],"ppl":125.61,"ppl_ratio":4.543,"flip":0.4002,"setchg":0.8192,"recon":0.3464,"probes":{"long_horizon":0.3519,"format":0.0833,"calibration":0.15,"recovery":0.0},"rel":{"long_horizon":0.4634,"format":0.0909,"calibration":0.3,"recovery":null},"core":0.2772,"control":null,"margin":[0.9118387699127197,0.8822417855262756,0.8303946256637573,0.6523929238319397],"margin1":[0.6299328207969666,0.49097397923469543,0.33795130252838135,0.1418975591659546],"layers":{"0":0.14987406134605408,"1":0.002518891589716077,"2":0.2896725535392761,"3":0.249370276927948,"4":0.39042821526527405,"5":0.30352646112442017,"6":0.375314861536026,"7":0.4055415689945221,"8":0.42821159958839417,"9":0.3501259386539459,"10":0.4748110771179199,"11":0.510075569152832,"12":0.4685138463973999,"13":0.4697732925415039,"14":0.48614609241485596,"15":0.5214105844497681,"16":0.507556676864624,"17":0.4345088303089142,"18":0.4710327386856079,"19":0.4647355079650879,"20":0.4685138463973999,"21":0.4722921848297119,"22":0.515113353729248,"23":0.39546599984169006}},{"config":"x8-gate-only-ea4","bits":4,"method":"awq","targets":["expert","attention","gate"],"ppl":39.23,"ppl_ratio":1.419,"flip":0.2816,"setchg":0.6283,"recon":0.2021,"probes":{"long_horizon":0.6481,"format":0.6667,"calibration":0.65,"recovery":0.0},"rel":{"long_horizon":0.8537,"format":0.7273,"calibration":1.3,"recovery":null},"core":0.7905,"control":null,"margin":[0.8104534149169922,0.7304785847663879,0.6286733746528625,0.3434089124202728],"margin1":[0.530436635017395,0.36691856384277344,0.18849706649780273,0.0407220833003521],"layers":{"0":0.12216624617576599,"1":0.006297229323536158,"2":0.17254407703876495,"3":0.19899244606494904,"4":0.3186397850513458,"5":0.19395466148853302,"6":0.248110830783844,"7":0.2909319996833801,"8":0.3173803389072418,"9":0.255667507648468,"10":0.29219144582748413,"11":0.369017630815506,"12":0.36523929238319397,"13":0.3488664925098419,"14":0.3450881540775299,"15":0.38664987683296204,"16":0.3488664925098419,"17":0.3148614466190338,"18":0.3173803389072418,"19":0.366498738527298,"20":0.30478590726852417,"21":0.2871536612510681,"22":0.3148614466190338,"23":0.2732997536659241}}];
-const SEARCH = {"history":[{"step":1,"component":"expert","bits":8,"state":{"gate":16,"attention":16,"expert":8},"set_change_rate":0.073,"recon_error":0.015,"cost":0.1897,"model_bits":8.4752},{"step":2,"component":"attention","bits":8,"state":{"gate":16,"attention":8,"expert":8},"set_change_rate":0.0873,"recon_error":0.0203,"cost":0.2267,"model_bits":8.0049,"validated_agentic":0.947},{"step":3,"component":"expert","bits":6,"state":{"gate":16,"attention":8,"expert":6},"set_change_rate":0.1363,"recon_error":0.0468,"cost":0.4684,"model_bits":6.1237},{"step":4,"component":"expert","bits":5,"state":{"gate":16,"attention":8,"expert":5},"set_change_rate":0.2168,"recon_error":0.0912,"cost":0.9118,"model_bits":5.1831,"validated_agentic":0.8954,"reverted":true},{"step":5,"component":"expert","bits":6,"state":{"gate":16,"attention":8,"expert":6},"set_change_rate":0.1363,"recon_error":0.0468,"cost":0.4684,"model_bits":6.1237,"validated_agentic":0.9302},{"step":6,"component":"attention","bits":6,"state":{"gate":16,"attention":6,"expert":6},"set_change_rate":0.1899,"recon_error":0.0552,"cost":0.5518,"model_bits":6.0061,"validated_agentic":0.887,"reverted":true},{"step":7,"component":"gate","bits":8,"state":{"gate":8,"attention":8,"expert":6},"set_change_rate":0.1371,"recon_error":0.0482,"cost":0.4823,"model_bits":6.1188,"validated_agentic":0.9712},{"step":8,"component":"gate","bits":6,"state":{"gate":6,"attention":8,"expert":6},"set_change_rate":0.1646,"recon_error":0.0459,"cost":0.4587,"model_bits":6.1176,"validated_agentic":0.9484},{"step":9,"component":"expert","bits":5,"state":{"gate":6,"attention":8,"expert":5},"set_change_rate":0.2346,"recon_error":0.0882,"cost":0.8822,"model_bits":5.177,"validated_agentic":0.9522},{"step":10,"component":"gate","bits":5,"state":{"gate":5,"attention":8,"expert":5},"set_change_rate":0.2772,"recon_error":0.0962,"cost":0.9625,"model_bits":5.1764,"validated_agentic":0.9659}],"state":{"gate":5,"attention":8,"expert":5},"bits":5.18,"final":0.9659,"evals":24};
+const DATA = [{"config":"bf16","bits":16,"method":"none","targets":[],"ppl":27.65,"ppl_ratio":1.0,"flip":0.0,"setchg":0.0,"recon":0.0,"probes":{"recall":0.65,"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.1},"rel":{"recall":1.0,"long_horizon":1.0,"format":1.0,"calibration":1.0,"recovery":1.0},"core":1.0,"control":1.0,"margin":[],"margin1":[],"layers":{}},{"config":"w8-ea","bits":8,"method":"rtn","targets":["expert","attention"],"ppl":27.72,"ppl_ratio":1.003,"flip":0.0255,"setchg":0.0873,"recon":0.0203,"probes":{"recall":0.65,"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.0},"rel":{"recall":1.0,"long_horizon":1.0,"format":1.0,"calibration":1.0,"recovery":0.0},"core":1.0,"control":1.0,"margin":[0.2894626259803772,0.05142737179994583,0.007976490072906017,0.00020990763732697815],"margin1":[0.10012594610452652,0.0016792610986158252,0.0,0.0],"layers":{"0":0.017632242292165756,"1":0.0,"2":0.005037783179432154,"3":0.012594458647072315,"4":0.013853903859853745,"5":0.010075566358864307,"6":0.02518891729414463,"7":0.02141057886183262,"8":0.02141057886183262,"9":0.028967253863811493,"10":0.020151132717728615,"11":0.03526448458433151,"12":0.04030226543545723,"13":0.04030226543545723,"14":0.04030226543545723,"15":0.03778337687253952,"16":0.03400503844022751,"17":0.032745592296123505,"18":0.03400503844022751,"19":0.0314861461520195,"20":0.01889168843626976,"21":0.01889168843626976,"22":0.041561711579561234,"23":0.028967253863811493}},{"config":"w6-ea","bits":6,"method":"rtn","targets":["expert","attention"],"ppl":27.21,"ppl_ratio":0.984,"flip":0.058,"setchg":0.1899,"recon":0.0552,"probes":{"recall":0.75,"long_horizon":0.7037,"format":0.875,"calibration":0.55,"recovery":0.0},"rel":{"recall":1.1538,"long_horizon":0.9268,"format":1.0,"calibration":1.1,"recovery":0.0},"core":0.9634,"control":1.1538,"margin":[0.4806884825229645,0.21326616406440735,0.05940386280417442,0.006297229323536158],"margin1":[0.21095718443393707,0.019101595506072044,0.0018891687504947186,0.0],"layers":{"0":0.01889168843626976,"1":0.0,"2":0.02141057886183262,"3":0.030226700007915497,"4":0.045340050011873245,"5":0.04030226543545723,"6":0.05415617302060127,"7":0.057934507727622986,"8":0.05919395387172699,"9":0.04282115772366524,"10":0.04785894230008125,"11":0.07682619988918304,"12":0.07934508472681046,"13":0.0957178846001625,"14":0.07934508472681046,"15":0.07178841531276703,"16":0.07430730760097504,"17":0.07052896916866302,"18":0.061712846159935,"19":0.057934507727622986,"20":0.07808564603328705,"21":0.08816120773553848,"22":0.09068010002374649,"23":0.04911838844418526}},{"config":"w4-ea","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":26.39,"ppl_ratio":0.955,"flip":0.1814,"setchg":0.4934,"recon":0.2301,"probes":{"recall":0.625,"long_horizon":0.6111,"format":0.6667,"calibration":0.55,"recovery":0.1},"rel":{"recall":0.9615,"long_horizon":0.8049,"format":0.7619,"calibration":1.1,"recovery":1.0},"core":0.7834,"control":0.9615,"margin":[0.7172544002532959,0.6143996715545654,0.4615868926048279,0.18052056431770325],"margin1":[0.44290512800216675,0.2054995745420456,0.06633081287145615,0.01070528943091631],"layers":{"0":0.07304786145687103,"1":0.002518891589716077,"2":0.13476070761680603,"3":0.12090680003166199,"4":0.19773299992084503,"5":0.14105793833732605,"6":0.190176323056221,"7":0.183879092335701,"8":0.186397984623909,"9":0.1586901694536209,"10":0.20528967678546906,"11":0.250629723072052,"12":0.23299747705459595,"13":0.21158690750598907,"14":0.22544080018997192,"15":0.24307304620742798,"16":0.2166246920824051,"17":0.19269521534442902,"18":0.20403023064136505,"19":0.20654912292957306,"20":0.20780856907367706,"21":0.19773299992084503,"22":0.21158690750598907,"23":0.1574307233095169}},{"config":"w4-ea-awq","bits":4,"method":"awq","targets":["expert","attention"],"ppl":38.02,"ppl_ratio":1.375,"flip":0.205,"setchg":0.529,"recon":0.2877,"probes":{"recall":0.575,"long_horizon":0.5556,"format":0.5,"calibration":0.6,"recovery":0.0},"rel":{"recall":0.8846,"long_horizon":0.7317,"format":0.5714,"calibration":1.2,"recovery":0.0},"core":0.6516,"control":0.8846,"margin":[0.7458018660545349,0.6570109128952026,0.49769100546836853,0.21557514369487762],"margin1":[0.46998322010040283,0.24034424126148224,0.0919395461678505,0.01784214936196804],"layers":{"0":0.08564231544733047,"1":0.0012594457948580384,"2":0.09697733074426651,"3":0.09823677688837051,"4":0.17758186161518097,"5":0.14735516905784607,"6":0.16876573860645294,"7":0.22418135404586792,"8":0.20528967678546906,"9":0.186397984623909,"10":0.22544080018997192,"11":0.2833753228187561,"12":0.26322418451309204,"13":0.258186399936676,"14":0.2884131073951721,"15":0.2846347689628601,"16":0.25944584608078003,"17":0.23803526163101196,"18":0.23803526163101196,"19":0.2795969843864441,"20":0.23425692319869995,"21":0.2153652459383011,"22":0.26574307680130005,"23":0.19521410763263702}},{"config":"w3-ea","bits":3,"method":"rtn","targets":["expert","attention"],"ppl":53.33,"ppl_ratio":1.929,"flip":0.3546,"setchg":0.7693,"recon":0.3316,"probes":{"recall":0.25,"long_horizon":0.7222,"format":0.5833,"calibration":0.45,"recovery":0.0},"rel":{"recall":0.3846,"long_horizon":0.9512,"format":0.6667,"calibration":0.9,"recovery":0.0},"core":0.8089,"control":0.3846,"margin":[0.8851805329322815,0.8497061133384705,0.7777078151702881,0.5646515488624573],"margin1":[0.5797649025917053,0.4370277225971222,0.2951301336288452,0.10642317682504654],"layers":{"0":0.1549118459224701,"1":0.002518891589716077,"2":0.32997480034828186,"3":0.25944584608078003,"4":0.42821159958839417,"5":0.3513853847980499,"6":0.3413098156452179,"7":0.39672544598579407,"8":0.39420655369758606,"9":0.3425692617893219,"10":0.4156171381473541,"11":0.48236775398254395,"12":0.4345088303089142,"13":0.45843827724456787,"14":0.42443326115608215,"15":0.42947104573249817,"16":0.38287153840065,"17":0.3387909233570099,"18":0.366498738527298,"19":0.36523929238319397,"20":0.36272040009498596,"21":0.371536523103714,"22":0.39042821526527405,"23":0.2858942151069641}},{"config":"w4-experts","bits":4,"method":"rtn","targets":["expert"],"ppl":30.77,"ppl_ratio":1.113,"flip":0.1225,"setchg":0.348,"recon":0.1312,"probes":{"recall":0.65,"long_horizon":0.6481,"format":0.9167,"calibration":0.5,"recovery":0.0},"rel":{"recall":1.0,"long_horizon":0.8537,"format":1.0476,"calibration":1.0,"recovery":0.0},"core":0.9506,"control":1.0,"margin":[0.6047438979148865,0.46200671792030334,0.2615449130535126,0.06381192058324814],"margin1":[0.3578925132751465,0.10768262296915054,0.02308984100818634,0.0014693534467369318],"layers":{"0":0.0,"1":0.0,"2":0.060453400015830994,"3":0.07178841531276703,"4":0.0944584384560585,"5":0.0944584384560585,"6":0.12972292304039001,"7":0.11460956931114197,"8":0.124685138463974,"9":0.11209067702293396,"10":0.14357683062553406,"11":0.14357683062553406,"12":0.15994961559772491,"13":0.1586901694536209,"14":0.16624684631824493,"15":0.16624684631824493,"16":0.1574307233095169,"17":0.14987406134605408,"18":0.14861461520195007,"19":0.15239295363426208,"20":0.14987406134605408,"21":0.15113350749015808,"22":0.16498740017414093,"23":0.125944584608078}},{"config":"w4-attention","bits":4,"method":"rtn","targets":["attention"],"ppl":23.52,"ppl_ratio":0.851,"flip":0.1506,"setchg":0.4277,"recon":0.1625,"probes":{"recall":0.6,"long_horizon":0.4444,"format":0.8333,"calibration":0.45,"recovery":0.0},"rel":{"recall":0.9231,"long_horizon":0.5854,"format":0.9524,"calibration":0.9,"recovery":0.0},"core":0.7689,"control":0.9231,"margin":[0.6754828095436096,0.5543660521507263,0.3654491901397705,0.11565911024808884],"margin1":[0.39588579535484314,0.15848027169704437,0.04303106665611267,0.004827875643968582],"layers":{"0":0.07304786145687103,"1":0.002518891589716077,"2":0.125944584608078,"3":0.10579345375299454,"4":0.17758186161518097,"5":0.13350126147270203,"6":0.1586901694536209,"7":0.16624684631824493,"8":0.14483627676963806,"9":0.14609572291374207,"10":0.16372795403003693,"11":0.2153652459383011,"12":0.20025189220905304,"13":0.183879092335701,"14":0.18010075390338898,"15":0.17380352318286896,"16":0.17758186161518097,"17":0.16372795403003693,"18":0.15994961559772491,"19":0.15994961559772491,"20":0.1561712920665741,"21":0.14735516905784607,"22":0.17632241547107697,"23":0.12090680003166199}},{"config":"w4-all","bits":4,"method":"rtn","targets":["expert","attention","gate"],"ppl":26.72,"ppl_ratio":0.966,"flip":0.2297,"setchg":0.55,"recon":0.2055,"probes":{"recall":0.625,"long_horizon":0.5185,"format":0.75,"calibration":0.45,"recovery":0.2},"rel":{"recall":0.9615,"long_horizon":0.6829,"format":0.8571,"calibration":0.9,"recovery":2.0},"core":0.77,"control":0.9615,"margin":[0.7598656415939331,0.6842989325523376,0.520361065864563,0.23530647158622742],"margin1":[0.49685138463974,0.2938706874847412,0.11083123087882996,0.01721242628991604],"layers":{"0":0.125944584608078,"1":0.011335012502968311,"2":0.191435769200325,"3":0.14357683062553406,"4":0.27078086137771606,"5":0.1586901694536209,"6":0.22795969247817993,"7":0.21032746136188507,"8":0.20403023064136505,"9":0.19773299992084503,"10":0.25314861536026,"11":0.30226701498031616,"12":0.372795969247818,"13":0.2783375382423401,"14":0.29848867654800415,"15":0.3136020004749298,"16":0.2216624617576599,"17":0.23677581548690796,"18":0.2795969843864441,"19":0.3073047995567322,"20":0.245591938495636,"21":0.21284635365009308,"22":0.26322418451309204,"23":0.185138538479805}},{"config":"x8-ea","bits":8,"method":"rtn","targets":["expert","attention"],"ppl":27.72,"ppl_ratio":1.003,"flip":0.0255,"setchg":0.0873,"recon":0.0203,"probes":{"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.0},"rel":{"long_horizon":1.0,"format":0.9545,"calibration":1.0,"recovery":null},"core":0.9773,"control":null,"margin":[0.2894626259803772,0.05142737179994583,0.007976490072906017,0.00020990763732697815],"margin1":[0.10012594610452652,0.0016792610986158252,0.0,0.0],"layers":{"0":0.017632242292165756,"1":0.0,"2":0.005037783179432154,"3":0.012594458647072315,"4":0.013853903859853745,"5":0.010075566358864307,"6":0.02518891729414463,"7":0.02141057886183262,"8":0.02141057886183262,"9":0.028967253863811493,"10":0.020151132717728615,"11":0.03526448458433151,"12":0.04030226543545723,"13":0.04030226543545723,"14":0.04030226543545723,"15":0.03778337687253952,"16":0.03400503844022751,"17":0.032745592296123505,"18":0.03400503844022751,"19":0.0314861461520195,"20":0.01889168843626976,"21":0.01889168843626976,"22":0.041561711579561234,"23":0.028967253863811493}},{"config":"x7-ea","bits":7,"method":"rtn","targets":["expert","attention"],"ppl":27.51,"ppl_ratio":0.995,"flip":0.0383,"setchg":0.1231,"recon":0.0277,"probes":{"long_horizon":0.8519,"format":0.8333,"calibration":0.5,"recovery":0.3},"rel":{"long_horizon":1.122,"format":0.9091,"calibration":1.0,"recovery":null},"core":1.0155,"control":null,"margin":[0.3711166977882385,0.1024349257349968,0.01721242628991604,0.0014693534467369318],"margin1":[0.14714525640010834,0.005457598716020584,0.0004198152746539563,0.0],"layers":{"0":0.013853903859853745,"1":0.0,"2":0.010075566358864307,"3":0.023929471150040627,"4":0.02770780771970749,"5":0.026448363438248634,"6":0.032745592296123505,"7":0.03400503844022751,"8":0.03400503844022751,"9":0.03526448458433151,"10":0.03778337687253952,"11":0.04030226543545723,"12":0.04408060386776924,"13":0.045340050011873245,"14":0.051637280732393265,"15":0.060453400015830994,"16":0.04785894230008125,"17":0.04659949615597725,"18":0.04659949615597725,"19":0.04408060386776924,"20":0.05667506158351898,"21":0.05289672687649727,"22":0.060453400015830994,"23":0.045340050011873245}},{"config":"x5-ea","bits":5,"method":"rtn","targets":["expert","attention"],"ppl":29.0,"ppl_ratio":1.049,"flip":0.1043,"setchg":0.3092,"recon":0.1142,"probes":{"long_horizon":0.6667,"format":0.75,"calibration":0.5,"recovery":0.3},"rel":{"long_horizon":0.878,"format":0.8182,"calibration":1.0,"recovery":null},"core":0.8481,"control":null,"margin":[0.5938287377357483,0.40596136450767517,0.20277078449726105,0.03442485257983208],"margin1":[0.3276658356189728,0.07640638202428818,0.012384550645947456,0.0008396305493079126],"layers":{"0":0.04030226543545723,"1":0.0,"2":0.04659949615597725,"3":0.06549118459224701,"4":0.09068010002374649,"5":0.0944584384560585,"6":0.08564231544733047,"7":0.08564231544733047,"8":0.11083123087882996,"9":0.0944584384560585,"10":0.12216624617576599,"11":0.13727959990501404,"12":0.14609572291374207,"13":0.12216624617576599,"14":0.14231738448143005,"15":0.13350126147270203,"16":0.13476070761680603,"17":0.14861461520195007,"18":0.11838790774345398,"19":0.128463476896286,"20":0.11335012316703796,"21":0.124685138463974,"22":0.13853904604911804,"23":0.07934508472681046}},{"config":"x6-experts","bits":6,"method":"rtn","targets":["expert"],"ppl":26.47,"ppl_ratio":0.957,"flip":0.039,"setchg":0.129,"recon":0.0423,"probes":{"long_horizon":0.7778,"format":0.75,"calibration":0.55,"recovery":0.0},"rel":{"long_horizon":1.0244,"format":0.8182,"calibration":1.1,"recovery":null},"core":0.9213,"control":null,"margin":[0.378463476896286,0.11943744868040085,0.017002519220113754,0.0010495382593944669],"margin1":[0.14924433827400208,0.006507136858999729,0.0004198152746539563,0.0],"layers":{"0":0.0,"1":0.0,"2":0.013853903859853745,"3":0.012594458647072315,"4":0.026448363438248634,"5":0.01889168843626976,"6":0.04030226543545723,"7":0.04030226543545723,"8":0.030226700007915497,"9":0.03778337687253952,"10":0.028967253863811493,"11":0.03778337687253952,"12":0.05919395387172699,"13":0.04408060386776924,"14":0.07052896916866302,"15":0.05415617302060127,"16":0.05415617302060127,"17":0.041561711579561234,"18":0.04785894230008125,"19":0.04911838844418526,"20":0.04911838844418526,"21":0.061712846159935,"22":0.07556675374507904,"23":0.04282115772366524}},{"config":"x3-experts","bits":3,"method":"rtn","targets":["expert"],"ppl":34.47,"ppl_ratio":1.247,"flip":0.233,"setchg":0.5624,"recon":0.2347,"probes":{"long_horizon":0.7407,"format":0.9167,"calibration":0.65,"recovery":0.3},"rel":{"long_horizon":0.9756,"format":1.0,"calibration":1.3,"recovery":null},"core":0.9878,"control":null,"margin":[0.7567170262336731,0.6712846159934998,0.5472292304039001,0.2745591998100281],"margin1":[0.4840470254421234,0.28673383593559265,0.1376994103193283,0.02350965514779091],"layers":{"0":0.0,"1":0.0,"2":0.16750629246234894,"3":0.16498740017414093,"4":0.2833753228187561,"5":0.2191435694694519,"6":0.23551636934280396,"7":0.24685138463974,"8":0.23677581548690796,"9":0.2191435694694519,"10":0.255667507648468,"11":0.3476070463657379,"12":0.2884131073951721,"13":0.29722923040390015,"14":0.26448363065719604,"15":0.29974812269210815,"16":0.25314861536026,"17":0.2758186459541321,"18":0.249370276927948,"19":0.25944584608078003,"20":0.26322418451309204,"21":0.258186399936676,"22":0.2795969843864441,"23":0.22670024633407593}},{"config":"x6-attention","bits":6,"method":"rtn","targets":["attention"],"ppl":27.54,"ppl_ratio":0.996,"flip":0.0533,"setchg":0.1686,"recon":0.0511,"probes":{"long_horizon":0.7037,"format":0.875,"calibration":0.55,"recovery":0.0},"rel":{"long_horizon":0.9268,"format":0.9545,"calibration":1.1,"recovery":null},"core":0.9407,"control":null,"margin":[0.4439546465873718,0.17758186161518097,0.048488665372133255,0.0041981530375778675],"margin1":[0.19983206689357758,0.0128043657168746,0.0006297228974290192,0.0],"layers":{"0":0.01889168843626976,"1":0.0,"2":0.015113350003957748,"3":0.026448363438248634,"4":0.03778337687253952,"5":0.03526448458433151,"6":0.04659949615597725,"7":0.04911838844418526,"8":0.05541561543941498,"9":0.04911838844418526,"10":0.04659949615597725,"11":0.07934508472681046,"12":0.07808564603328705,"13":0.08564231544733047,"14":0.07052896916866302,"15":0.064231738448143,"16":0.07304786145687103,"17":0.05667506158351898,"18":0.05919395387172699,"19":0.061712846159935,"20":0.07052896916866302,"21":0.07430730760097504,"22":0.08564231544733047,"23":0.04030226543545723}},{"config":"x3-attention","bits":3,"method":"rtn","targets":["attention"],"ppl":31.73,"ppl_ratio":1.148,"flip":0.2702,"setchg":0.6706,"recon":0.2016,"probes":{"long_horizon":0.8889,"format":0.9167,"calibration":0.6,"recovery":0.1},"rel":{"long_horizon":1.1707,"format":1.0,"calibration":1.2,"recovery":null},"core":1.0854,"control":null,"margin":[0.8234676718711853,0.7730898261070251,0.6679261326789856,0.4179261028766632],"margin1":[0.5167925953865051,0.33228379487991333,0.17884130775928497,0.052686817944049835],"layers":{"0":0.1549118459224701,"1":0.003778337500989437,"2":0.2732997536659241,"3":0.19521410763263702,"4":0.33375313878059387,"5":0.255667507648468,"6":0.2783375382423401,"7":0.2795969843864441,"8":0.29722923040390015,"9":0.256926953792572,"10":0.32997480034828186,"11":0.3387909233570099,"12":0.32871535420417786,"13":0.3488664925098419,"14":0.32997480034828186,"15":0.3463476002216339,"16":0.26322418451309204,"17":0.2758186459541321,"18":0.2896725535392761,"19":0.2871536612510681,"20":0.250629723072052,"21":0.26574307680130005,"22":0.2821158766746521,"23":0.2178841382265091}},{"config":"x6-gate","bits":6,"method":"rtn","targets":["gate"],"ppl":27.74,"ppl_ratio":1.003,"flip":0.0468,"setchg":0.1253,"recon":0.0243,"probes":{"long_horizon":0.7593,"format":0.875,"calibration":0.5,"recovery":0.0},"rel":{"long_horizon":1.0,"format":0.9545,"calibration":1.0,"recovery":null},"core":0.9773,"control":null,"margin":[0.39231738448143005,0.0938287153840065,0.01364399679005146,0.0012594457948580384],"margin1":[0.18219983577728271,0.004827875643968582,0.00020990763732697815,0.0],"layers":{"0":0.030226700007915497,"1":0.0,"2":0.022670025005936623,"3":0.026448363438248634,"4":0.04659949615597725,"5":0.020151132717728615,"6":0.03526448458433151,"7":0.041561711579561234,"8":0.04408060386776924,"9":0.04408060386776924,"10":0.05037783458828926,"11":0.05667506158351898,"12":0.07430730760097504,"13":0.07052896916866302,"14":0.06549118459224701,"15":0.07178841531276703,"16":0.06675063073635101,"17":0.05289672687649727,"18":0.05541561543941498,"19":0.05415617302060127,"20":0.045340050011873245,"21":0.03400503844022751,"22":0.06675063073635101,"23":0.04785894230008125}},{"config":"x4-gate","bits":4,"method":"rtn","targets":["gate"],"ppl":26.85,"ppl_ratio":0.971,"flip":0.1502,"setchg":0.3292,"recon":0.0546,"probes":{"long_horizon":0.7778,"format":0.9167,"calibration":0.55,"recovery":0.0},"rel":{"long_horizon":1.0244,"format":1.0,"calibration":1.1,"recovery":null},"core":1.0122,"control":null,"margin":[0.6083123683929443,0.44857263565063477,0.22460117936134338,0.03547438979148865],"margin1":[0.4141477644443512,0.15973971784114838,0.025818640366196632,0.0010495382593944669],"layers":{"0":0.0931989923119545,"1":0.010075566358864307,"2":0.12342569231987,"3":0.10201511532068253,"4":0.16750629246234894,"5":0.08438286930322647,"6":0.124685138463974,"7":0.124685138463974,"8":0.10327456146478653,"9":0.12090680003166199,"10":0.16876573860645294,"11":0.19899244606494904,"12":0.2846347689628601,"13":0.16246850788593292,"14":0.2204030156135559,"15":0.250629723072052,"16":0.15239295363426208,"17":0.14357683062553406,"18":0.188916876912117,"19":0.20528967678546906,"20":0.13098236918449402,"21":0.13098236918449402,"22":0.183879092335701,"23":0.128463476896286}},{"config":"x3-gate","bits":3,"method":"rtn","targets":["gate"],"ppl":27.82,"ppl_ratio":1.006,"flip":0.2623,"setchg":0.5543,"recon":0.1107,"probes":{"long_horizon":0.7778,"format":0.7083,"calibration":0.6,"recovery":0.0},"rel":{"long_horizon":1.0244,"format":0.7727,"calibration":1.2,"recovery":null},"core":0.8986,"control":null,"margin":[0.759655773639679,0.6801007390022278,0.531696081161499,0.245591938495636],"margin1":[0.520990788936615,0.34361881017684937,0.15827035903930664,0.0262384545058012],"layers":{"0":0.185138538479805,"1":0.010075566358864307,"2":0.20403023064136505,"3":0.19899244606494904,"4":0.3136020004749298,"5":0.16372795403003693,"6":0.22292190790176392,"7":0.3098236918449402,"8":0.22670024633407593,"9":0.21410579979419708,"10":0.2808564305305481,"11":0.35516372323036194,"12":0.3085642457008362,"13":0.42443326115608215,"14":0.26952141523361206,"15":0.4105793535709381,"16":0.32619646191596985,"17":0.29974812269210815,"18":0.3098236918449402,"19":0.3098236918449402,"20":0.249370276927948,"21":0.23425692319869995,"22":0.23425692319869995,"23":0.23299747705459595}},{"config":"x2-gate","bits":2,"method":"rtn","targets":["gate"],"ppl":47.39,"ppl_ratio":1.714,"flip":0.4808,"setchg":0.8639,"recon":0.323,"probes":{"long_horizon":0.7037,"format":1.0,"calibration":0.8,"recovery":0.2},"rel":{"long_horizon":0.9268,"format":1.0909,"calibration":1.6,"recovery":null},"core":1.0089,"control":null,"margin":[0.9296809434890747,0.9139378666877747,0.8751049637794495,0.7369857430458069],"margin1":[0.6633081436157227,0.5841729640960693,0.4643157124519348,0.21137699484825134],"layers":{"0":0.33249369263648987,"1":0.022670025005936623,"2":0.379093199968338,"3":0.45465993881225586,"4":0.5302267074584961,"5":0.39798489212989807,"6":0.4319899380207062,"7":0.51259446144104,"8":0.5,"9":0.5352644920349121,"10":0.4672544002532959,"11":0.5403022766113281,"12":0.5843828916549683,"13":0.5491183996200562,"14":0.5906801223754883,"15":0.6007556915283203,"16":0.47984886169433594,"17":0.5239294767379761,"18":0.5277078151702881,"19":0.5667506456375122,"20":0.492443323135376,"21":0.501259446144104,"22":0.47732996940612793,"23":0.5403022766113281}},{"config":"x3-all","bits":3,"method":"rtn","targets":["expert","attention","gate"],"ppl":50.56,"ppl_ratio":1.828,"flip":0.4121,"setchg":0.8271,"recon":0.2909,"probes":{"long_horizon":0.6481,"format":0.75,"calibration":0.4,"recovery":0.0},"rel":{"long_horizon":0.8537,"format":0.8182,"calibration":0.8,"recovery":null},"core":0.8359,"control":null,"margin":[0.9175062775611877,0.8944164514541626,0.8371116518974304,0.6593198776245117],"margin1":[0.6303526163101196,0.497481107711792,0.37006717920303345,0.15050378441810608],"layers":{"0":0.21284635365009308,"1":0.026448363438248634,"2":0.3375314772129059,"3":0.32115867733955383,"4":0.49370276927948,"5":0.379093199968338,"6":0.377833753824234,"7":0.4722921848297119,"8":0.3992443382740021,"9":0.3992443382740021,"10":0.491183876991272,"11":0.5327455997467041,"12":0.4722921848297119,"13":0.5264483690261841,"14":0.496221661567688,"15":0.5440806150436401,"16":0.45340049266815186,"17":0.4319899380207062,"18":0.4710327386856079,"19":0.44458436965942383,"20":0.42569270730018616,"21":0.4042821228504181,"22":0.45214104652404785,"23":0.32493701577186584}},{"config":"x4-ea-g32","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":28.54,"ppl_ratio":1.032,"flip":0.1534,"setchg":0.426,"recon":0.13,"probes":{"long_horizon":0.5556,"format":0.8333,"calibration":0.6,"recovery":0.0},"rel":{"long_horizon":0.7317,"format":0.9091,"calibration":1.2,"recovery":null},"core":0.8204,"control":null,"margin":[0.6853484511375427,0.5413517951965332,0.3660789132118225,0.11104114353656769],"margin1":[0.4019731283187866,0.16498740017414093,0.0419815294444561,0.004617968108505011],"layers":{"0":0.06926952302455902,"1":0.0,"2":0.0944584384560585,"3":0.11586901545524597,"4":0.16498740017414093,"5":0.11586901545524597,"6":0.17002518475055695,"7":0.1549118459224701,"8":0.16372795403003693,"9":0.13979849219322205,"10":0.16624684631824493,"11":0.21032746136188507,"12":0.18010075390338898,"13":0.22292190790176392,"14":0.18136020004749298,"15":0.19269521534442902,"16":0.16750629246234894,"17":0.18010075390338898,"18":0.16750629246234894,"19":0.16624684631824493,"20":0.1586901694536209,"21":0.17758186161518097,"22":0.190176323056221,"23":0.13098236918449402}},{"config":"x4-ea-g512","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":32.59,"ppl_ratio":1.179,"flip":0.2217,"setchg":0.5696,"recon":0.2109,"probes":{"long_horizon":0.463,"format":1.0,"calibration":0.6,"recovery":0.0},"rel":{"long_horizon":0.6098,"format":1.0909,"calibration":1.2,"recovery":null},"core":0.8503,"control":null,"margin":[0.770361065864563,0.6845088005065918,0.5499579906463623,0.2735096514225006],"margin1":[0.4865659177303314,0.2684718668460846,0.10915197432041168,0.022670025005936623],"layers":{"0":0.09697733074426651,"1":0.005037783179432154,"2":0.16498740017414093,"3":0.1574307233095169,"4":0.27078086137771606,"5":0.19269521534442902,"6":0.22292190790176392,"7":0.26070529222488403,"8":0.21410579979419708,"9":0.20528967678546906,"10":0.23677581548690796,"11":0.32115867733955383,"12":0.2745591998100281,"13":0.2871536612510681,"14":0.2745591998100281,"15":0.2745591998100281,"16":0.23299747705459595,"17":0.22795969247817993,"18":0.256926953792572,"19":0.24055415391921997,"20":0.24307304620742798,"21":0.22544080018997192,"22":0.249370276927948,"23":0.185138538479805}},{"config":"x4-ea-perchan","bits":4,"method":"rtn","targets":["expert","attention"],"ppl":33.27,"ppl_ratio":1.203,"flip":0.2431,"setchg":0.6013,"recon":0.2244,"probes":{"long_horizon":0.4815,"format":0.5833,"calibration":0.45,"recovery":0.2},"rel":{"long_horizon":0.6341,"format":0.6364,"calibration":0.9,"recovery":null},"core":0.6353,"control":null,"margin":[0.7928211688995361,0.709487795829773,0.5948782563209534,0.3081444203853607],"margin1":[0.4945423901081085,0.2989084720611572,0.13937866687774658,0.03946263715624809],"layers":{"0":0.11460956931114197,"1":0.002518891589716077,"2":0.17758186161518097,"3":0.1536523997783661,"4":0.2758186459541321,"5":0.20025189220905304,"6":0.24181360006332397,"7":0.2795969843864441,"8":0.2770780920982361,"9":0.2204030156135559,"10":0.2795969843864441,"11":0.3438287079334259,"12":0.3148614466190338,"13":0.32367756962776184,"14":0.2795969843864441,"15":0.32997480034828186,"16":0.26070529222488403,"17":0.24055415391921997,"18":0.26826196908950806,"19":0.2783375382423401,"20":0.26700252294540405,"21":0.251889169216156,"22":0.2821158766746521,"23":0.17002518475055695}},{"config":"x3-ea-g32","bits":3,"method":"rtn","targets":["expert","attention"],"ppl":31.24,"ppl_ratio":1.13,"flip":0.272,"setchg":0.6535,"recon":0.2431,"probes":{"long_horizon":0.7037,"format":0.25,"calibration":0.5,"recovery":0.1},"rel":{"long_horizon":0.9268,"format":0.2727,"calibration":1.0,"recovery":null},"core":0.5998,"control":null,"margin":[0.8094038367271423,0.7548278570175171,0.6553316712379456,0.3946263790130615],"margin1":[0.526658296585083,0.3314441740512848,0.18052056431770325,0.049538202583789825],"layers":{"0":0.10453400760889053,"1":0.003778337500989437,"2":0.190176323056221,"3":0.18136020004749298,"4":0.29848867654800415,"5":0.26322418451309204,"6":0.2858942151069641,"7":0.3123425841331482,"8":0.2858942151069641,"9":0.27078086137771606,"10":0.2909319996833801,"11":0.36272040009498596,"12":0.3450881540775299,"13":0.3450881540775299,"14":0.33123424649238586,"15":0.3476070463657379,"16":0.2884131073951721,"17":0.2846347689628601,"18":0.3073047995567322,"19":0.3173803389072418,"20":0.29471033811569214,"21":0.2896725535392761,"22":0.3098236918449402,"23":0.2178841382265091}},{"config":"x4-experts-awq","bits":4,"method":"awq","targets":["expert"],"ppl":31.75,"ppl_ratio":1.148,"flip":0.1441,"setchg":0.3894,"recon":0.1029,"probes":{"long_horizon":0.5926,"format":0.75,"calibration":0.65,"recovery":0.0},"rel":{"long_horizon":0.7805,"format":0.8182,"calibration":1.3,"recovery":null},"core":0.7993,"control":null,"margin":[0.6442065238952637,0.49979010224342346,0.3209487795829773,0.09277917444705963],"margin1":[0.3826616406440735,0.14273719489574432,0.04659949615597725,0.004408060573041439],"layers":{"0":0.0,"1":0.0,"2":0.05541561543941498,"3":0.08060453087091446,"4":0.11586901545524597,"5":0.10327456146478653,"6":0.13602015376091003,"7":0.16498740017414093,"8":0.14609572291374207,"9":0.13350126147270203,"10":0.17128463089466095,"11":0.2178841382265091,"12":0.191435769200325,"13":0.190176323056221,"14":0.20528967678546906,"15":0.20025189220905304,"16":0.16876573860645294,"17":0.1574307233095169,"18":0.18136020004749298,"19":0.19521410763263702,"20":0.16750629246234894,"21":0.1549118459224701,"22":0.20151133835315704,"23":0.11964735388755798}},{"config":"x3-ea-awq","bits":3,"method":"awq","targets":["expert","attention"],"ppl":125.61,"ppl_ratio":4.543,"flip":0.4002,"setchg":0.8192,"recon":0.3464,"probes":{"long_horizon":0.3519,"format":0.0833,"calibration":0.15,"recovery":0.0},"rel":{"long_horizon":0.4634,"format":0.0909,"calibration":0.3,"recovery":null},"core":0.2772,"control":null,"margin":[0.9118387699127197,0.8822417855262756,0.8303946256637573,0.6523929238319397],"margin1":[0.6299328207969666,0.49097397923469543,0.33795130252838135,0.1418975591659546],"layers":{"0":0.14987406134605408,"1":0.002518891589716077,"2":0.2896725535392761,"3":0.249370276927948,"4":0.39042821526527405,"5":0.30352646112442017,"6":0.375314861536026,"7":0.4055415689945221,"8":0.42821159958839417,"9":0.3501259386539459,"10":0.4748110771179199,"11":0.510075569152832,"12":0.4685138463973999,"13":0.4697732925415039,"14":0.48614609241485596,"15":0.5214105844497681,"16":0.507556676864624,"17":0.4345088303089142,"18":0.4710327386856079,"19":0.4647355079650879,"20":0.4685138463973999,"21":0.4722921848297119,"22":0.515113353729248,"23":0.39546599984169006}},{"config":"x8-gate-only-ea4","bits":4,"method":"awq","targets":["expert","attention","gate"],"ppl":39.23,"ppl_ratio":1.419,"flip":0.2816,"setchg":0.6283,"recon":0.2021,"probes":{"long_horizon":0.6481,"format":0.6667,"calibration":0.65,"recovery":0.0},"rel":{"long_horizon":0.8537,"format":0.7273,"calibration":1.3,"recovery":null},"core":0.7905,"control":null,"margin":[0.8104534149169922,0.7304785847663879,0.6286733746528625,0.3434089124202728],"margin1":[0.530436635017395,0.36691856384277344,0.18849706649780273,0.0407220833003521],"layers":{"0":0.12216624617576599,"1":0.006297229323536158,"2":0.17254407703876495,"3":0.19899244606494904,"4":0.3186397850513458,"5":0.19395466148853302,"6":0.248110830783844,"7":0.2909319996833801,"8":0.3173803389072418,"9":0.255667507648468,"10":0.29219144582748413,"11":0.369017630815506,"12":0.36523929238319397,"13":0.3488664925098419,"14":0.3450881540775299,"15":0.38664987683296204,"16":0.3488664925098419,"17":0.3148614466190338,"18":0.3173803389072418,"19":0.366498738527298,"20":0.30478590726852417,"21":0.2871536612510681,"22":0.3148614466190338,"23":0.2732997536659241}}], SEARCH = {"history":[{"step":1,"component":"expert","bits":8,"state":{"gate":16,"attention":16,"expert":8},"set_change_rate":0.073,"recon_error":0.015,"cost":0.1897,"model_bits":8.4752},{"step":2,"component":"attention","bits":8,"state":{"gate":16,"attention":8,"expert":8},"set_change_rate":0.0873,"recon_error":0.0203,"cost":0.2267,"model_bits":8.0049,"validated_agentic":0.947},{"step":3,"component":"expert","bits":6,"state":{"gate":16,"attention":8,"expert":6},"set_change_rate":0.1363,"recon_error":0.0468,"cost":0.4684,"model_bits":6.1237},{"step":4,"component":"expert","bits":5,"state":{"gate":16,"attention":8,"expert":5},"set_change_rate":0.2168,"recon_error":0.0912,"cost":0.9118,"model_bits":5.1831,"validated_agentic":0.8954,"reverted":true},{"step":5,"component":"expert","bits":6,"state":{"gate":16,"attention":8,"expert":6},"set_change_rate":0.1363,"recon_error":0.0468,"cost":0.4684,"model_bits":6.1237,"validated_agentic":0.9302},{"step":6,"component":"attention","bits":6,"state":{"gate":16,"attention":6,"expert":6},"set_change_rate":0.1899,"recon_error":0.0552,"cost":0.5518,"model_bits":6.0061,"validated_agentic":0.887,"reverted":true},{"step":7,"component":"gate","bits":8,"state":{"gate":8,"attention":8,"expert":6},"set_change_rate":0.1371,"recon_error":0.0482,"cost":0.4823,"model_bits":6.1188,"validated_agentic":0.9712},{"step":8,"component":"gate","bits":6,"state":{"gate":6,"attention":8,"expert":6},"set_change_rate":0.1646,"recon_error":0.0459,"cost":0.4587,"model_bits":6.1176,"validated_agentic":0.9484},{"step":9,"component":"expert","bits":5,"state":{"gate":6,"attention":8,"expert":5},"set_change_rate":0.2346,"recon_error":0.0882,"cost":0.8822,"model_bits":5.177,"validated_agentic":0.9522},{"step":10,"component":"gate","bits":5,"state":{"gate":5,"attention":8,"expert":5},"set_change_rate":0.2772,"recon_error":0.0962,"cost":0.9625,"model_bits":5.1764,"validated_agentic":0.9659}],"state":{"gate":5,"attention":8,"expert":5},"bits":5.18,"final":0.9659,"evals":24}, GROUPS = {"bf16":"Baseline","w8-ea":"Bit sweep","w6-ea":"Bit sweep","w4-ea":"Bit sweep","w4-ea-awq":"Method","w3-ea":"Bit sweep","w4-experts":"Ablation","w4-attention":"Ablation","w4-all":"Ablation","x8-ea":"Bit sweep","x7-ea":"Bit sweep","x5-ea":"Bit sweep","x6-experts":"Ablation","x3-experts":"Ablation","x6-attention":"Ablation","x3-attention":"Ablation","x6-gate":"Router only","x4-gate":"Router only","x3-gate":"Router only","x2-gate":"Router only","x3-all":"Ablation","x4-ea-g32":"Group size","x4-ea-g512":"Group size","x4-ea-perchan":"Group size","x3-ea-g32":"Group size","x4-experts-awq":"Method","x3-ea-awq":"Method","x8-gate-only-ea4":"Method"};
 const byName = Object.fromEntries(DATA.map(d => [d.config, d]));
 const pct = v => (v * 100).toFixed(1) + '%';
 const sgn = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1) + '%';
 const PROBES = [['long_horizon','Long-horizon'],['format','Format stability'],
                 ['calibration','Calibration'],['recovery','Error recovery']];
+const colOf = v => v >= .95 ? 'var(--good)' : v >= .85 ? 'var(--warn)' : 'var(--alarm)';
 
-/* ---------- hero: streaks on the stone ---------- */
-(function(){
-  const c = document.getElementById('streaks'), x = c.getContext('2d');
-  let w, h, marks = [];
-  function size(){ w = c.width = c.offsetWidth * 2; h = c.height = c.offsetHeight * 2; build(); }
-  function build(){
-    marks = [];
-    for (let i = 0; i < 26; i++)
-      marks.push({ x: Math.random() * w, y: Math.random() * h,
-        len: 40 + Math.random() * 150, a: -0.6 - Math.random() * 0.25,
-        o: 0.04 + Math.random() * 0.13, wid: 1 + Math.random() * 2.5 });
+/* hero collage of real configs */
+function collage(el){
+  const pick = DATA.filter(d => d.config !== 'bf16');
+  let h = '';
+  for (let i = 0; i < 36; i++){
+    const d = pick[i % pick.length];
+    const c = d.core >= .95 ? '#54a97b' : d.core >= .85 ? '#d0a248' : '#e2705f';
+    // Tint each tile by what that configuration actually measured, so the texture
+    // behind the headline is the sweep itself rather than decoration.
+    const rgb = d.core >= .95 ? '84,169,123' : d.core >= .85 ? '208,162,72' : '226,112,95';
+    h += '<div class="tile" style="background:rgba(' + rgb + ',.13);border-color:rgba(' + rgb + ',.3)">' +
+         '<p class="t-n">' + d.config + '</p><p class="t-v" style="color:' + c + '">' +
+         Math.round((d.core ?? 1) * 100) + '</p><p class="t-b"><i style="width:' +
+         Math.min(d.setchg * 100, 100) + '%;background:' + c + '"></i></p></div>';
   }
-  function draw(){
-    x.clearRect(0, 0, w, h);
-    for (const m of marks){
-      const g = x.createLinearGradient(m.x, m.y, m.x + Math.cos(m.a) * m.len, m.y + Math.sin(m.a) * m.len);
-      g.addColorStop(0, 'rgba(214,165,72,0)');
-      g.addColorStop(.5, 'rgba(214,165,72,' + m.o + ')');
-      g.addColorStop(1, 'rgba(214,165,72,0)');
-      x.strokeStyle = g; x.lineWidth = m.wid * 2; x.lineCap = 'round';
-      x.beginPath(); x.moveTo(m.x, m.y);
-      x.lineTo(m.x + Math.cos(m.a) * m.len, m.y + Math.sin(m.a) * m.len); x.stroke();
-    }
-  }
-  size(); draw(); addEventListener('resize', () => { size(); draw(); });
-})();
+  el.innerHTML = h;
+}
+collage(document.getElementById('collage'));
+collage(document.getElementById('collage2'));
 
-/* ---------- the game ---------- */
-const GAME = [
-  { c:'w4-ea', label:'4-bit, experts + attention', ship:false,
-    why:'The most widely deployed setting on the board. Perplexity improved and recall barely moved, but format stability fell 24% and long-horizon adherence 19%. Half of all tokens changed expert.' },
-  { c:'w8-ea', label:'8-bit, experts + attention', ship:true,
-    why:'Genuinely safe. Every probe held at baseline. 8.7% of tokens re-routed, which is real movement but not enough to cost anything measurable.' },
-  { c:'w4-attention', label:'4-bit, attention only', ship:false,
+/* ---- the demo ---- */
+const ROUNDS = [
+  { c:'w4-ea', g:'Bit-width sweep', label:'4-bit · experts + attention', ship:false,
+    why:'The most widely deployed setting on the board. Perplexity improved and recall barely moved, but format stability fell 24% and long-horizon adherence 19%. Half of all tokens changed expert set.' },
+  { c:'w8-ea', g:'Bit-width sweep', label:'8-bit · experts + attention', ship:true,
+    why:'Genuinely safe. Every probe held at baseline. 8.7% of tokens re-routed — real movement, but not enough to cost anything measurable.' },
+  { c:'w6-ea', g:'Bit-width sweep', label:'6-bit · experts + attention', ship:true,
+    why:'Holds up. Long-horizon slipped 7%, inside the noise of a 100-item suite, and format stability was untouched.' },
+  { c:'w4-attention', g:'Component ablation', label:'4-bit · attention only', ship:false,
     why:'The best perplexity in the entire sweep — 15% better than BF16 on the calibration set — and the worst long-horizon adherence, 41% below baseline. No expert or router weight was touched; degrading attention moved the router’s input instead.' },
-  { c:'x4-gate', label:'4-bit, router only', ship:true,
-    why:'15% of tokens changed their top expert and nothing broke. Sending a token to a different expert is harmless when every expert it might land on is intact — which is exactly why routing divergence alone is not a sufficient signal.' },
-  { c:'w6-ea', label:'6-bit, experts + attention', ship:true,
-    why:'Holds up. Long-horizon slipped 7%, within the noise of a 100-item suite, and format stability was untouched.' },
-  { c:'x3-ea-g32', label:'3-bit, fine-grained groups', ship:false,
-    why:'Perplexity only rose 13% — the kind of move a team would wave through. Format stability collapsed to 27% of baseline.' }
+  { c:'x4-gate', g:'Component ablation', label:'4-bit · router only', ship:true,
+    why:'15% of tokens changed their top expert and nothing broke. Sending a token elsewhere is harmless when every expert it might land on is intact — which is exactly why routing divergence alone is not a sufficient signal.' },
+  { c:'x3-ea-g32', g:'Group size', label:'3-bit · fine-grained groups', ship:false,
+    why:'Perplexity rose only 13%, the kind of move a team waves through. Format stability collapsed to 27% of baseline.' }
 ];
 let gi = 0, right = 0, answered = 0;
-
-function renderGame(){
-  const g = GAME[gi], d = byName[g.c];
-  document.getElementById('g-name').textContent = g.c;
-  document.getElementById('g-desc').textContent = g.label;
-  document.getElementById('g-score').textContent = 'Config ' + (gi + 1) + ' of ' + GAME.length;
-  const pplDelta = (d.ppl_ratio - 1) * 100;
-  const pe = document.getElementById('g-ppl');
-  pe.textContent = sgn(-pplDelta);
-  pe.className = 'val ' + (pplDelta <= 0.05 ? 'good' : pplDelta > 0.3 ? 'bad' : '');
-  document.getElementById('g-ppl-cap').textContent =
-    pplDelta <= 0 ? 'Better than the unquantized model.' : 'Ratio ' + d.ppl_ratio.toFixed(3) + ' against BF16.';
+const rounds = document.getElementById('rounds');
+let lastG = '';
+ROUNDS.forEach((r, i) => {
+  if (r.g !== lastG){ rounds.insertAdjacentHTML('beforeend', '<p class="side-g">' + r.g + '</p>'); lastG = r.g; }
+  const b = document.createElement('button');
+  b.innerHTML = '<span class="dot"></span>' + r.label;
+  b.setAttribute('role', 'tab'); b.dataset.i = i;
+  b.onclick = () => { gi = i; renderRound(); };
+  rounds.appendChild(b);
+});
+function renderRound(){
+  const r = ROUNDS[gi], d = byName[r.c];
+  rounds.querySelectorAll('button').forEach(b => b.setAttribute('aria-current', +b.dataset.i === gi ? 'true' : 'false'));
+  document.getElementById('g-name').textContent = r.c;
+  document.getElementById('g-desc').textContent = r.label;
+  document.getElementById('g-pill').style.visibility = 'hidden';
+  const pd = (d.ppl_ratio - 1) * 100, pe = document.getElementById('g-ppl');
+  pe.textContent = sgn(-pd);
+  pe.className = 'v ' + (pd <= .05 ? 'good' : pd > 30 ? 'bad' : '');
+  document.getElementById('g-ppl-c').textContent = pd <= 0 ? 'Better than the unquantized model.' : 'Ratio ' + d.ppl_ratio.toFixed(3) + ' against BF16.';
   const re = document.getElementById('g-rec');
-  if (d.control === null){ re.textContent = 'not run'; re.className = 'val'; re.style.fontSize = '22px';
-    document.getElementById('g-rec-cap').textContent = 'This config skipped the recall control.'; }
+  if (d.control == null){ re.textContent = 'not run'; re.className = 'v'; re.style.fontSize = '21px';
+    document.getElementById('g-rec-c').textContent = 'This configuration skipped the recall control.'; }
   else { re.style.fontSize = ''; re.textContent = sgn((d.control - 1) * 100);
-    re.className = 'val ' + (d.control >= 0.95 ? 'good' : 'bad');
-    document.getElementById('g-rec-cap').textContent = 'The aggregate benchmark proxy.'; }
-  document.getElementById('g-reveal').classList.remove('on');
+    re.className = 'v ' + (d.control >= .95 ? 'good' : 'bad');
+    document.getElementById('g-rec-c').textContent = 'The aggregate benchmark proxy.'; }
+  document.getElementById('g-rev').classList.remove('on');
   document.getElementById('g-ship').disabled = false;
   document.getElementById('g-hold').disabled = false;
 }
-
 function answer(shipped){
-  const g = GAME[gi], d = byName[g.c];
-  answered++;
-  const correct = shipped === g.ship;
-  if (correct) right++;
+  const r = ROUNDS[gi], d = byName[r.c], ok = shipped === r.ship;
+  answered++; if (ok) right++;
   document.getElementById('g-ship').disabled = true;
   document.getElementById('g-hold').disabled = true;
-  const pill = document.getElementById('g-pill');
-  pill.textContent = g.ship ? 'safe to ship' : 'do not ship';
-  pill.className = 'pill ' + (g.ship ? 'ok' : 'bad');
-  document.getElementById('g-verdict-txt').textContent = correct ? 'You called it.'
-    : (shipped ? 'The instruments misled you.' : 'Over-cautious \u2014 this one held up.');
-  document.getElementById('g-expl').textContent = g.why;
-  const bars = document.getElementById('g-bars');
-  bars.innerHTML = '';
-  PROBES.forEach(([k, lbl]) => {
-    const v = d.rel[k]; if (v === null || v === undefined) return;
-    const capped = Math.min(v, 1.25);
-    const col = v >= 0.95 ? 'var(--good)' : v >= 0.85 ? 'var(--warn)' : 'var(--alarm)';
-    bars.insertAdjacentHTML('beforeend',
-      '<div class="bar-row"><span>' + lbl + '</span>' +
-      '<span class="bar-track"><span class="bar-fill" style="width:' + (capped / 1.25 * 100) +
-      '%;background:' + col + '"></span></span>' +
-      '<span class="num" style="color:' + col + '">' + Math.round(v * 100) + '%</span></div>');
+  const p = document.getElementById('g-pill');
+  p.style.visibility = 'visible';
+  p.textContent = r.ship ? 'safe to ship' : 'do not ship';
+  p.className = 'pill ' + (r.ship ? 'ok' : 'bad');
+  document.getElementById('g-vd').textContent = ok ? 'You called it.'
+    : (shipped ? 'The instruments misled you.' : 'Over-cautious — this one held up.');
+  document.getElementById('g-why').textContent = r.why;
+  const bars = document.getElementById('g-bars'); bars.innerHTML = '';
+  PROBES.forEach(([k, l]) => {
+    const v = d.rel[k]; if (v == null) return;
+    bars.insertAdjacentHTML('beforeend', '<div class="br"><span>' + l + '</span><span class="trk">' +
+      '<i class="fil" style="width:' + (Math.min(v, 1.25) / 1.25 * 100) + '%;background:' + colOf(v) + '"></i></span>' +
+      '<span class="n" style="color:' + colOf(v) + '">' + Math.round(v * 100) + '%</span></div>');
   });
-  bars.insertAdjacentHTML('beforeend',
-    '<div class="bar-row" style="margin-top:6px;border-top:1px solid var(--line-soft);padding-top:10px">' +
-    '<span style="color:var(--ink-3)">Tokens re-routed</span>' +
-    '<span class="bar-track"><span class="bar-fill" style="width:' + (d.setchg * 100) +
-    '%;background:var(--brass)"></span></span>' +
-    '<span class="num">' + pct(d.setchg) + '</span></div>');
+  bars.insertAdjacentHTML('beforeend', '<div class="br" style="border-top:1px solid var(--line);padding-top:9px;margin-top:4px">' +
+    '<span style="color:var(--ink-3)">Tokens re-routed</span><span class="trk"><i class="fil" style="width:' +
+    (d.setchg * 100) + '%;background:var(--brass)"></i></span><span class="n">' + pct(d.setchg) + '</span></div>');
   document.getElementById('g-tally').textContent = right + ' of ' + answered + ' calls correct';
-  document.getElementById('g-next').textContent = gi === GAME.length - 1 ? 'Start over' : 'Next config';
-  document.getElementById('g-reveal').classList.add('on');
+  document.getElementById('g-next').textContent = gi === ROUNDS.length - 1 ? 'Start over' : 'Next configuration';
+  document.getElementById('g-rev').classList.add('on');
 }
 document.getElementById('g-ship').onclick = () => answer(true);
 document.getElementById('g-hold').onclick = () => answer(false);
-document.getElementById('g-next').onclick = () => { gi = (gi + 1) % GAME.length; if (gi === 0){ right = 0; answered = 0; } renderGame(); };
-renderGame();
+document.getElementById('g-next').onclick = () => { gi = (gi + 1) % ROUNDS.length; if (!gi){ right = 0; answered = 0; } renderRound(); };
+renderRound();
 
-/* ---------- explorer ---------- */
-const GROUPS = [
-  ['Bit-width sweep', ['bf16','x8-ea','x7-ea','w6-ea','x5-ea','w4-ea','w3-ea']],
-  ['Component ablation', ['w4-experts','x6-experts','x3-experts','w4-attention','x6-attention','x3-attention','w4-all','x3-all']],
-  ['Router only', ['x6-gate','x4-gate','x3-gate','x2-gate']],
-  ['Group size', ['x4-ea-g32','x4-ea-g512','x4-ea-perchan','x3-ea-g32']],
-  ['Method', ['w4-ea-awq','x4-experts-awq','x3-ea-awq','x8-gate-only-ea4']]
-];
-const rail = document.getElementById('rail');
-GROUPS.forEach(([name, list]) => {
-  rail.insertAdjacentHTML('beforeend', '<p class="rail-grp">' + name + '</p>');
-  list.filter(c => byName[c]).forEach(c => {
-    const b = document.createElement('button');
-    b.textContent = c; b.setAttribute('role', 'tab'); b.dataset.c = c;
-    b.onclick = () => select(c);
-    rail.appendChild(b);
-  });
-});
-
-function verdictOf(d){
-  const hot = Math.max(d.setchg / 0.385, d.recon / 0.100);
-  return hot >= 1 ? ['HIGH', 'bad'] : hot >= 0.5 ? ['MEDIUM', 'mid'] : ['LOW', 'ok'];
-}
-function select(c){
-  const d = byName[c];
-  rail.querySelectorAll('button').forEach(b => b.setAttribute('aria-current', b.dataset.c === c ? 'true' : 'false'));
-  document.getElementById('e-name').textContent = c;
-  const tg = d.targets.length ? d.targets.join(' + ') : 'nothing quantized';
-  document.getElementById('e-sub').textContent =
-    (d.bits === 16 ? 'Baseline' : d.bits + '-bit') + ' · ' + tg + (d.method !== 'rtn' && d.method !== 'none' ? ' · ' + d.method : '');
-  const [v, cls] = verdictOf(d);
-  const pill = document.getElementById('e-pill');
-  pill.textContent = 'predicted damage: ' + v; pill.className = 'pill ' + cls;
-  document.getElementById('e-setchg').textContent = pct(d.setchg);
-  document.getElementById('e-recon').textContent = d.recon.toFixed(3);
-  document.getElementById('e-ppl').textContent = d.ppl_ratio.toFixed(3);
-  document.getElementById('e-recall').textContent = d.control === null ? '—' : pct(d.control);
-  const bars = document.getElementById('e-bars');
-  bars.innerHTML = '';
-  PROBES.forEach(([k, lbl]) => {
-    const v2 = d.rel[k]; if (v2 === null || v2 === undefined) return;
-    const capped = Math.min(v2, 1.25);
-    const col = v2 >= 0.95 ? 'var(--good)' : v2 >= 0.85 ? 'var(--warn)' : 'var(--alarm)';
-    bars.insertAdjacentHTML('beforeend',
-      '<div class="bar-row"><span>' + lbl + '</span><span class="bar-track">' +
-      '<span class="bar-fill" style="width:' + (capped / 1.25 * 100) + '%;background:' + col + '"></span></span>' +
-      '<span class="num" style="color:' + col + '">' + Math.round(v2 * 100) + '%</span></div>');
-  });
-  drawLayers(d);
-}
-function drawLayers(d){
-  const keys = Object.keys(d.layers).filter(k => k !== 'null').map(Number).sort((a, b) => a - b);
-  const host = document.getElementById('e-layers');
-  if (!keys.length){ host.innerHTML = '<p style="font-size:14px;color:var(--ink-3)">No per-layer trace for the baseline.</p>'; return; }
-  const W = 700, H = 110, pad = 26, bw = (W - pad * 2) / keys.length;
-  const max = Math.max(0.05, ...keys.map(k => d.layers[k]));
-  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Router flip rate by layer">';
-  keys.forEach((k, i) => {
-    const h = (d.layers[k] / max) * (H - pad - 14);
-    s += '<rect x="' + (pad + i * bw + 1) + '" y="' + (H - pad - h) + '" width="' + (bw - 3) +
-         '" height="' + Math.max(h, 1) + '" rx="2.5" fill="var(--brass)" opacity=".85"><title>layer ' + k +
-         ': ' + pct(d.layers[k]) + ' top-1 flips</title></rect>';
-  });
-  s += '<line x1="' + pad + '" y1="' + (H - pad) + '" x2="' + (W - pad) + '" y2="' + (H - pad) +
-       '" stroke="var(--line)" stroke-width="1"/>';
-  s += '<text x="' + pad + '" y="' + (H - 8) + '" font-size="11" fill="var(--ink-3)" font-family="IBM Plex Mono">layer 0</text>';
-  s += '<text x="' + (W - pad) + '" y="' + (H - 8) + '" font-size="11" fill="var(--ink-3)" text-anchor="end" font-family="IBM Plex Mono">layer ' + keys[keys.length - 1] + '</text>';
-  s += '<text x="' + pad + '" y="14" font-size="11" fill="var(--ink-3)" font-family="IBM Plex Mono">peak ' + pct(max) + '</text></svg>';
-  host.innerHTML = s;
-}
-select('w4-ea');
-
-/* ---------- crossing point ---------- */
-const SWEEP = ['bf16','x8-ea','x7-ea','w6-ea','x5-ea','w4-ea','w3-ea']
-  .map(c => byName[c]).filter(Boolean)
-  .sort((a, b) => b.bits - a.bits);
-const SERIES = [
-  { k:'control', lbl:'Knowledge recall', col:'var(--s1)', dash:false, instrument:true },
-  { k:'pplinv',  lbl:'Perplexity (inverted)', col:'var(--s2)', dash:false, instrument:true },
-  { k:'long_horizon', lbl:'Long-horizon adherence', col:'var(--s3)', dash:true },
-  { k:'format', lbl:'Format stability', col:'var(--s4)', dash:true }
-];
-const valOf = (d, k) => k === 'pplinv' ? 1 / d.ppl_ratio : (k === 'control' ? d.control : d.rel[k]);
-
-document.getElementById('cp-legend').innerHTML = SERIES.map(s =>
-  '<span><span class="swatch' + (s.dash ? ' dash' : '') + '" style="' +
-  (s.dash ? 'color:' + s.col : 'background:' + s.col) + '"></span>' + s.lbl +
-  (s.instrument ? ' <span style="color:var(--ink-3)">· instrument</span>' : '') + '</span>').join('');
-
-(function drawCP(){
-  const W = 860, H = 340, L = 56, R = 22, T = 18, B = 46;
-  const H2 = 130, B2 = 40;
-  const xs = i => L + i * (W - L - R) / (SWEEP.length - 1);
-  const lo = 0.3, hi = 1.2;
-  const ys = v => T + (hi - v) / (hi - lo) * (H - T - B);
-  let s = '<svg viewBox="0 0 ' + W + ' ' + (H + H2) + '" width="' + W + '" height="' + (H + H2) +
-          '" role="img" aria-label="Scores relative to BF16 as bit-width falls, with router divergence below">';
-  for (let g = 0.4; g <= 1.2001; g += 0.2){
-    s += '<line x1="' + L + '" y1="' + ys(g) + '" x2="' + (W - R) + '" y2="' + ys(g) +
-         '" stroke="var(--line-soft)" stroke-width="1"/>' +
-         '<text x="' + (L - 10) + '" y="' + (ys(g) + 4) + '" font-size="11" fill="var(--ink-3)" text-anchor="end" font-family="IBM Plex Mono">' +
-         Math.round(g * 100) + '%</text>';
+/* ---- orbit: the router ---- */
+(function(){
+  const W = 820, H = 430, cx = 512, cy = H / 2, R = 150, N = 8;
+  const flipped = [2, 5];
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="A gate routing tokens to eight of thirty-two experts, with two of the eight changed by quantization">';
+  s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 5"/>';
+  s += '<rect x="20" y="' + (cy - 26) + '" width="122" height="52" rx="14" fill="var(--card)" stroke="var(--line-2)"/>' +
+       '<text x="81" y="' + (cy - 3) + '" text-anchor="middle" class="o-lbl" style="font-size:12px;fill:var(--ink)">token stream</text>' +
+       '<text x="81" y="' + (cy + 13) + '" text-anchor="middle" class="o-lbl">794 calibration</text>';
+  const gx = 244;
+  s += '<path d="M142 ' + cy + ' H' + (gx - 30) + '" stroke="var(--line-2)" stroke-width="1.5" fill="none"/>';
+  s += '<circle cx="' + gx + '" cy="' + cy + '" r="30" fill="var(--dark)"/>' +
+       '<text x="' + gx + '" y="' + (cy + 5) + '" text-anchor="middle" style="font-family:var(--mono);font-size:13px;fill:#fff;font-weight:600">gate</text>';
+  const pts = [];
+  for (let i = 0; i < N; i++){
+    const a = -Math.PI / 2 + i * 2 * Math.PI / N;
+    pts.push([cx + R * Math.cos(a), cy + R * Math.sin(a)]);
   }
-  s += '<line x1="' + L + '" y1="' + ys(1) + '" x2="' + (W - R) + '" y2="' + ys(1) +
-       '" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="2 3"/>';
-  SWEEP.forEach((d, i) => {
-    s += '<text x="' + xs(i) + '" y="' + (H - B + 22) + '" font-size="12" fill="var(--ink-2)" text-anchor="middle" font-family="IBM Plex Mono">' +
-         (d.bits === 16 ? 'BF16' : d.bits + '-bit') + '</text>';
+  pts.forEach((p, i) => {
+    const fl = flipped.includes(i);
+    s += '<path d="M' + (gx + 30) + ' ' + cy + ' Q' + ((gx + p[0]) / 2 + 20) + ' ' + ((cy + p[1]) / 2) +
+         ' ' + p[0] + ' ' + p[1] + '" fill="none" stroke="' + (fl ? 'var(--alarm)' : 'var(--line-2)') +
+         '" stroke-width="' + (fl ? 2 : 1.4) + '"' + (fl ? '' : ' opacity=".8"') + '/>';
   });
+  pts.forEach((p, i) => {
+    const fl = flipped.includes(i);
+    s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="21" fill="var(--card)" stroke="' +
+         (fl ? 'var(--alarm)' : 'var(--line-2)') + '" stroke-width="' + (fl ? 2 : 1.4) + '"/>' +
+         '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" text-anchor="middle" style="font-family:var(--mono);font-size:11px;fill:' +
+         (fl ? 'var(--alarm)' : 'var(--ink-2)') + '">e' + (i + 1) + '</text>';
+  });
+  s += '<text x="' + cx + '" y="' + (cy + 4) + '" text-anchor="middle" class="o-hub">top-8</text>';
+  s += '<text x="' + cx + '" y="' + (cy + 24) + '" text-anchor="middle" class="o-lbl">of 32 experts</text>';
+  s += '<g><rect x="' + (W - 214) + '" y="26" width="196" height="56" rx="13" fill="var(--card)" stroke="var(--alarm)" opacity=".9"/>' +
+       '<text x="' + (W - 116) + '" y="49" text-anchor="middle" style="font-family:var(--mono);font-size:12px;fill:var(--alarm);font-weight:600">2 of 8 changed</text>' +
+       '<text x="' + (W - 116) + '" y="67" text-anchor="middle" class="o-lbl">typical token at 4-bit</text></g>';
+  s += '</svg>';
+  document.getElementById('orbit').innerHTML = s;
+})();
+
+/* ---- charts ---- */
+const SWEEP = ['bf16','x8-ea','x7-ea','w6-ea','x5-ea','w4-ea','w3-ea'].map(c => byName[c]).filter(Boolean).sort((a,b) => b.bits - a.bits);
+const SERIES = [
+  { k:'control', l:'Knowledge recall', c:'var(--s1)', d:false, i:true },
+  { k:'pplinv',  l:'Perplexity (inverted)', c:'var(--s2)', d:false, i:true },
+  { k:'long_horizon', l:'Long-horizon adherence', c:'var(--s3)', d:true },
+  { k:'format', l:'Format stability', c:'var(--s4)', d:true }];
+const valOf = (d, k) => k === 'pplinv' ? 1 / d.ppl_ratio : (k === 'control' ? d.control : d.rel[k]);
+document.getElementById('cp-leg').innerHTML = SERIES.map(s =>
+  '<span><span class="sw' + (s.d ? ' d' : '') + '" style="' + (s.d ? 'color:' + s.c : 'background:' + s.c) +
+  '"></span>' + s.l + (s.i ? ' <span style="color:var(--ink-3)">· instrument</span>' : '') + '</span>').join('');
+
+function crossChart(host, W, H, H2, small){
+  const L = small ? 30 : 54, R = 18, T = 14, B = small ? 26 : 40;
+  const xs = i => L + i * (W - L - R) / (SWEEP.length - 1);
+  const lo = .3, hi = 1.2, ys = v => T + (hi - v) / (hi - lo) * (H - T - B);
+  let s = '<svg viewBox="0 0 ' + W + ' ' + (H + H2) + '" width="' + W + '" height="' + (H + H2) + '" role="img" aria-label="Scores relative to BF16 as bit-width falls">';
+  if (!small) for (let g = .4; g <= 1.201; g += .2)
+    s += '<line x1="' + L + '" y1="' + ys(g) + '" x2="' + (W - R) + '" y2="' + ys(g) + '" stroke="var(--line)"/>' +
+         '<text x="' + (L - 9) + '" y="' + (ys(g) + 4) + '" font-size="11" fill="var(--ink-3)" text-anchor="end" font-family="IBM Plex Mono">' + Math.round(g * 100) + '%</text>';
+  s += '<line x1="' + L + '" y1="' + ys(1) + '" x2="' + (W - R) + '" y2="' + ys(1) + '" stroke="var(--ink-3)" stroke-dasharray="2 3"/>';
+  if (!small) SWEEP.forEach((d, i) => s += '<text x="' + xs(i) + '" y="' + (H - B + 20) + '" font-size="11.5" fill="var(--ink-2)" text-anchor="middle" font-family="IBM Plex Mono">' + (d.bits === 16 ? 'BF16' : d.bits + '-bit') + '</text>');
   SERIES.forEach(se => {
     const pts = SWEEP.map((d, i) => [xs(i), ys(valOf(d, se.k))]).filter(p => !isNaN(p[1]));
-    s += '<path d="M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') +
-         '" fill="none" stroke="' + se.col + '" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"' +
-         (se.dash ? ' stroke-dasharray="7 5"' : '') + '/>';
-    pts.forEach(p => { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="4" fill="' + se.col + '" stroke="var(--card)" stroke-width="2"/>'; });
+    s += '<path d="M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') + '" fill="none" stroke="' + se.c +
+         '" stroke-width="' + (small ? 2 : 2.4) + '" stroke-linejoin="round" stroke-linecap="round"' + (se.d ? ' stroke-dasharray="7 5"' : '') + '/>';
+    if (!small) pts.forEach(p => s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3.8" fill="' + se.c + '" stroke="var(--card)" stroke-width="2"/>');
   });
-  const last = SWEEP.length - 1;
-  s += '<text x="' + (xs(last) - 8) + '" y="' + (ys(valOf(SWEEP[last], 'format')) + 4) +
-       '" font-size="11.5" fill="var(--s4)" text-anchor="end" font-family="IBM Plex Mono">format</text>';
   const i4 = SWEEP.findIndex(d => d.bits === 4);
-  if (i4 > 0){
-    s += '<line x1="' + xs(i4) + '" y1="' + T + '" x2="' + xs(i4) + '" y2="' + (H - B) +
-         '" stroke="var(--brass)" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>' +
-         '<text x="' + (xs(i4) - 8) + '" y="' + (T + 14) + '" font-size="11" fill="var(--brass)" text-anchor="end" font-family="IBM Plex Mono">most deployed</text>';
+  if (i4 > 0 && !small) s += '<line x1="' + xs(i4) + '" y1="' + T + '" x2="' + xs(i4) + '" y2="' + (H - B) +
+    '" stroke="var(--brass)" stroke-dasharray="3 3" opacity=".7"/><text x="' + (xs(i4) - 7) + '" y="' + (T + 12) +
+    '" font-size="10.5" fill="var(--brass)" text-anchor="end" font-family="IBM Plex Mono">most deployed</text>';
+  const yb = v => H + 10 + (1 - v) * (H2 - 26);
+  if (!small) s += '<text x="' + L + '" y="' + (H + 6) + '" font-size="10.5" fill="var(--ink-3)" font-family="IBM Plex Mono">TOKENS RE-ROUTED</text>';
+  const bp = SWEEP.map((d, i) => [xs(i), yb(d.setchg)]);
+  s += '<path d="M' + bp.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') + 'L' + xs(SWEEP.length - 1) + ',' + yb(0) + 'L' + xs(0) + ',' + yb(0) + 'Z" fill="var(--brass)" opacity=".13"/>';
+  s += '<path d="M' + bp.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') + '" fill="none" stroke="var(--brass)" stroke-width="' + (small ? 2 : 2.4) + '" stroke-linejoin="round"/>';
+  if (!small){
+    bp.forEach((p, i) => { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3.8" fill="var(--brass)" stroke="var(--card)" stroke-width="2"/>';
+      if (i === SWEEP.length - 1 || i === 3) s += '<text x="' + p[0] + '" y="' + (p[1] - 9) + '" font-size="11" fill="var(--brass)" text-anchor="middle" font-family="IBM Plex Mono">' + pct(SWEEP[i].setchg) + '</text>'; });
+    SWEEP.forEach((d, i) => s += '<rect class="hit" data-i="' + i + '" x="' + (xs(i) - 24) + '" y="' + T + '" width="48" height="' + (H + H2 - T - 16) + '" fill="transparent" style="cursor:crosshair"/>');
   }
-  const yb = v => H + 14 + (1 - v) * (H2 - B2 - 14);
-  s += '<text x="' + L + '" y="' + (H + 10) + '" font-size="11" fill="var(--ink-3)" font-family="IBM Plex Mono">TOKENS RE-ROUTED</text>';
-  const bpts = SWEEP.map((d, i) => [xs(i), yb(d.setchg)]);
-  s += '<path d="M' + bpts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') +
-       'L' + xs(SWEEP.length - 1) + ',' + yb(0) + 'L' + xs(0) + ',' + yb(0) +
-       'Z" fill="var(--brass)" opacity=".14"/>';
-  s += '<path d="M' + bpts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') +
-       '" fill="none" stroke="var(--brass)" stroke-width="2.4" stroke-linejoin="round"/>';
-  bpts.forEach((p, i) => {
-    s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="4" fill="var(--brass)" stroke="var(--card)" stroke-width="2"/>';
-    if (i === SWEEP.length - 1 || i === 3)
-      s += '<text x="' + p[0] + '" y="' + (p[1] - 10) + '" font-size="11.5" fill="var(--brass)" text-anchor="middle" font-family="IBM Plex Mono">' +
-           pct(SWEEP[i].setchg) + '</text>';
-  });
-  SWEEP.forEach((d, i) => {
-    s += '<rect class="hit" data-i="' + i + '" x="' + (xs(i) - 26) + '" y="' + T + '" width="52" height="' + (H + H2 - T - 20) +
-         '" fill="transparent" style="cursor:crosshair"/>';
-  });
-  s += '</svg>';
-  document.getElementById('cp-chart').innerHTML = s;
+  host.innerHTML = s + '</svg>';
+}
+crossChart(document.getElementById('cp'), 840, 320, 120, false);
+crossChart(document.getElementById('mini-cross'), 460, 128, 44, true);
 
-  const tip = document.getElementById('tip');
-  document.querySelectorAll('#cp-chart .hit').forEach(r => {
-    r.addEventListener('mousemove', e => {
-      const d = SWEEP[+r.dataset.i];
-      tip.innerHTML = '<b>' + (d.bits === 16 ? 'BF16' : d.bits + '-bit') + '</b><br>' +
-        SERIES.map(se => { const v = valOf(d, se.k); return isNaN(v) || v == null ? '' :
-          se.lbl + ': ' + Math.round(v * 100) + '%'; }).filter(Boolean).join('<br>') +
-        '<br>re-routed: ' + pct(d.setchg);
-      tip.classList.add('on');
-      tip.style.left = Math.min(e.clientX + 14, innerWidth - 210) + 'px';
-      tip.style.top = (e.clientY + 14) + 'px';
-    });
-    r.addEventListener('mouseleave', () => tip.classList.remove('on'));
+const tip = document.getElementById('tip');
+document.querySelectorAll('#cp .hit').forEach(r => {
+  r.addEventListener('mousemove', e => {
+    const d = SWEEP[+r.dataset.i];
+    tip.innerHTML = '<b>' + (d.bits === 16 ? 'BF16' : d.bits + '-bit') + '</b><br>' +
+      SERIES.map(se => { const v = valOf(d, se.k); return v == null || isNaN(v) ? '' : se.l + ': ' + Math.round(v * 100) + '%'; }).filter(Boolean).join('<br>') +
+      '<br>re-routed: ' + pct(d.setchg);
+    tip.classList.add('on');
+    tip.style.left = Math.min(e.clientX + 14, innerWidth - 200) + 'px';
+    tip.style.top = (e.clientY + 14) + 'px';
   });
-})();
+  r.addEventListener('mouseleave', () => tip.classList.remove('on'));
+});
 
-/* ---------- margin quartiles ---------- */
-(function drawMargins(){
+/* margin mini */
+(function(){
   const rows = [['w8-ea','8-bit'],['w6-ea','6-bit'],['w4-ea','4-bit'],['w3-ea','3-bit']]
     .map(([c, l]) => [byName[c], l]).filter(([d]) => d && d.margin1 && d.margin1.length);
-  const W = 820, rowH = 62, T = 34, L = 74;
-  const H = T + rows.length * rowH + 26;
-  const cellW = (W - L - 30) / 4;
-  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H +
-          '" role="img" aria-label="Top-1 router flip rate by how close the routing decision was">';
-  ['narrowest margin', '', '', 'widest margin'].forEach((lbl, i) => {
-    s += '<text x="' + (L + i * cellW + cellW / 2) + '" y="18" font-size="11" fill="var(--ink-3)" text-anchor="middle" font-family="IBM Plex Mono">' +
-         (lbl || 'q' + (i + 1)) + '</text>';
-  });
-  rows.forEach(([d, lbl], r) => {
-    const y = T + r * rowH;
-    s += '<text x="' + (L - 14) + '" y="' + (y + 26) + '" font-size="12.5" fill="var(--ink-2)" text-anchor="end" font-family="IBM Plex Mono">' + lbl + '</text>';
+  const W = 460, rh = 26, T = 16, L = 44, H = T + rows.length * rh + 6, cw = (W - L - 8) / 4;
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Flip rate by how close the routing decision was">';
+  s += '<text x="' + L + '" y="9" font-size="9" fill="var(--ink-3)" font-family="IBM Plex Mono">NARROWEST MARGIN</text>' +
+       '<text x="' + (W - 8) + '" y="9" font-size="9" fill="var(--ink-3)" text-anchor="end" font-family="IBM Plex Mono">WIDEST</text>';
+  rows.forEach(([d, l], r) => {
+    const y = T + r * rh;
+    s += '<text x="' + (L - 8) + '" y="' + (y + 15) + '" font-size="10.5" fill="var(--ink-2)" text-anchor="end" font-family="IBM Plex Mono">' + l + '</text>';
     d.margin1.forEach((v, i) => {
-      const bh = 34, x = L + i * cellW + 3, wid = cellW - 8;
-      s += '<rect x="' + x + '" y="' + (y + 6) + '" width="' + wid + '" height="' + bh +
-           '" rx="4" fill="var(--line-soft)"/>';
-      s += '<rect x="' + x + '" y="' + (y + 6) + '" width="' + (wid * Math.min(v / 0.6, 1)) + '" height="' + bh +
-           '" rx="4" fill="var(--brass)" opacity="' + (0.35 + 0.65 * Math.min(v / 0.6, 1)) + '"><title>' +
-           lbl + ', quartile ' + (i + 1) + ': ' + pct(v) + '</title></rect>';
-      s += '<text x="' + (x + 9) + '" y="' + (y + 29) + '" font-size="12.5" fill="var(--on-surface)" font-family="IBM Plex Mono">' +
-           pct(v) + '</text>';
+      const x = L + i * cw + 2, w = cw - 5;
+      s += '<rect x="' + x + '" y="' + (y + 4) + '" width="' + w + '" height="15" rx="3" fill="var(--line)"/>' +
+           '<rect x="' + x + '" y="' + (y + 4) + '" width="' + (w * Math.min(v / .6, 1)) + '" height="15" rx="3" fill="var(--brass)" opacity="' + (.35 + .65 * Math.min(v / .6, 1)) + '"><title>' + l + ' q' + (i + 1) + ': ' + pct(v) + '</title></rect>' +
+           '<text x="' + (x + 5) + '" y="' + (y + 15) + '" font-size="9.5" fill="var(--ink)" font-family="IBM Plex Mono">' + pct(v) + '</text>';
     });
   });
-  s += '</svg>';
-  document.getElementById('mg-chart').innerHTML = s;
+  document.getElementById('mini-margin').innerHTML = s + '</svg>';
 })();
 
-/* ---------- agent replay ---------- */
-const trace = document.getElementById('ag-trace');
-SEARCH.history.forEach((h, i) => {
-  const aud = h.validated_agentic;
-  const rev = h.reverted;
-  trace.insertAdjacentHTML('beforeend',
-    '<div class="step' + (rev ? ' rev' : '') + '" data-i="' + i + '">' +
-    '<span class="n">' + (i + 1) + '</span>' +
-    '<span>' + (rev ? 'tried' : 'accept') + ' <b>' + h.component + ' → ' + h.bits + '-bit</b>' +
-    '<span style="color:var(--ink-3)"> · gate ' + h.state.gate + ' · attn ' + h.state.attention + ' · expert ' + h.state.expert + '</span></span>' +
-    '<span style="color:var(--ink-3)">' + h.model_bits.toFixed(2) + ' bits</span>' +
-    '<span class="aud ' + (aud === undefined ? '' : rev ? 'fail' : 'pass') + '">' +
-    (aud === undefined ? '' : (rev ? 'audit ' + aud.toFixed(3) + ' — rejected' : 'audit ' + aud.toFixed(3) + ' ✓')) +
-    '</span></div>');
+/* ---- probes two-col ---- */
+const PROBE_INFO = [
+  { n:'Long-horizon adherence', d:'Constraints stated at step 0, verified up to 30 turns later: never use this word, end every reply with this line, keep the running count correct.', h:'scored: three independent constraints, fraction satisfied', k:'long_horizon' },
+  { n:'Format stability', d:'Structured output requested while the input carries nested delimiters, escaped quotes and injected braces.', h:'scored: does it parse, and are the keys right', k:'format' },
+  { n:'Calibration & refusal', d:'Answerable and unanswerable questions mixed. Does abstention survive quantization — the failure most likely to be lost silently.', h:'scored both ways, so blanket refusal cannot game it', k:'calibration' },
+  { n:'Error recovery', d:'A malformed or self-contradicting tool result injected mid-trajectory. Recovery is retrying, not inventing a plausible value.', h:'scored: re-issues the call, asserts nothing it never received', k:'recovery' },
+  { n:'Written by the agent', d:'It composed 48 candidate probes across 8 families and kept 2. The rest were saturated, never moved under damage, or duplicated a probe already in the suite.', h:'kept: lower-case discipline (1.00 → 0.00) · running total across turns (0.50 → 0.17)', k:null },
+  { n:'And it remembers', d:'Measurements and audit verdicts persist between runs. A second run repeats no measurement and never re-proposes a config an earlier audit disproved.', h:'run 1: 18 model evaluations · run 2: 0', k:null }
+];
+const pg = document.getElementById('pgrid'), pl = document.getElementById('plist');
+PROBE_INFO.forEach((p, i) => {
+  const w4 = byName['w4-ea'], v = p.k ? w4.rel[p.k] : null;
+  pg.insertAdjacentHTML('beforeend', '<div class="ptile" data-i="' + i + '" role="button" tabindex="0">' +
+    '<p class="pn">' + p.n + '</p>' +
+    (v != null ? '<div><p class="mono" style="font-size:22px;font-weight:700;color:' + colOf(v) + '">' + Math.round(v * 100) + '%</p>' +
+      '<p style="font-size:11px;color:var(--ink-3)">of baseline at 4-bit</p></div>'
+      : '<p style="font-size:11px;color:var(--ink-3)">self-extending</p>') + '</div>');
 });
-function playTrace(){
-  const steps = [...trace.children];
-  steps.forEach(s => s.classList.remove('on'));
-  steps.forEach((s, i) => setTimeout(() => s.classList.add('on'), 260 * i));
+function showProbe(i){
+  const p = PROBE_INFO[i];
+  pg.querySelectorAll('.ptile').forEach(t => t.setAttribute('aria-current', +t.dataset.i === i ? 'true' : 'false'));
+  pl.innerHTML = '<h4>' + p.n + '</h4><p>' + p.d + '</p><p class="how">' + p.h + '</p>';
 }
-document.getElementById('ag-play').onclick = playTrace;
-const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ playTrace(); obs.disconnect(); } }), { threshold: .25 });
-obs.observe(trace);
+pg.querySelectorAll('.ptile').forEach(t => {
+  t.onclick = () => showProbe(+t.dataset.i);
+  t.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showProbe(+t.dataset.i); } };
+});
+showProbe(0);
+
+/* ---- findings ---- */
+const FINDS = [
+  { av:'ppl', n:'Perplexity as a decision rule', s:'25 configs · best threshold', big:'60%', c:'var(--alarm)',
+    p:'Accuracy at telling a damaged config from a healthy one. The base rate is also 60% — exactly as good as guessing.' },
+  { av:'div', n:'Router divergence', s:'H3: not supported', big:'84%', c:'var(--good)',
+    p:'And layer reconstruction error, on the same split. They tie — which is why the mechanism hypothesis is reported as failed, not confirmed.' },
+  { av:'gate', n:'2-bit router, nothing else', s:'config x2-gate', big:'48%', c:'var(--ink)',
+    p:'Tokens re-routed at no measurable capability cost. Routing change is harmless when every expert it lands on is intact.' },
+  { av:'attn', n:'Attention alone', s:'config w4-attention', big:'−41%', c:'var(--alarm)',
+    p:'Long-horizon adherence, while perplexity improved. The most attractive config on the board by the usual reading.' },
+  { av:'bug', n:'Bugs in the agent’s own auditor', s:'5 runs, documented', big:'4', c:'var(--ink)',
+    p:'Found by running the loop and reading the trace. Each changed the answer. None were visible in the code.' },
+  { av:'win', n:'What the agent found', s:'gate 5 · attn 8 · expert 5', big:'68%', c:'var(--good)',
+    p:'Smaller than BF16 with capability intact. It kept attention high, pushed experts low, and left the router alone until last.' },
+  { av:'8b', n:'At 8-bit, already moving', s:'config w8-ea', big:'8.7%', c:'var(--ink)',
+    p:'Tokens re-routed while every probe and perplexity read exactly baseline. Routing moves before behaviour does.' },
+  { av:'rep', n:'Replicated at 2.5× scale', s:'granite-3.1-3b-a800m', big:'8/8', c:'var(--good)',
+    p:'Configurations where the margin concentration held on a second, larger model. The capability half is still one subject.' }
+];
+document.getElementById('finds').innerHTML = FINDS.map(f =>
+  '<div class="card fc"><div class="fh"><span class="av">' + f.av + '</span><div><p class="fn">' + f.n +
+  '</p><p class="fs">' + f.s + '</p></div></div><p class="big" style="color:' + f.c + '">' + f.big + '</p><p>' + f.p + '</p></div>').join('');
+
+/* ---- gallery ---- */
+const CATS = ['All','Bit sweep','Ablation','Router only','Group size','Method'];
+const tabs = document.getElementById('tabs'), gal = document.getElementById('gal');
+CATS.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.className = 'tab'; b.textContent = c; b.setAttribute('role', 'tab');
+  b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+  b.onclick = () => { tabs.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t === b ? 'true' : 'false')); drawGal(c); };
+  tabs.appendChild(b);
+});
+function verdictOf(d){
+  const hot = Math.max(d.setchg / .385, d.recon / .100);
+  return hot >= 1 ? ['HIGH','bad'] : hot >= .5 ? ['MEDIUM','mid'] : ['LOW','ok'];
+}
+function drawGal(cat){
+  const list = DATA.filter(d => cat === 'All' || GROUPS[d.config] === cat);
+  gal.innerHTML = list.map(d => {
+    const [v, cls] = verdictOf(d);
+    const ks = Object.keys(d.layers).filter(k => k !== 'null').map(Number).sort((a,b) => a - b);
+    const mx = Math.max(.05, ...ks.map(k => d.layers[k]));
+    const spark = ks.length ? '<div class="spark">' + ks.map(k =>
+      '<i style="height:' + Math.max(d.layers[k] / mx * 100, 3) + '%"></i>').join('') + '</div>' : '';
+    const tg = d.targets.length ? d.targets.join(' + ') : 'baseline';
+    return '<div class="card gc"><p class="gn">' + d.config + '</p><p class="gm">' +
+      (d.bits === 16 ? 'unquantized' : d.bits + '-bit · ' + tg) + (d.method === 'awq' ? ' · awq' : '') + '</p>' +
+      spark +
+      '<p class="grow"><span>Tokens re-routed</span><b>' + pct(d.setchg) + '</b></p>' +
+      '<p class="grow"><span>Reconstruction</span><b>' + d.recon.toFixed(3) + '</b></p>' +
+      '<p class="grow"><span>Perplexity</span><b>' + d.ppl_ratio.toFixed(3) + '</b></p>' +
+      '<p class="grow"><span>Agentic score</span><b style="color:' + colOf(d.core) + '">' + Math.round(d.core * 100) + '%</b></p>' +
+      '<p class="gp ' + cls + '" style="color:var(--' + (cls === 'ok' ? 'good' : cls === 'bad' ? 'alarm' : 'warn') + ');margin-top:9px">' + v + ' predicted damage</p></div>';
+  }).join('');
+}
+drawGal('All');
 </script>
 
 </body>
