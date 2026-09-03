@@ -1,0 +1,392 @@
+{
+  "state": {
+    "gate": 11,
+    "attention": 8,
+    "expert": 5
+  },
+  "history": [
+    {
+      "step": 1,
+      "component": "expert",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 16,
+        "expert": 13
+      },
+      "set_change_rate": 0.058669185964390635,
+      "flip_rate": 0.01731738037778996,
+      "recon_error": 0.009726730538804863,
+      "cost": 0.15238749601140425,
+      "model_bits": 13.178199632578076
+    },
+    {
+      "step": 2,
+      "component": "expert",
+      "bits": 11,
+      "state": {
+        "gate": 16,
+        "attention": 16,
+        "expert": 11
+      },
+      "set_change_rate": 0.0596137698351716,
+      "flip_rate": 0.01757976499114496,
+      "recon_error": 0.009819816301077469,
+      "cost": 0.15484096061083533,
+      "model_bits": 11.296999387630128,
+      "validated_agentic": 0.8738038277511961,
+      "resolution": 0.10005240202196107,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 3,
+      "component": "expert",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 16,
+        "expert": 13
+      },
+      "set_change_rate": 0.058669185964390635,
+      "flip_rate": 0.01731738037778996,
+      "recon_error": 0.009726730538804863,
+      "cost": 0.15238749601140425,
+      "model_bits": 13.178199632578076,
+      "validated_agentic": 0.952214629557904,
+      "resolution": 0.0720619169117338,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 4,
+      "component": "attention",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 13,
+        "expert": 16
+      },
+      "set_change_rate": 0.06585852213902399,
+      "flip_rate": 0.02030856441706419,
+      "recon_error": 0.011754640353989187,
+      "cost": 0.17106109646499737,
+      "model_bits": 15.82363747703613,
+      "validated_agentic": 0.9635782659215404,
+      "resolution": 0.07178312415811658,
+      "audit": "passed"
+    },
+    {
+      "step": 5,
+      "component": "expert",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 13,
+        "expert": 13
+      },
+      "set_change_rate": 0.06318220009173577,
+      "flip_rate": 0.019836272025713697,
+      "recon_error": 0.010020447587303204,
+      "cost": 0.1641096106278851,
+      "model_bits": 13.001837109614208,
+      "validated_agentic": 0.9314985094326127,
+      "resolution": 0.06791669224555763,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 6,
+      "component": "attention",
+      "bits": 11,
+      "state": {
+        "gate": 16,
+        "attention": 11,
+        "expert": 16
+      },
+      "set_change_rate": 0.0656486145647553,
+      "flip_rate": 0.020518472088345636,
+      "recon_error": 0.010380629364832517,
+      "cost": 0.1705158819863774,
+      "model_bits": 15.706062461726884,
+      "validated_agentic": 0.969208211143695,
+      "resolution": 0.06769592629053094,
+      "audit": "passed"
+    },
+    {
+      "step": 7,
+      "component": "expert",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 11,
+        "expert": 13
+      },
+      "set_change_rate": 0.06549118447583169,
+      "flip_rate": 0.021725440766507138,
+      "recon_error": 0.00971845691512107,
+      "cost": 0.1701069726644979,
+      "model_bits": 12.88426209430496,
+      "validated_agentic": 0.9725557461406518,
+      "resolution": 0.06742438818133899,
+      "audit": "passed"
+    },
+    {
+      "step": 8,
+      "component": "expert",
+      "bits": 11,
+      "state": {
+        "gate": 16,
+        "attention": 11,
+        "expert": 11
+      },
+      "set_change_rate": 0.06748530668361734,
+      "flip_rate": 0.020938287392103423,
+      "recon_error": 0.012336770812327431,
+      "cost": 0.17528651086653854,
+      "model_bits": 11.003061849357012,
+      "validated_agentic": 0.969208211143695,
+      "resolution": 0.06756780408613841,
+      "audit": "passed"
+    },
+    {
+      "step": 9,
+      "component": "gate",
+      "bits": 13,
+      "state": {
+        "gate": 13,
+        "attention": 11,
+        "expert": 11
+      },
+      "set_change_rate": 0.0655436606418031,
+      "flip_rate": 0.020256087242159992,
+      "recon_error": 0.011777969179093772,
+      "cost": 0.17024327439429376,
+      "model_bits": 11.001224739742804,
+      "validated_agentic": 0.9610453472569916,
+      "resolution": 0.06729118286993929,
+      "audit": "passed"
+    },
+    {
+      "step": 10,
+      "component": "gate",
+      "bits": 11,
+      "state": {
+        "gate": 11,
+        "attention": 11,
+        "expert": 11
+      },
+      "set_change_rate": 0.06192275419986496,
+      "flip_rate": 0.019836272316752,
+      "recon_error": 0.0139257925026759,
+      "cost": 0.16083832259705183,
+      "model_bits": 11.0,
+      "validated_agentic": 0.9651759530791789,
+      "resolution": 0.0676546311739727,
+      "audit": "passed"
+    },
+    {
+      "step": 11,
+      "component": "expert",
+      "bits": 8,
+      "state": {
+        "gate": 11,
+        "attention": 11,
+        "expert": 8
+      },
+      "set_change_rate": 0.07136859804935132,
+      "flip_rate": 0.02335222520438644,
+      "recon_error": 0.017220088065161957,
+      "cost": 0.18537298194636706,
+      "model_bits": 8.178199632578076,
+      "validated_agentic": 0.9651759530791789,
+      "resolution": 0.06761036448501176,
+      "audit": "passed"
+    },
+    {
+      "step": 12,
+      "component": "expert",
+      "bits": 6,
+      "state": {
+        "gate": 11,
+        "attention": 11,
+        "expert": 6
+      },
+      "set_change_rate": 0.13192695264782137,
+      "flip_rate": 0.04035474389092997,
+      "recon_error": 0.039935186866303214,
+      "cost": 0.39935186866303213,
+      "model_bits": 6.2969993876301285,
+      "validated_agentic": 0.9505131964809385,
+      "resolution": 0.06815841085060673,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 13,
+      "component": "attention",
+      "bits": 8,
+      "state": {
+        "gate": 11,
+        "attention": 8,
+        "expert": 8
+      },
+      "set_change_rate": 0.08632451815841098,
+      "flip_rate": 0.026658270488648366,
+      "recon_error": 0.01932681603639543,
+      "cost": 0.22421952768418435,
+      "model_bits": 8.001837109614208,
+      "validated_agentic": 0.9805718475073314,
+      "resolution": 0.06700232346295956,
+      "audit": "passed"
+    },
+    {
+      "step": 14,
+      "component": "expert",
+      "bits": 6,
+      "state": {
+        "gate": 11,
+        "attention": 8,
+        "expert": 6
+      },
+      "set_change_rate": 0.1346557515207678,
+      "flip_rate": 0.0416666668218871,
+      "recon_error": 0.045372113881199244,
+      "cost": 0.45372113881199244,
+      "model_bits": 6.120636864666259,
+      "validated_agentic": 0.9631106501680853,
+      "resolution": 0.06733760918264026,
+      "audit": "passed"
+    },
+    {
+      "step": 15,
+      "component": "expert",
+      "bits": 5,
+      "state": {
+        "gate": 11,
+        "attention": 8,
+        "expert": 5
+      },
+      "set_change_rate": 0.215207808262979,
+      "flip_rate": 0.06916456823334254,
+      "recon_error": 0.09099595251765379,
+      "cost": 0.9099595251765378,
+      "model_bits": 5.180036742192284,
+      "validated_agentic": 0.9611921097770154,
+      "resolution": 0.06801881761595874,
+      "audit": "passed"
+    },
+    {
+      "step": 16,
+      "component": "gate",
+      "bits": 8,
+      "state": {
+        "gate": 8,
+        "attention": 8,
+        "expert": 5
+      },
+      "set_change_rate": 0.2164147774068018,
+      "flip_rate": 0.07063392105919775,
+      "recon_error": 0.09135815854770167,
+      "cost": 0.9135815854770166,
+      "model_bits": 5.178199632578077,
+      "validated_agentic": 0.9423503325942351,
+      "resolution": 0.06766464424300048,
+      "audit": "unresolved",
+      "reverted": true
+    }
+  ],
+  "budget": 1.0,
+  "final_agentic": 0.9611921097770154,
+  "resolution": 0.06801881761595874,
+  "final_verdict": "passed",
+  "judge": {
+    "amendments": [
+      {
+        "exclude": "recovery",
+        "kind": "no_headroom",
+        "probe": "recovery",
+        "why": "recovery scores 0.00 at BF16 \u2014 it has no headroom to fall, so its ratio measures noise, not damage"
+      },
+      {
+        "cap": 1.0,
+        "kind": "masking",
+        "why": "attention8,expert6,gate16@g128 audited 1.031 \u2014 no damage \u2014 while format measurably fell. A probe scoring above baseline is paying for another probe's loss"
+      },
+      {
+        "exclude": "calibration",
+        "kind": "confounded",
+        "probe": "calibration",
+        "why": "calibration rises +0.05 as precision is removed (0.50 at BF16 -> 0.60 at attention8,expert5,gate16@g128) \u2014 grading on it hides real losses"
+      },
+      {
+        "exclude": "gen_running_total",
+        "kind": "confounded",
+        "probe": "gen_running_total",
+        "why": "gen_running_total rises +0.12 as precision is removed (0.50 at BF16 -> 0.83 at attention8,expert6,gate6@g128) \u2014 grading on it hides real losses"
+      },
+      {
+        "exclude": "gen_case",
+        "kind": "confounded",
+        "probe": "gen_case",
+        "why": "gen_case rises +0.13 as precision is removed (0.83 at BF16 -> 1.00 at attention16,expert16,gate8@g128) \u2014 grading on it hides real losses"
+      }
+    ],
+    "cap": 1.0,
+    "exclude": [
+      "recovery",
+      "calibration",
+      "gen_running_total",
+      "gen_case"
+    ],
+    "version": "v4-confounded"
+  },
+  "policy": {
+    "amendments": [
+      {
+        "kind": "refine_ladder",
+        "ladder": [
+          16,
+          13,
+          11,
+          8,
+          6,
+          5,
+          4,
+          3,
+          2
+        ],
+        "why": "the only move available to attention, expert was 16->8 and the audit rejected it; there is nothing smaller on the ladder, so the search abandons a component it has not finished with"
+      },
+      {
+        "kind": "pass_through",
+        "pass_through": 1,
+        "why": "attention16,expert8,gate8@g128 passed its audit and is strictly more quantized than attention16,expert8,gate16@g128, which failed. A failed config does not close the route beyond it, and reverting from it is what loses the better answer"
+      },
+      {
+        "kind": "widen_margin",
+        "from": 0.02,
+        "to": 0.066,
+        "why": "deciding a 0.02 margin needs ~451 items per probe; the suite caps at 64, leaving a standard error of 0.066. The finest line this suite can defend is 0.066"
+      }
+    ],
+    "ladder": [
+      16,
+      13,
+      11,
+      8,
+      6,
+      5,
+      4,
+      3,
+      2
+    ],
+    "pass_through": 1,
+    "version": "p1-pass_through+refine_ladder+widen"
+  },
+  "model_bits": 5.180036742192284,
+  "evaluations": 28,
+  "model": "ibm-granite/granite-3.0-1b-a400m-instruct",
+  "seconds": 7913,
+  "group": 128
+}

@@ -88,17 +88,313 @@
     }
   },
   "ibm-granite/granite-3.0-1b-a400m-instruct": {
+    "attention11,expert11,gate11@g128": {
+      "agentic": 0.9651759530791789,
+      "audit": "passed",
+      "cost": 0.16083832259705183,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.019836272316752,
+      "judge": "v4-confounded",
+      "recon_error": 0.0139257925026759,
+      "resolution": 0.0676546311739727,
+      "scores": {
+        "calibration": 0.45,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.921875,
+        "gen_tag": 0.828125,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.06192275419986496,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert11,gate13@g128": {
+      "agentic": 0.9610453472569916,
+      "audit": "passed",
+      "cost": 0.17024327439429376,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.020256087242159992,
+      "judge": "v4-confounded",
+      "recon_error": 0.011777969179093772,
+      "resolution": 0.06729118286993929,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.953125,
+        "gen_tag": 0.828125,
+        "long_horizon": 0.7222222222222222,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.0655436606418031,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert11,gate16@g128": {
+      "agentic": 0.969208211143695,
+      "audit": "passed",
+      "cost": 0.17528651086653854,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.020938287392103423,
+      "judge": "v4-confounded",
+      "recon_error": 0.012336770812327431,
+      "resolution": 0.06756780408613841,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.9375,
+        "gen_tag": 0.828125,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.06748530668361734,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert11,gate8@g128": {
+      "cost": 0.18891687877879387,
+      "flip_rate": 0.02256507156804825,
+      "recon_error": 0.011044163763250549,
+      "set_change_rate": 0.07273299832983564
+    },
+    "attention11,expert13,gate13@g128": {
+      "cost": 0.17351456383622182,
+      "flip_rate": 0.020098656687575083,
+      "recon_error": 0.009918499402275923,
+      "set_change_rate": 0.06680310707694541
+    },
+    "attention11,expert13,gate16@g128": {
+      "agentic": 0.9725557461406518,
+      "audit": "passed",
+      "cost": 0.1701069726644979,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.021725440766507138,
+      "judge": "v4-confounded",
+      "recon_error": 0.00971845691512107,
+      "resolution": 0.06742438818133899,
+      "scores": {
+        "calibration": 0.55,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.96875,
+        "gen_tag": 0.8125,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.1
+      },
+      "set_change_rate": 0.06549118447583169,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert16,gate13@g128": {
+      "cost": 0.16356439695560507,
+      "flip_rate": 0.019993702609402437,
+      "recon_error": 0.010169898732377315,
+      "set_change_rate": 0.06297229282790795
+    },
     "attention11,expert16,gate16@g128": {
+      "agentic": 0.969208211143695,
+      "audit": "passed",
       "cost": 0.1705158819863774,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
       "flip_rate": 0.020518472088345636,
+      "judge": "v4-confounded",
       "recon_error": 0.010380629364832517,
-      "set_change_rate": 0.0656486145647553
+      "resolution": 0.06769592629053094,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.9375,
+        "gen_tag": 0.828125,
+        "long_horizon": 0.7962962962962963,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.0656486145647553,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert6,gate11@g128": {
+      "agentic": 0.9505131964809385,
+      "audit": "unresolved",
+      "cost": 0.39935186866303213,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.04035474389092997,
+      "judge": "v4-confounded",
+      "recon_error": 0.039935186866303214,
+      "resolution": 0.06815841085060673,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.75,
+        "gen_suffix": 0.953125,
+        "gen_tag": 0.875,
+        "long_horizon": 0.7777777777777778,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.13192695264782137,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert8,gate11@g128": {
+      "agentic": 0.9651759530791789,
+      "audit": "passed",
+      "cost": 0.18537298194636706,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.02335222520438644,
+      "judge": "v4-confounded",
+      "recon_error": 0.017220088065161957,
+      "resolution": 0.06761036448501176,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.921875,
+        "gen_tag": 0.84375,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.07136859804935132,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention11,expert8,gate13@g128": {
+      "cost": 0.1979268785774112,
+      "flip_rate": 0.02324727132023933,
+      "recon_error": 0.01979268785774112,
+      "set_change_rate": 0.07331024407176301
+    },
+    "attention11,expert8,gate16@g128": {
+      "cost": 0.19762882432366394,
+      "flip_rate": 0.0234047020591485,
+      "recon_error": 0.019762882432366395,
+      "set_change_rate": 0.07467464390598859
+    },
+    "attention11,expert8,gate8@g128": {
+      "cost": 0.20486440729285343,
+      "flip_rate": 0.024244332783079397,
+      "recon_error": 0.019175315605251684,
+      "set_change_rate": 0.07887279680774857
     },
     "attention13,expert13,gate16@g128": {
+      "agentic": 0.9314985094326127,
+      "audit": "unresolved",
       "cost": 0.1641096106278851,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
       "flip_rate": 0.019836272025713697,
+      "judge": "v4-confounded",
       "recon_error": 0.010020447587303204,
-      "set_change_rate": 0.06318220009173577
+      "resolution": 0.06791669224555763,
+      "scores": {
+        "calibration": 0.45,
+        "format": 0.7916666666666666,
+        "gen_suffix": 0.9375,
+        "gen_tag": 0.78125,
+        "long_horizon": 0.7222222222222222,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.06318220009173577,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
     },
     "attention13,expert16,gate13@g128": {
       "cost": 0.1574307297622519,
@@ -382,6 +678,12 @@
         "recovery"
       ]
     },
+    "attention6,expert5,gate11@g128": {
+      "cost": 1.1504549043339045,
+      "flip_rate": 0.07829555030912161,
+      "recon_error": 0.11504549043339046,
+      "set_change_rate": 0.246064232972761
+    },
     "attention6,expert5,gate5@g128": {
       "cost": 1.1716486444484975,
       "flip_rate": 0.10621326648106333,
@@ -393,6 +695,12 @@
       "flip_rate": 0.08800377850517786,
       "recon_error": 0.13044426969332704,
       "set_change_rate": 0.25965575439234573
+    },
+    "attention6,expert6,gate11@g128": {
+      "cost": 0.5291610919821982,
+      "flip_rate": 0.05919395565676192,
+      "recon_error": 0.052916109198219825,
+      "set_change_rate": 0.1890743083010117
     },
     "attention6,expert6,gate16@g128": {
       "agentic": 0.9406873614190688,
@@ -423,6 +731,12 @@
       "recon_error": 0.05137906484348099,
       "set_change_rate": 0.19243282979975143
     },
+    "attention6,expert8,gate11@g128": {
+      "cost": 0.44503146177762515,
+      "flip_rate": 0.053946264165764056,
+      "recon_error": 0.04326786676017028,
+      "set_change_rate": 0.17133711278438568
+    },
     "attention6,expert8,gate16@g128": {
       "cost": 0.4432595137393836,
       "flip_rate": 0.05452350930621227,
@@ -434,6 +748,30 @@
       "flip_rate": 0.05420864870150884,
       "recon_error": 0.04267582311918564,
       "set_change_rate": 0.17149454324195781
+    },
+    "attention8,expert11,gate11@g128": {
+      "cost": 0.2101802494925209,
+      "flip_rate": 0.025136440235655755,
+      "recon_error": 0.012361343597475434,
+      "set_change_rate": 0.08091939605462055
+    },
+    "attention8,expert11,gate13@g128": {
+      "cost": 0.21576869736921478,
+      "flip_rate": 0.026553316837331902,
+      "recon_error": 0.012268754799041874,
+      "set_change_rate": 0.08307094848714769
+    },
+    "attention8,expert11,gate16@g128": {
+      "cost": 0.2191762877345988,
+      "flip_rate": 0.024926532506166648,
+      "recon_error": 0.01247744141085032,
+      "set_change_rate": 0.08438287077782054
+    },
+    "attention8,expert13,gate16@g128": {
+      "cost": 0.20977133820518784,
+      "flip_rate": 0.025188916964301217,
+      "recon_error": 0.012551917011548253,
+      "set_change_rate": 0.08076196520899732
     },
     "attention8,expert16,gate16@g128": {
       "agentic": 0.9528824833702882,
@@ -458,6 +796,12 @@
       "recon_error": 0.010702289641317057,
       "set_change_rate": 0.08517002578203876
     },
+    "attention8,expert4,gate11@g128": {
+      "cost": 1.3059755214841784,
+      "flip_rate": 0.12358312448486686,
+      "recon_error": 0.13059755214841784,
+      "set_change_rate": 0.3509130987804383
+    },
     "attention8,expert4,gate5@g128": {
       "cost": 1.4000054198681902,
       "flip_rate": 0.14121536550616534,
@@ -469,6 +813,40 @@
       "flip_rate": 0.12709907627140637,
       "recon_error": 0.13419466976035627,
       "set_change_rate": 0.3554785903543234
+    },
+    "attention8,expert5,gate11@g128": {
+      "agentic": 0.9611921097770154,
+      "audit": "passed",
+      "cost": 0.9099595251765378,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.06916456823334254,
+      "judge": "v4-confounded",
+      "recon_error": 0.09099595251765379,
+      "resolution": 0.06801881761595874,
+      "scores": {
+        "calibration": 0.6,
+        "format": 0.7916666666666666,
+        "gen_suffix": 0.96875,
+        "gen_tag": 0.8125,
+        "long_horizon": 0.8148148148148148,
+        "recovery": 0.1
+      },
+      "set_change_rate": 0.215207808262979,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
     },
     "attention8,expert5,gate16@g128": {
       "agentic": 0.8741685144124169,
@@ -528,10 +906,72 @@
       "set_change_rate": 0.23457179063310227
     },
     "attention8,expert5,gate8@g128": {
+      "agentic": 0.9423503325942351,
+      "audit": "unresolved",
       "cost": 0.9135815854770166,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
       "flip_rate": 0.07063392105919775,
+      "judge": "v4-confounded",
       "recon_error": 0.09135815854770167,
-      "set_change_rate": 0.2164147774068018
+      "resolution": 0.06766464424300048,
+      "scores": {
+        "calibration": 0.6,
+        "format": 0.75,
+        "gen_suffix": 1.0,
+        "gen_tag": 0.859375,
+        "long_horizon": 0.7222222222222222,
+        "recovery": 0.1
+      },
+      "set_change_rate": 0.2164147774068018,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention8,expert6,gate11@g128": {
+      "agentic": 0.9631106501680853,
+      "audit": "passed",
+      "cost": 0.45372113881199244,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.0416666668218871,
+      "judge": "v4-confounded",
+      "recon_error": 0.045372113881199244,
+      "resolution": 0.06733760918264026,
+      "scores": {
+        "calibration": 0.55,
+        "format": 0.8333333333333334,
+        "gen_suffix": 0.9375,
+        "gen_tag": 0.875,
+        "long_horizon": 0.7407407407407408,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.1346557515207678,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
     },
     "attention8,expert6,gate16@g128": {
       "agentic": 0.8603104212860311,
@@ -589,6 +1029,40 @@
         "recovery": 0.0
       },
       "set_change_rate": 0.13712216548932096
+    },
+    "attention8,expert8,gate11@g128": {
+      "agentic": 0.9805718475073314,
+      "audit": "passed",
+      "cost": 0.22421952768418435,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.026658270488648366,
+      "judge": "v4-confounded",
+      "recon_error": 0.01932681603639543,
+      "resolution": 0.06700232346295956,
+      "scores": {
+        "calibration": 0.55,
+        "format": 0.875,
+        "gen_suffix": 0.9375,
+        "gen_tag": 0.84375,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.08632451815841098,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
     },
     "attention8,expert8,gate16@g128": {
       "agentic": 0.9772727272727273,
