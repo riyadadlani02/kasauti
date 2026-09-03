@@ -245,6 +245,10 @@ python search.py granite-1b-a400m               # second run: 0 model evaluation
 
 `vet_probes.py` runs every generated candidate on a healthy and a damaged config and keeps a family only if it has room to fall, actually falls, and is not already covered. Two of eight survived. `memory.py` stores what each config measured and whether an audit rejected it, so a second run measures nothing twice and never re-proposes a config a past audit disproved. Stored verdicts carry a judge version and stop counting when the auditor changes.
 
+## License
+
+Apache 2.0 — the same licence as the open MoE checkpoints this studies. The probe suite and instrumentation are meant to be run against any of them.
+
 ## Roadmap
 
 Ship the study, then ship the CLI that operationalises it. A diagnostic with no validation behind it is a number generator, and that is the first thing a reviewer would spot.
