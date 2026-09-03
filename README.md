@@ -233,7 +233,17 @@ python search.py granite-1b-a400m --budget 1.0 --validate-every 2 --min-agentic 
 
 It lowers one component's bit-width at a time, scoring each candidate by model size bought per unit of damage, and every few accepted steps it stops trusting the cheap signal and runs the real probe suite. If the audit fails, the step is reverted and the budget tightened below the cost of whatever just failed.
 
-On the 1.3B subject it converged in 24 evaluations to `gate 5 / attention 8 / expert 5` — 68% smaller than BF16, keeping 95% of agentic capability where uniform 4-bit keeps 78%. Full trace in [RESULTS.md](RESULTS.md).
+On the 1.3B subject it converges to `gate 5 / attention 8 / expert 5` — 68% smaller than BF16, auditing at 0.966 against a 0.95 floor, where uniform 4-bit scores 0.454. Across five runs the search strategy barely changed and the auditor changed four times; the auditor changed the answer every time. Full trace in [RESULTS.md](RESULTS.md).
+
+It extends its own test suite and remembers between runs:
+
+```bash
+python probegen.py                              # 48 candidate probes, 8 families
+python vet_probes.py granite-1b-a400m           # keeps the ones that earn it
+python search.py granite-1b-a400m               # second run: 0 model evaluations
+```
+
+`vet_probes.py` runs every generated candidate on a healthy and a damaged config and keeps a family only if it has room to fall, actually falls, and is not already covered. Two of eight survived. `memory.py` stores what each config measured and whether an audit rejected it, so a second run measures nothing twice and never re-proposes a config a past audit disproved. Stored verdicts carry a judge version and stop counting when the auditor changes.
 
 ## Roadmap
 

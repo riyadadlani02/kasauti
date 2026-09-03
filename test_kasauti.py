@@ -1,4 +1,6 @@
 """Self-check: metric math and the hook plumbing. Run with `python test_kasauti.py`."""
+import pathlib
+
 import torch
 from torch import nn
 
@@ -114,6 +116,81 @@ def test_failed_validation_tightens_below_the_failing_cost():
     the cost of the step that failed, or the search re-accepts it forever."""
     budget, failed = 1.0, 0.47
     assert min(budget * 0.6, failed * 0.9) < failed
+
+
+def test_vetting_keeps_only_probes_that_earn_their_place():
+    """Generated probes are worthless by default: the vetting is the whole point."""
+    import probegen
+    scores = lambda **kw: {f"gen-{f}-0": v for f, v in kw.items()}
+    v = probegen.vet({"baseline": scores(falls=1.0, flat=1.0, floored=0.05, real=0.6),
+                      "healthy": scores(falls=0.9, flat=1.0, floored=0.05, real=0.6),
+                      "damaged": scores(falls=0.0, flat=1.0, floored=0.00, real=0.2)}, {})
+    assert v["falls"]["keep"], "a probe pinned at 1.0 that collapses under damage has headroom"
+    assert not v["flat"]["keep"], "a probe that never moves measures nothing"
+    assert not v["floored"]["keep"], "a probe the model fails at BF16 measures nothing"
+    assert v["real"]["keep"]
+
+
+def test_vetting_rejects_a_probe_that_restates_an_existing_one():
+    import probegen
+    series = lambda a, b, c: {"gen-copy-0": None} and None
+    cand = {"baseline": {"gen-copy-0": 0.8}, "healthy": {"gen-copy-0": 0.6},
+            "damaged": {"gen-copy-0": 0.4}}
+    assert not probegen.vet(cand, {"format": [0.8, 0.6, 0.4]})["copy"]["keep"]
+
+
+def test_a_failed_audit_bans_the_config_not_the_region():
+    """Shrinking the cost budget on a failed audit walls off better configs that
+    are only reachable through the rejected one. Measured: the config the search
+    could no longer reach scored 0.966, above the 0.959 it settled for."""
+    import search as SR
+    src = pathlib.Path(SR.__file__).read_text()
+    assert "budget = min(budget * 0.6" not in src
+    assert "cadence = 1" in src
+
+
+def test_revert_target_is_the_last_audited_config():
+    """Stepping back blindly can land on a config an earlier audit already
+    rejected -- observed live, reverting straight into a banned state."""
+    import search as SR
+    src = pathlib.Path(SR.__file__).read_text()
+    assert 'state = history[-2]["state"]' not in src
+    assert "state = dict(last_good)" in src
+
+
+def test_auditor_ignores_the_confounded_probe():
+    """Calibration can rise under damage, so grading on it hides real losses."""
+    import search as SR
+    base = {"long_horizon": 0.8, "format": 0.8, "calibration": 0.5}
+    hurt = {"long_horizon": 0.4, "format": 0.4, "calibration": 1.0}
+    assert SR.agentic_mean(hurt, base) == 0.5  # not lifted to 0.83 by calibration
+
+
+def test_one_probe_gaining_cannot_pay_for_another_probe_losing():
+    """Real case: format -18% and long-horizon -7% audited at 1.103 because a
+    low-baseline probe went 0.50 -> 0.83 and contributed a 1.67 ratio."""
+    import probes as P
+    import search as SR
+    base = {"long_horizon": 0.76, "format": 0.92, "gen_running_total": 0.50, "gen_case": 1.0}
+    P.LAYER.update({k: 2 for k in base})
+    mixed = {"long_horizon": 0.70, "format": 0.75, "gen_running_total": 0.83, "gen_case": 1.0}
+    assert SR.agentic_mean(mixed, base) < 0.95
+
+
+def test_memory_never_reproposes_a_disproved_config():
+    from memory import Memory
+    import tempfile, os
+    path = os.path.join(tempfile.mkdtemp(), "m.json")
+    m = Memory(path)
+    m.put("mdl", {"expert": 4}, 128, audit="failed", budget_after_failure=0.4)
+    m.put("mdl", {"expert": 8}, 128, audit="passed", agentic=0.99)
+    assert m.rejected("mdl") == {"expert4@g128"}
+    assert m.learned_budget("mdl", 1.0) == 0.4
+    assert Memory(path).rejected("mdl") == {"expert4@g128"}  # survives a restart
+
+    # A verdict from an older judge is not evidence about the current one.
+    m.put("mdl", {"expert": 3}, 128, audit="failed", judge="v1")
+    assert m.rejected("mdl", "v2") == set()
 
 
 def test_search_weights_bits_by_parameter_count():

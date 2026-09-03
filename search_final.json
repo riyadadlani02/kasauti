@@ -1,0 +1,176 @@
+{
+  "state": {
+    "gate": 5,
+    "attention": 8,
+    "expert": 5
+  },
+  "history": [
+    {
+      "step": 1,
+      "component": "expert",
+      "bits": 8,
+      "state": {
+        "gate": 16,
+        "attention": 16,
+        "expert": 8
+      },
+      "set_change_rate": 0.07304785959422588,
+      "flip_rate": 0.022670025122351944,
+      "recon_error": 0.015006406546238464,
+      "cost": 0.18973470024474254,
+      "model_bits": 8.475199020208207
+    },
+    {
+      "step": 2,
+      "component": "attention",
+      "bits": 8,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 8
+      },
+      "set_change_rate": 0.0872691023008277,
+      "flip_rate": 0.02545130130602047,
+      "recon_error": 0.020289249798955657,
+      "cost": 0.22667299298916285,
+      "model_bits": 8.004898958971218,
+      "validated_agentic": 0.946969696969697
+    },
+    {
+      "step": 3,
+      "component": "expert",
+      "bits": 6,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 6
+      },
+      "set_change_rate": 0.1363350124253581,
+      "flip_rate": 0.04119437475067874,
+      "recon_error": 0.04683796633901466,
+      "cost": 0.4683796633901466,
+      "model_bits": 6.12369871402327
+    },
+    {
+      "step": 4,
+      "component": "expert",
+      "bits": 5,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 5
+      },
+      "set_change_rate": 0.2168345922448983,
+      "flip_rate": 0.07126364405363954,
+      "recon_error": 0.09118361919051514,
+      "cost": 0.9118361919051513,
+      "model_bits": 5.183098591549296,
+      "validated_agentic": 0.8954175905395418,
+      "reverted": true
+    },
+    {
+      "step": 5,
+      "component": "expert",
+      "bits": 6,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 6
+      },
+      "set_change_rate": 0.1363350124253581,
+      "flip_rate": 0.04119437475067874,
+      "recon_error": 0.04683796633901466,
+      "cost": 0.4683796633901466,
+      "model_bits": 6.12369871402327,
+      "validated_agentic": 0.9301552106430155
+    },
+    {
+      "step": 6,
+      "component": "attention",
+      "bits": 6,
+      "state": {
+        "gate": 16,
+        "attention": 6,
+        "expert": 6
+      },
+      "set_change_rate": 0.18991393720110258,
+      "flip_rate": 0.0579869858144472,
+      "recon_error": 0.055181106557611694,
+      "cost": 0.5518110655761169,
+      "model_bits": 6.006123698714023,
+      "validated_agentic": 0.8870103473762011,
+      "reverted": true
+    },
+    {
+      "step": 7,
+      "component": "gate",
+      "bits": 8,
+      "state": {
+        "gate": 8,
+        "attention": 8,
+        "expert": 6
+      },
+      "set_change_rate": 0.13712216548932096,
+      "flip_rate": 0.043136020501454674,
+      "recon_error": 0.0482272793523093,
+      "cost": 0.48227279352309294,
+      "model_bits": 6.118799755052051,
+      "validated_agentic": 0.9711751662971175
+    },
+    {
+      "step": 8,
+      "component": "gate",
+      "bits": 6,
+      "state": {
+        "gate": 6,
+        "attention": 8,
+        "expert": 6
+      },
+      "set_change_rate": 0.16462006699293852,
+      "flip_rate": 0.05562552514796456,
+      "recon_error": 0.04586886858330296,
+      "cost": 0.4586886858330296,
+      "model_bits": 6.117575015309247,
+      "validated_agentic": 0.9484478935698448
+    },
+    {
+      "step": 9,
+      "component": "expert",
+      "bits": 5,
+      "state": {
+        "gate": 6,
+        "attention": 8,
+        "expert": 5
+      },
+      "set_change_rate": 0.23457179063310227,
+      "flip_rate": 0.07986985718404564,
+      "recon_error": 0.08822295544611769,
+      "cost": 0.8822295544611769,
+      "model_bits": 5.176974892835273,
+      "validated_agentic": 0.9522357723577236
+    },
+    {
+      "step": 10,
+      "component": "gate",
+      "bits": 5,
+      "state": {
+        "gate": 5,
+        "attention": 8,
+        "expert": 5
+      },
+      "set_change_rate": 0.2772355160365502,
+      "flip_rate": 0.09996851485630032,
+      "recon_error": 0.09624740185751907,
+      "cost": 0.9624740185751907,
+      "model_bits": 5.176362522963871,
+      "validated_agentic": 0.9659090909090909
+    }
+  ],
+  "budget": 1.0,
+  "final_agentic": 0.9659090909090909,
+  "model_bits": 5.176362522963871,
+  "evaluations": 24,
+  "model": "ibm-granite/granite-3.0-1b-a400m-instruct",
+  "seconds": 3309,
+  "group": 128
+}

@@ -1,0 +1,91 @@
+{
+  "keep": [
+    "case",
+    "running_total"
+  ],
+  "verdicts": {
+    "case": {
+      "baseline": 1.0,
+      "healthy": 0.8333333333333334,
+      "damaged": 0.0,
+      "keep": true,
+      "reasons": []
+    },
+    "counter": {
+      "baseline": 1.0,
+      "healthy": 1.0,
+      "damaged": 1.0,
+      "keep": false,
+      "reasons": [
+        "saturated at BF16 and does not move (1.00)",
+        "does not separate damaged (1.00 -> 1.00)",
+        "duplicates recall",
+        "duplicates long_horizon",
+        "duplicates format",
+        "duplicates calibration"
+      ]
+    },
+    "forbidden": {
+      "baseline": 1.0,
+      "healthy": 0.6666666666666666,
+      "damaged": 1.0,
+      "keep": false,
+      "reasons": [
+        "saturated at BF16 and does not move (1.00)",
+        "does not separate damaged (1.00 -> 1.00)"
+      ]
+    },
+    "prefix": {
+      "baseline": 1.0,
+      "healthy": 1.0,
+      "damaged": 1.0,
+      "keep": false,
+      "reasons": [
+        "saturated at BF16 and does not move (1.00)",
+        "does not separate damaged (1.00 -> 1.00)",
+        "duplicates recall",
+        "duplicates long_horizon",
+        "duplicates format",
+        "duplicates calibration"
+      ]
+    },
+    "running_total": {
+      "baseline": 0.5,
+      "healthy": 0.5,
+      "damaged": 0.16666666666666666,
+      "keep": true,
+      "reasons": []
+    },
+    "suffix": {
+      "baseline": 1.0,
+      "healthy": 0.8333333333333334,
+      "damaged": 0.6666666666666666,
+      "keep": false,
+      "reasons": [
+        "duplicates format"
+      ]
+    },
+    "tag": {
+      "baseline": 0.8333333333333334,
+      "healthy": 0.8333333333333334,
+      "damaged": 0.5,
+      "keep": false,
+      "reasons": [
+        "duplicates long_horizon",
+        "duplicates format"
+      ]
+    },
+    "wordcap": {
+      "baseline": 1.0,
+      "healthy": 0.8333333333333334,
+      "damaged": 1.0,
+      "keep": false,
+      "reasons": [
+        "saturated at BF16 and does not move (1.00)",
+        "does not separate damaged (1.00 -> 1.00)",
+        "duplicates recall",
+        "duplicates calibration"
+      ]
+    }
+  }
+}

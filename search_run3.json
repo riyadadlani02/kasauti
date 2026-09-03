@@ -1,0 +1,159 @@
+{
+  "state": {
+    "gate": 5,
+    "attention": 5,
+    "expert": 6
+  },
+  "history": [
+    {
+      "step": 1,
+      "component": "expert",
+      "bits": 8,
+      "state": {
+        "gate": 16,
+        "attention": 16,
+        "expert": 8
+      },
+      "set_change_rate": 0.07304785959422588,
+      "flip_rate": 0.022670025122351944,
+      "recon_error": 0.015006406546238464,
+      "cost": 0.18973470024474254,
+      "model_bits": 8.475199020208207
+    },
+    {
+      "step": 2,
+      "component": "attention",
+      "bits": 8,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 8
+      },
+      "set_change_rate": 0.0872691023008277,
+      "flip_rate": 0.02545130130602047,
+      "recon_error": 0.020289249798955657,
+      "cost": 0.22667299298916285,
+      "model_bits": 8.004898958971218,
+      "validated_agentic": 0.946969696969697
+    },
+    {
+      "step": 3,
+      "component": "expert",
+      "bits": 6,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 6
+      },
+      "set_change_rate": 0.1363350124253581,
+      "flip_rate": 0.04119437475067874,
+      "recon_error": 0.04683796633901466,
+      "cost": 0.4683796633901466,
+      "model_bits": 6.12369871402327
+    },
+    {
+      "step": 4,
+      "component": "expert",
+      "bits": 5,
+      "state": {
+        "gate": 16,
+        "attention": 8,
+        "expert": 5
+      },
+      "set_change_rate": 0.2168345922448983,
+      "flip_rate": 0.07126364405363954,
+      "recon_error": 0.09118361919051514,
+      "cost": 0.9118361919051513,
+      "model_bits": 5.183098591549296,
+      "validated_agentic": 0.8954175905395418,
+      "reverted": true
+    },
+    {
+      "step": 5,
+      "component": "attention",
+      "bits": 6,
+      "state": {
+        "gate": 16,
+        "attention": 6,
+        "expert": 6
+      },
+      "set_change_rate": 0.18991393720110258,
+      "flip_rate": 0.0579869858144472,
+      "recon_error": 0.055181106557611694,
+      "cost": 0.5518110655761169,
+      "model_bits": 6.006123698714023,
+      "validated_agentic": 0.9703436807095344
+    },
+    {
+      "step": 6,
+      "component": "gate",
+      "bits": 8,
+      "state": {
+        "gate": 8,
+        "attention": 6,
+        "expert": 6
+      },
+      "set_change_rate": 0.19243282979975143,
+      "flip_rate": 0.06055835463727514,
+      "recon_error": 0.05137906484348099,
+      "cost": 0.5137906484348098,
+      "model_bits": 6.0012247397428045,
+      "validated_agentic": 0.958980044345898
+    },
+    {
+      "step": 7,
+      "component": "attention",
+      "bits": 5,
+      "state": {
+        "gate": 8,
+        "attention": 5,
+        "expert": 6
+      },
+      "set_change_rate": 0.27723551852007705,
+      "flip_rate": 0.09251679262767236,
+      "recon_error": 0.06347404493757598,
+      "cost": 0.720092255896304,
+      "model_bits": 5.9424372320881815,
+      "validated_agentic": 0.9711751662971175
+    },
+    {
+      "step": 8,
+      "component": "gate",
+      "bits": 6,
+      "state": {
+        "gate": 6,
+        "attention": 5,
+        "expert": 6
+      },
+      "set_change_rate": 0.2872061325858037,
+      "flip_rate": 0.09991603762318846,
+      "recon_error": 0.07119039854446575,
+      "cost": 0.7459899547683212,
+      "model_bits": 5.941212492345376,
+      "validated_agentic": 0.934589800443459
+    },
+    {
+      "step": 9,
+      "component": "gate",
+      "bits": 5,
+      "state": {
+        "gate": 5,
+        "attention": 5,
+        "expert": 6
+      },
+      "set_change_rate": 0.31974181222418946,
+      "flip_rate": 0.11350755636037017,
+      "recon_error": 0.08457308818000707,
+      "cost": 0.8457308818000706,
+      "model_bits": 5.940600122473974,
+      "validated_agentic": 1.102919438285292
+    }
+  ],
+  "budget": 1.0,
+  "final_agentic": 1.102919438285292,
+  "model_bits": 5.940600122473974,
+  "evaluations": 27,
+  "model": "ibm-granite/granite-3.0-1b-a400m-instruct",
+  "seconds": 2652,
+  "group": 128
+}

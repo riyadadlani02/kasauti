@@ -165,7 +165,83 @@ Against the config a practitioner would actually pick, verified afterwards with 
 
 For 1.2 more bits than uniform 4-bit — still 68% smaller than BF16 — it keeps 95% of the agentic capability instead of 78%.
 
-**What the loop cannot do.** It is greedy: an early choice is only undone when an audit fails. Its cut points come from one 1.3B model. Its auditor uses the same probe suite the study used, so it cannot catch a failure mode those probes do not cover — a self-improving loop is bounded by the quality of its own judge, and that is the honest limit of this design, not a detail. And each evaluation is one forward pass per calibration text plus a model load, so on a 30B model the wall-clock cost per step is far higher than the 40 seconds it takes here.
+### It writes its own tests, and throws most of them away
+
+`probegen.py` composes candidate probes from checkable invariants — a forbidden word, a required suffix, a running counter, a word cap, an arithmetic total carried across turns — each stated at turn 0 and verified N turns later. Forty-eight candidates across eight families, all scored mechanically, no judge anywhere.
+
+Generating them is the worthless half. A system that writes its own tests and keeps them all just grows a suite that agrees with itself. `vet_probes.py` runs every candidate on three configs — BF16, a known-healthy one, a known-damaged one — and keeps a family only if it has room to fall, actually falls when the model is damaged, and is not already covered by a probe we have.
+
+**Two of eight survived.**
+
+| family | BF16 | healthy | damaged | verdict |
+|---|---|---|---|---|
+| write every reply in lower case | 1.00 | 0.83 | **0.00** | kept |
+| carry a running total across turns | 0.50 | 0.50 | **0.17** | kept |
+| count your own replies | 1.00 | 1.00 | 1.00 | saturated and never moves |
+| begin every reply with a marker | 1.00 | 1.00 | 1.00 | saturated and never moves |
+| never use a given word | 1.00 | 0.67 | 1.00 | does not separate damaged |
+| keep replies under N words | 1.00 | 0.83 | 1.00 | does not separate damaged |
+| end every reply with a marker | 1.00 | 0.83 | 0.67 | duplicates format stability |
+| include a marker somewhere | 0.83 | 0.83 | 0.50 | duplicates long-horizon and format |
+
+The vetting rule needed one correction of its own. It first rejected the lower-case family for having "no headroom" because it scored 1.00 at BF16 — while that same family collapses to 0.00 on a damaged config, which is the strongest discriminator in the set. A probe pinned at the ceiling is only useless if it also cannot fall. The rule now rejects a saturated probe only when it is *also* flat.
+
+This is automated search over a space of test templates, not a model inventing tests from nothing. The generation is cheap and dumb on purpose; the vetting is the part that makes it worth anything.
+
+### It remembers what it learned
+
+`memory.py` keeps, per model and per config, what the cheap signals said, what any audit concluded, and whether that audit rejected the config. Running the same search twice:
+
+| | model evaluations | steps | result |
+|---|---|---|---|
+| first run, empty memory | 18 | 6 | identical |
+| second run | **0** | 5 | identical |
+
+The second run measured nothing it had measured before, and when it reached the step a previous audit had disproved it skipped it outright rather than re-deriving the failure: `skip expert->5: a previous run's audit rejected it`.
+
+Memory carries a judge version. Change what the auditor grades and every stored verdict from the old auditor stops counting — which mattered immediately, because fixing the auditor changed its verdicts.
+
+### Every time the answer changed, it was the judge, not the search
+
+The agent was run five times. The search strategy barely changed; the auditor changed four times, and each time it changed the answer. This is the whole lesson of the exercise, so here it is in order.
+
+**1. The first judge graded on a confounded probe.** It included calibration, which rewards abstention — and a damaged model hedges more. Removing it, the very same config that had audited at 0.985 audited at 0.947. The confound had been hiding a 4-point loss.
+
+**2. Correcting it made the agent worse, not better.** With the honest judge the search correctly rejected `expert→5` at 0.895 — verified deterministic, the identical score twice on a repeat run. But on rejection it also shrank its cost budget, which walled off every config beyond that point. It settled for 6.00 bits at 0.959. Measured afterwards, the config it could no longer reach scored **0.966 at 5.18 bits** — smaller *and* healthier than what it settled for. The fix: ban the config the audit disproved, not the whole cost region, and respond to a wrong cheap signal by auditing every step rather than by searching less.
+
+**3. Then a probe the vetting had approved corrupted the audit.** The next run reported a final score of **1.103** — better than the unquantized model. It was not. Format stability had fallen 18% and long-horizon adherence 7%, but the generated `running_total` probe went 0.50 to 0.83, and as a ratio that is 1.67, which outvoted both real losses. Per-probe ratios are now capped at 1.0: an audit measures damage, and scoring above baseline on one probe is not evidence of health on another. Under the capped judge that same config scores 0.936 and is rejected.
+
+**4. And the revert itself was walking into banned states.** On a failed audit the agent stepped back two entries in its history — which, after two failures in a row, is a config an earlier audit had already rejected. It now falls back to the last config that actually passed an audit.
+
+**The final run, with all four corrections:**
+
+```
+accept expert -> 8      gate 16, attn 16, expert  8    8.48 bits
+accept attention -> 8   gate 16, attn  8, expert  8    8.00 bits    audit 0.947
+accept expert -> 6      gate 16, attn  8, expert  6    6.12 bits    audit 0.930
+accept expert -> 5      gate 16, attn  8, expert  5    5.18 bits    audit 0.895  REJECTED
+  revert to the last audited config, audit every step from here
+accept attention -> 6   gate 16, attn  6, expert  6    6.01 bits    audit 0.887  REJECTED
+accept gate -> 8        gate  8, attn  8, expert  6    6.12 bits    audit 0.971
+accept gate -> 6        gate  6, attn  8, expert  6    6.12 bits    audit 0.948
+accept expert -> 5      gate  6, attn  8, expert  5    5.18 bits    audit 0.952
+accept gate -> 5        gate  5, attn  8, expert  5    5.18 bits    audit 0.966
+no step left within budget
+```
+
+**`gate 5 / attention 8 / expert 5` — 5.18 bits, 68% smaller than BF16, final audit 0.966.**
+
+It is the same config the very first, broken judge had picked. The difference is that the first time it was reached by luck through a step that should have been rejected, and this time every intermediate rejection along the way was correct and the destination was verified under the strictest auditor of the five. Note what the route required: reaching `expert 5` needed the *router* dropped to 6 bits first, because quantizing the router perturbs routing without damaging any expert and the probes do not mind. A search that could not pass through an early rejection never found it.
+
+Against the config a practitioner would pick, all scored under the final judge:
+
+| config | mean bit-width | audit |
+|---|---|---|
+| BF16 | 16.00 | 1.000 |
+| **what the agent found** | **5.18** | **0.966** |
+| uniform 4-bit, experts + attention | 4.01 | 0.454 |
+
+**What the loop cannot do.** It is greedy: an early choice is only undone when an audit fails. Its cut points come from one 1.3B model. It can extend its own test suite, but only within the space of templates it was given — it cannot invent a category of failure nobody thought of, so it remains bounded by the quality of its own judge. That is the honest limit of this design, not a detail, and the calibration confound above is exactly what it looks like when the limit bites. And each evaluation is one forward pass per calibration text plus a model load, so on a 30B model the wall-clock cost per step is far higher than the 40 seconds it takes here.
 
 ---
 
@@ -186,7 +262,11 @@ Stated in full, because the finding is only worth what survives them.
 
 10. **n=27, still small.** Enough to separate perplexity from the other two predictors decisively; not enough to separate router divergence from reconstruction error, which tie.
 
-11. **Two post-hoc analysis choices.** The `core` target and the deployable-regime restriction were both made after seeing the data, for reasons stated above. Both are reported alongside the unrestricted numbers rather than replacing them.
+11. **The agent's result is one subject and one search.** Greedy descent over three components on a 1.3B model, with cut points fitted on that same model. It is a demonstration that the loop closes and audits itself, not evidence that 5.18 bits is right for any other model.
+
+12. **Four auditor bugs were found by running it, not by reading it.** A confounded probe, a budget that walled off good configs, an uncapped ratio letting one probe pay for another's loss, and a revert that stepped into already-rejected states. Each was invisible until the loop ran and its trace was read line by line. Assume the next one is there too.
+
+13. **Two post-hoc analysis choices.** The `core` target and the deployable-regime restriction were both made after seeing the data, for reasons stated above. Both are reported alongside the unrestricted numbers rather than replacing them.
 
 ## What needs a GPU box
 

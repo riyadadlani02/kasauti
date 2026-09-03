@@ -282,6 +282,25 @@ SCORERS = {
 LAYER = {"recall": 1, "long_horizon": 2, "format": 2, "calibration": 2, "recovery": 2}
 
 
+GENERATED = "probes_generated.json"
+
+
+def generated_items() -> list:
+    """Probe families a past vetting round kept. Absent file means none yet."""
+    import json
+    import os
+
+    import probegen
+    if not os.path.exists(GENERATED):
+        return []
+    keep = set(json.load(open(GENERATED))["keep"])
+    items = [i for i in probegen.generate() if i.meta["family"] in keep]
+    for i in items:
+        SCORERS.setdefault(i.probe, probegen.score)
+        LAYER.setdefault(i.probe, 2)
+    return items
+
+
 def all_items() -> list:
     return recall_items() + long_horizon_items() + format_items() + calibration_items() + recovery_items()
 
