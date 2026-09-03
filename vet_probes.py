@@ -27,6 +27,31 @@ def existing_series(results="results.jsonl") -> dict:
             for n in names}
 
 
+def needs_resolution(memory_path: str, model: str, fallback_counts: dict = None) -> set:
+    """Probes whose fixed item count is what stops the audit from deciding.
+
+    Read off the closest call on record -- the config where resolution actually
+    mattered -- because that is where the suite was asked a question it could
+    not answer.
+    """
+    import judge as J
+    from memory import Memory
+    mem = Memory(memory_path)
+    spec = mem.judge(model) or J.NAIVE
+    rows = J.records(mem.scored(model))
+    if len(rows) < 2:
+        return set()
+    base = max(rows, key=lambda r: r["bits"])
+    rest = [r for r in rows if r is not base]
+    closest = min(rest, key=lambda r: abs(
+        J.score(r["scores"], base["scores"], spec) - (J.FLOOR - J.MARGIN)))
+    counts = closest["counts"] or fallback_counts or {}
+    if not counts:
+        return set()
+    return set(J.bottleneck(closest["scores"], base["scores"], spec, counts,
+                            base["counts"] or counts))
+
+
 def judged_out(memory_path: str, model: str) -> set:
     """Families the judge has thrown out since they were vetted. Vetting sees
     three configs; the judge sees every config a search ever audited."""
@@ -49,6 +74,14 @@ def main(argv=None) -> int:
     disproved = judged_out(args.memory, mid)
     if disproved:
         print(f"the judge has since disproved: {sorted(disproved)}", flush=True)
+    items_now = [i for i in P.all_items() if P.LAYER[i.probe] == 2] + P.generated_items()
+    fallback = {}
+    for i in items_now:
+        fallback[i.probe] = fallback.get(i.probe, 0) + 1
+    needs = needs_resolution(args.memory, mid, fallback)
+    if needs:
+        print(f"cannot resolve their own verdicts, so a duplicate is the cure: "
+              f"{sorted(needs)}", flush=True)
     tok = AutoTokenizer.from_pretrained(mid, trust_remote_code=True)
     items = probegen.generate()
     for it in items:
@@ -59,7 +92,8 @@ def main(argv=None) -> int:
     if os.path.exists(args.out + ".raw"):
         by_config = json.load(open(args.out + ".raw"))
         print(f"reusing scores from {args.out}.raw", flush=True)
-        verdicts = probegen.vet(by_config, existing_series(), disproved=disproved)
+        verdicts = probegen.vet(by_config, existing_series(), disproved=disproved,
+                                needs_resolution=needs)
         return _report(verdicts, args.out, by_config)
 
     by_config = {}
@@ -73,8 +107,8 @@ def main(argv=None) -> int:
 
     # Save before vetting: a bug in the verdict logic must not cost the compute.
     json.dump(by_config, open(args.out + ".raw", "w"), indent=2)
-    return _report(probegen.vet(by_config, existing_series(), disproved=disproved),
-                   args.out, by_config)
+    return _report(probegen.vet(by_config, existing_series(), disproved=disproved,
+                                needs_resolution=needs), args.out, by_config)
 
 
 def _report(verdicts, out, by_config) -> int:

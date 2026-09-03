@@ -58,6 +58,113 @@ def score(scores: dict, baseline: dict, spec: dict) -> float:
     return sum(vals) / len(vals) if vals else float("nan")
 
 
+GROWABLE = "gen_"  # only probegen's families can be made more of; the rest are fixed lists
+
+
+def resolution(scores: dict, baseline: dict, spec: dict, counts: dict,
+               base_counts: dict = None, only=None) -> float:
+    """Standard error of the audited score.
+
+    Each probe score is a mean over a handful of items, so the audit inherits
+    their sampling error. Item scores are mostly 0/1, so a binomial variance is
+    the right shape and is conservative where a scorer returns a fraction. The
+    +1/+2 smoothing keeps a probe at 1.00 from claiming zero uncertainty on six
+    items, which is the failure this whole function exists to stop.
+
+    Scoring is deterministic, so this is not run-to-run variance. It is the
+    error in estimating the model's true pass rate from the items we chose.
+    """
+    base_counts = base_counts or counts
+    var = 0.0
+    n_graded = 0
+    for p, b in baseline.items():
+        if p in spec["exclude"] or p not in scores or not b:
+            continue
+        n_graded += 1
+        if only is not None and p not in only:
+            continue  # counted as graded, contributes no variance: an irreducible floor
+        vs = _item_var(scores[p], counts.get(p, 1))
+        vb = _item_var(b, base_counts.get(p, 1))
+        # delta method on the ratio s/b, both estimated
+        var += vs / b ** 2 + (scores[p] ** 2) * vb / b ** 4
+    return (var ** 0.5) / n_graded if n_graded else float("nan")
+
+
+def _item_var(mean: float, n: int) -> float:
+    m = (mean * n + 1) / (n + 2)  # Agresti-Coull: no probe claims certainty from six items
+    return m * (1 - m) / max(n, 1)
+
+
+def irreducible(scores: dict, baseline: dict, spec: dict, counts: dict,
+                base_counts: dict = None) -> float:
+    """The best standard error buying more items could ever reach.
+
+    Only the generated families can be made more of. Everything the error still
+    carries after those go to zero is a fixed list somebody has to write, and no
+    amount of compute closes it -- so the agent checks this before paying for a
+    re-measurement that cannot help.
+    """
+    fixed = {p for p in graded(baseline, spec) if not p.startswith(GROWABLE)}
+    return resolution(scores, baseline, spec, counts, base_counts, only=fixed)
+
+
+def bottleneck(scores: dict, baseline: dict, spec: dict, counts: dict,
+               base_counts: dict = None) -> list:
+    """Fixed probes carrying the most of the audit's error, worst first.
+
+    These are the ones worth duplicating. A probe that restates one of these is
+    normally thrown out as redundant -- but redundancy is only a defect when the
+    incumbent already has enough items to decide with. When it does not, a
+    duplicate that can be grown is the cure, not the duplication.
+    """
+    contrib = []
+    for p in graded(baseline, spec):
+        if p.startswith(GROWABLE) or p not in scores or not baseline[p]:
+            continue
+        v = _item_var(scores[p], counts.get(p, 1)) / baseline[p] ** 2
+        contrib.append((v, p))
+    return [p for _, p in sorted(contrib, reverse=True)]
+
+
+def decided(s: float, se: float, floor=FLOOR, margin=MARGIN, z=1.0) -> bool:
+    """Is the verdict further from the line than the instrument can resolve?"""
+    return s == s and abs(s - (floor - margin)) >= z * se
+
+
+def items_needed(scores: dict, baseline: dict, spec: dict, counts: dict,
+                 target: float, base_counts: dict = None) -> dict:
+    """Items per probe to bring the audit's standard error down to `target`.
+
+    Standard error falls as 1/sqrt(n), so this is the honest answer to "what
+    would it take to decide this" -- and usually the honest answer is a number
+    far larger than the suite has.
+    """
+    se = resolution(scores, baseline, spec, counts, base_counts)
+    if not (se == se) or se <= target:
+        return {}
+    factor = (se / target) ** 2
+    return {p: int(-(-counts.get(p, 1) * factor // 1))
+            for p in graded(baseline, spec) if p in scores}
+
+
+def defensible_margin(se: float, z: float, margin: float, want: int, grown: int):
+    """The finest margin this instrument can defend, and why.
+
+    Returns (margin, amendment) with amendment None when the current margin is
+    already resolvable. Deciding inside the standard error is the error the
+    resolution work exists to stop; refusing to decide at all answers nothing.
+    Widening the line is the third option, and it is only honest if the number
+    it widens to comes from the measurement rather than from convenience.
+    """
+    if not (se == se) or z * se <= margin:
+        return margin, None
+    new = round(z * se, 3)
+    return new, {"kind": "widen_margin", "from": margin, "to": new,
+                 "why": f"deciding a {margin} margin needs ~{want} items per probe; "
+                        f"the suite caps at {grown}, leaving a standard error of "
+                        f"{se:.3f}. The finest line this suite can defend is {new}"}
+
+
 def graded(baseline: dict, spec: dict) -> list:
     return [p for p in baseline if p not in spec["exclude"]]
 
@@ -76,7 +183,8 @@ def _bits(k: str) -> float:
 def records(scored: dict) -> list:
     """Evidence rows from the memory store, healthiest first."""
     rows = [{"key": k, "bits": _bits(k), "scores": v["scores"], "was": v.get("audit"),
-              "was_judge": v.get("judge")} for k, v in scored.items()]
+              "counts": v.get("counts") or {}, "was_judge": v.get("judge")}
+            for k, v in scored.items()]
     return sorted(rows, key=lambda r: -r["bits"])
 
 
@@ -132,6 +240,95 @@ def critique(rows: list, spec: dict, floor=FLOOR, margin=MARGIN) -> list:
                                    f"baseline is paying for another probe's loss"})
                 break
     return out
+
+
+def contradiction(rows: list, spec: dict) -> float:
+    """How much the record disagrees with itself under this judge.
+
+    Total magnitude of every case where a strictly more quantized config audits
+    higher than a less quantized one. Scoring is deterministic, so a judge that
+    produces fewer such cases is reading the same measurements with less
+    self-contradiction. This makes no reference to what any probe is supposed to
+    measure -- which is the point.
+    """
+    base = max(rows, key=lambda r: r["bits"])["scores"]
+    sc, bits, total = {}, {}, 0.0
+    for r in rows:
+        sc[r["key"]] = score(r["scores"], base, spec)
+        bits[r["key"]] = [int(x) for x in re.findall(r"\d+", r["key"].split("@")[0])]
+    for a in rows:
+        for b in rows:
+            if a is b or len(bits[a["key"]]) != len(bits[b["key"]]):
+                continue
+            if not all(x >= y for x, y in zip(bits[a["key"]], bits[b["key"]])):
+                continue
+            d = sc[b["key"]] - sc[a["key"]]
+            if d == d and d > 0:
+                total += d
+    return total
+
+
+def least_contradictory(rows: list, spec: dict, forbid=()):
+    """The judge in this spec space that the record contradicts least.
+
+    The three checks in `critique` are mine: they fix the classes of bug I
+    already understood, which is exactly the limit of that design. This asks a
+    different question -- of every judge available, which one reads the record
+    with the fewest contradictions -- and answers it by enumeration, no list of
+    named defects involved.
+
+    Ties go to the judge that throws away the least, and a judge that cannot read
+    every config on record is not a candidate at all -- given the chance, the
+    enumeration's first move was to keep the probe stuck at zero, score every
+    config NaN, and report a perfectly consistent record. Left to itself an
+    optimiser finds the hole in its own objective before it finds the answer.
+    """
+    base = max(rows, key=lambda r: r["bits"])["scores"]
+    probes = sorted(base)
+    best = None
+    for mask in range(1 << len(probes)):
+        excl = [p for i, p in enumerate(probes) if mask >> i & 1]
+        if len(probes) - len(excl) < MIN_PROBES or set(forbid) - set(excl):
+            continue
+        for cap in (None, 1.0):
+            cand = dict(spec, exclude=excl, cap=cap)
+            if any(score(r["scores"], base, cand) != score(r["scores"], base, cand)
+                   for r in rows):
+                continue  # unreadable somewhere: not a judge, just a silence
+            c = contradiction(rows, cand)
+            if c != c:
+                continue
+            k = (round(c, 6), len(excl), cap is None)
+            if best is None or k < best[0]:
+                best = (k, cand, c)
+    return (best[1], best[2]) if best else (spec, float("nan"))
+
+
+def cross_check(rows: list, derived: dict, applied: list) -> dict:
+    """Does an open-ended search over judges agree with the named checks?
+
+    It does not, and the way it fails is the finding. Unconstrained, the judge
+    that contradicts the record least is the one grading on the probes that
+    *rise* under damage: a confounded probe cancels the very inversions this
+    objective counts, so minimising self-contradiction selects for the defect.
+    Consistency is not correctness, and an agent optimising its own coherence
+    will buy coherence with the truth.
+
+    Constrain it to drop what the confound check flagged and the same enumeration
+    -- over every judge in the space, with no named defect involved -- lands
+    exactly on the hand-derived judge. So the checks are not replaceable by
+    search; they are the constraint that makes search safe. That is where the
+    regress stops, and it stops with a person.
+    """
+    flagged = {a["probe"] for a in applied if a["kind"] == "confounded"}
+    free, c_free = least_contradictory(rows, NAIVE)
+    tied, c_tied = least_contradictory(rows, NAIVE, forbid=flagged)
+    kept = [p for p in sorted(rows[0]["scores"]) if p not in free["exclude"]]
+    return {"free": free, "free_contradiction": c_free, "free_keeps": kept,
+            "free_keeps_confounded": sorted(set(kept) & flagged),
+            "constrained": tied, "constrained_contradiction": c_tied,
+            "agrees": sorted(tied["exclude"]) == sorted(derived["exclude"])
+            and tied["cap"] == derived["cap"]}
 
 
 def revise(spec: dict, amendments: list) -> dict:
@@ -222,7 +419,7 @@ def main(argv=None) -> int:
 
     from memory import Memory
     mem = Memory(args.memory)
-    models = [m for m in mem.data if m != "_judge"]
+    models = mem.models()
     model = args.model or (models[0] if len(models) == 1 else None)
     if not model:
         print(f"pick one with --model: {models}")
@@ -262,6 +459,21 @@ def main(argv=None) -> int:
           f"under the improved judge, at zero model evaluations")
     if argued:
         print(f"{argued}/{len(flips)} disagree with the judge those audits were graded under")
+    x = cross_check(rows, new, applied)
+    print(f"\ncross-check: of every judge in this space, the one the record "
+          f"contradicts least\n  grades on {x['free_keeps']} "
+          f"(contradiction {x['free_contradiction']:.3f} against "
+          f"{contradiction(rows, new):.3f})")
+    if x["free_keeps_confounded"]:
+        print(f"  and it keeps {x['free_keeps_confounded']} -- the probes that rise under "
+              f"damage.\n  A confounded probe cancels the inversions this objective counts, "
+              f"so minimising\n  self-contradiction selects for the defect. Consistency is "
+              f"not correctness.")
+    print(f"  forbidden those, the same enumeration lands on "
+          f"{'the judge above' if x['agrees'] else sorted(x['constrained']['exclude'])}"
+          f" -- so the named checks are\n  not replaceable by search, they are what makes "
+          f"the search safe.")
+
     d, less, more = inversion(rows, new)
     if d:
         print(f"\nordering check: {more} audits {d:.3f} HIGHER than {less}, which is "

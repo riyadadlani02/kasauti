@@ -1,15 +1,17 @@
 {
   "keep": [
-    "case",
-    "running_total"
+    "suffix",
+    "tag"
   ],
   "verdicts": {
     "case": {
       "baseline": 1.0,
       "healthy": 0.8333333333333334,
       "damaged": 0.0,
-      "keep": true,
-      "reasons": []
+      "keep": false,
+      "reasons": [
+        "a later audit disproved it on richer evidence"
+      ]
     },
     "counter": {
       "baseline": 1.0,
@@ -19,10 +21,7 @@
       "reasons": [
         "saturated at BF16 and does not move (1.00)",
         "does not separate damaged (1.00 -> 1.00)",
-        "duplicates recall",
-        "duplicates long_horizon",
-        "duplicates format",
-        "duplicates calibration"
+        "restates long_horizon, which cannot resolve its own verdict"
       ]
     },
     "forbidden": {
@@ -43,36 +42,34 @@
       "reasons": [
         "saturated at BF16 and does not move (1.00)",
         "does not separate damaged (1.00 -> 1.00)",
-        "duplicates recall",
-        "duplicates long_horizon",
-        "duplicates format",
-        "duplicates calibration"
+        "restates long_horizon, which cannot resolve its own verdict"
       ]
     },
     "running_total": {
       "baseline": 0.5,
       "healthy": 0.5,
       "damaged": 0.16666666666666666,
-      "keep": true,
-      "reasons": []
+      "keep": false,
+      "reasons": [
+        "a later audit disproved it on richer evidence"
+      ]
     },
     "suffix": {
       "baseline": 1.0,
       "healthy": 0.8333333333333334,
       "damaged": 0.6666666666666666,
-      "keep": false,
+      "keep": true,
       "reasons": [
-        "duplicates format"
+        "restates format, which cannot resolve its own verdict"
       ]
     },
     "tag": {
       "baseline": 0.8333333333333334,
       "healthy": 0.8333333333333334,
       "damaged": 0.5,
-      "keep": false,
+      "keep": true,
       "reasons": [
-        "duplicates long_horizon",
-        "duplicates format"
+        "restates long_horizon, which cannot resolve its own verdict"
       ]
     },
     "wordcap": {

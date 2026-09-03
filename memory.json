@@ -1,22 +1,316 @@
 {
+  "_judge": {
+    "ibm-granite/granite-3.0-1b-a400m-instruct": {
+      "amendments": [
+        {
+          "exclude": "recovery",
+          "kind": "no_headroom",
+          "probe": "recovery",
+          "why": "recovery scores 0.00 at BF16 \u2014 it has no headroom to fall, so its ratio measures noise, not damage"
+        },
+        {
+          "cap": 1.0,
+          "kind": "masking",
+          "why": "attention8,expert6,gate16@g128 audited 1.031 \u2014 no damage \u2014 while format measurably fell. A probe scoring above baseline is paying for another probe's loss"
+        },
+        {
+          "exclude": "calibration",
+          "kind": "confounded",
+          "probe": "calibration",
+          "why": "calibration rises +0.05 as precision is removed (0.50 at BF16 -> 0.60 at attention8,expert5,gate16@g128) \u2014 grading on it hides real losses"
+        },
+        {
+          "exclude": "gen_running_total",
+          "kind": "confounded",
+          "probe": "gen_running_total",
+          "why": "gen_running_total rises +0.12 as precision is removed (0.50 at BF16 -> 0.83 at attention8,expert6,gate6@g128) \u2014 grading on it hides real losses"
+        },
+        {
+          "exclude": "gen_case",
+          "kind": "confounded",
+          "probe": "gen_case",
+          "why": "gen_case rises +0.13 as precision is removed (0.83 at BF16 -> 1.00 at attention16,expert16,gate8@g128) \u2014 grading on it hides real losses"
+        }
+      ],
+      "cap": 1.0,
+      "exclude": [
+        "recovery",
+        "calibration",
+        "gen_running_total",
+        "gen_case"
+      ],
+      "version": "v4-confounded"
+    }
+  },
+  "_policy": {
+    "ibm-granite/granite-3.0-1b-a400m-instruct": {
+      "amendments": [
+        {
+          "kind": "refine_ladder",
+          "ladder": [
+            16,
+            13,
+            11,
+            8,
+            6,
+            5,
+            4,
+            3,
+            2
+          ],
+          "why": "the only move available to attention, expert was 16->8 and the audit rejected it; there is nothing smaller on the ladder, so the search abandons a component it has not finished with"
+        },
+        {
+          "kind": "pass_through",
+          "pass_through": 1,
+          "why": "attention16,expert8,gate8@g128 passed its audit and is strictly more quantized than attention16,expert8,gate16@g128, which failed. A failed config does not close the route beyond it, and reverting from it is what loses the better answer"
+        },
+        {
+          "from": 0.02,
+          "kind": "widen_margin",
+          "to": 0.066,
+          "why": "deciding a 0.02 margin needs ~451 items per probe; the suite caps at 64, leaving a standard error of 0.066. The finest line this suite can defend is 0.066"
+        }
+      ],
+      "ladder": [
+        16,
+        13,
+        11,
+        8,
+        6,
+        5,
+        4,
+        3,
+        2
+      ],
+      "pass_through": 1,
+      "version": "p1-pass_through+refine_ladder+widen"
+    }
+  },
   "ibm-granite/granite-3.0-1b-a400m-instruct": {
-    "attention16,expert16,gate16@g128": {
-      "agentic": 1.0,
+    "attention11,expert16,gate16@g128": {
+      "cost": 0.1705158819863774,
+      "flip_rate": 0.020518472088345636,
+      "recon_error": 0.010380629364832517,
+      "set_change_rate": 0.0656486145647553
+    },
+    "attention13,expert13,gate16@g128": {
+      "cost": 0.1641096106278851,
+      "flip_rate": 0.019836272025713697,
+      "recon_error": 0.010020447587303204,
+      "set_change_rate": 0.06318220009173577
+    },
+    "attention13,expert16,gate13@g128": {
+      "cost": 0.1574307297622519,
+      "flip_rate": 0.020990764135300804,
+      "recon_error": 0.01121094715400329,
+      "set_change_rate": 0.06061083095846698
+    },
+    "attention13,expert16,gate16@g128": {
+      "agentic": 0.9635782659215404,
       "audit": "passed",
-      "judge": "v3-capped-ratios",
+      "cost": 0.17106109646499737,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_case": 24,
+        "gen_suffix": 24,
+        "gen_tag": 24,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.02030856441706419,
+      "judge": "v4-confounded",
+      "recon_error": 0.011754640353989187,
+      "resolution": 0.07178312415811658,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_case": 0.8333333333333334,
+        "gen_suffix": 0.9583333333333334,
+        "gen_tag": 0.7916666666666666,
+        "long_horizon": 0.7962962962962963,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.06585852213902399,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_case",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention16,expert11,gate16@g128": {
+      "agentic": 0.8738038277511961,
+      "audit": "unresolved",
+      "cost": 0.15484096061083533,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_case": 6,
+        "gen_suffix": 6,
+        "gen_tag": 6,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.01757976499114496,
+      "judge": "v4-confounded",
+      "recon_error": 0.009819816301077469,
+      "resolution": 0.10005240202196107,
+      "scores": {
+        "calibration": 0.55,
+        "format": 0.7916666666666666,
+        "gen_case": 1.0,
+        "gen_suffix": 1.0,
+        "gen_tag": 0.5,
+        "long_horizon": 0.7962962962962963,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.0596137698351716,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_case",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention16,expert13,gate13@g128": {
+      "cost": 0.1552498723643336,
+      "flip_rate": 0.017947103226712596,
+      "recon_error": 0.008690871194600372,
+      "set_change_rate": 0.059771200860268436
+    },
+    "attention16,expert13,gate16@g128": {
+      "agentic": 0.952214629557904,
+      "audit": "unresolved",
+      "cost": 0.15238749601140425,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_case": 24,
+        "gen_suffix": 24,
+        "gen_tag": 24,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.01731738037778996,
+      "judge": "v4-confounded",
+      "recon_error": 0.009726730538804863,
+      "resolution": 0.0720619169117338,
+      "scores": {
+        "calibration": 0.55,
+        "format": 0.7916666666666666,
+        "gen_case": 0.875,
+        "gen_suffix": 0.9583333333333334,
+        "gen_tag": 0.7916666666666666,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.058669185964390635,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_case",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention16,expert16,gate13@g128": {
+      "agentic": 0.9637774180945471,
+      "audit": "unresolved",
+      "cost": 0.1251267634248522,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_case": 24,
+        "gen_suffix": 24,
+        "gen_tag": 24,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "flip_rate": 0.015113349931198172,
+      "judge": "v4-confounded",
+      "recon_error": 0.003702691444599207,
+      "resolution": 0.07616910538609463,
       "scores": {
         "calibration": 0.5,
         "format": 0.9166666666666666,
+        "gen_case": 0.7916666666666666,
+        "gen_suffix": 0.9166666666666666,
+        "gen_tag": 0.75,
+        "long_horizon": 0.7222222222222222,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.048173803918568105,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_case",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention16,expert16,gate16@g128": {
+      "agentic": 1.0,
+      "audit": "passed",
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_suffix": 64,
+        "gen_tag": 64,
+        "long_horizon": 18,
+        "recovery": 10
+      },
+      "judge": "v4-confounded",
+      "resolution": 0.07583914181850572,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.9166666666666666,
+        "gen_suffix": 0.96875,
+        "gen_tag": 0.828125,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "suite": [
+        "calibration",
+        "format",
+        "gen_suffix",
+        "gen_tag",
+        "long_horizon",
+        "recovery"
+      ]
+    },
+    "attention16,expert16,gate6@g128": {
+      "cost": 0.32535684355474137,
+      "flip_rate": 0.046809404234712325,
+      "recon_error": 0.024296227820306136,
+      "set_change_rate": 0.12526238476857543
+    },
+    "attention16,expert16,gate8@g128": {
+      "agentic": 0.9318181818181819,
+      "audit": "passed",
+      "cost": 0.1874175365183712,
+      "flip_rate": 0.02235516383855914,
+      "judge": "v4-confounded",
+      "recon_error": 0.013148309980527765,
+      "scores": {
+        "calibration": 0.45,
+        "format": 0.7916666666666666,
         "gen_case": 1.0,
         "gen_running_total": 0.5,
         "long_horizon": 0.7592592592592592,
         "recovery": 0.0
-      }
-    },
-    "attention16,expert16,gate8@g128": {
-      "cost": 0.1874175365183712,
-      "flip_rate": 0.02235516383855914,
-      "recon_error": 0.013148309980527765,
+      },
       "set_change_rate": 0.07215575155957292
     },
     "attention16,expert6,gate16@g128": {
@@ -25,17 +319,68 @@
       "recon_error": 0.04231776840142099,
       "set_change_rate": 0.1289882455021143
     },
+    "attention16,expert6,gate8@g128": {
+      "cost": 0.41932010793501356,
+      "flip_rate": 0.0433984049789918,
+      "recon_error": 0.04193201079350136,
+      "set_change_rate": 0.13140218378975987
+    },
     "attention16,expert8,gate16@g128": {
+      "agentic": 1.0,
+      "audit": "passed",
       "cost": 0.18973470024474254,
       "flip_rate": 0.022670025122351944,
+      "judge": "v4-confounded",
       "recon_error": 0.015006406546238464,
+      "scores": {
+        "calibration": 0.45,
+        "format": 0.9166666666666666,
+        "gen_case": 0.6666666666666666,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
       "set_change_rate": 0.07304785959422588
     },
+    "attention16,expert8,gate6@g128": {
+      "cost": 0.3740927041974215,
+      "flip_rate": 0.04649454229608333,
+      "recon_error": 0.03740927041974215,
+      "set_change_rate": 0.12814861458415786
+    },
     "attention16,expert8,gate8@g128": {
+      "agentic": 0.9074279379157428,
+      "audit": "failed",
       "cost": 0.2131789299816667,
+      "counts": {
+        "calibration": 20,
+        "format": 12,
+        "gen_case": 6,
+        "gen_running_total": 6,
+        "long_horizon": 18,
+        "recovery": 10
+      },
       "flip_rate": 0.025608732423279434,
+      "judge": "v4-confounded",
       "recon_error": 0.014270975845204198,
-      "set_change_rate": 0.08207388804294169
+      "resolution": 0.10614511334528771,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.7916666666666666,
+        "gen_case": 1.0,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7222222222222222,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.08207388804294169,
+      "suite": [
+        "calibration",
+        "format",
+        "gen_case",
+        "gen_running_total",
+        "long_horizon",
+        "recovery"
+      ]
     },
     "attention6,expert5,gate5@g128": {
       "cost": 1.1716486444484975,
@@ -50,11 +395,11 @@
       "set_change_rate": 0.25965575439234573
     },
     "attention6,expert6,gate16@g128": {
-      "agentic": 0.8870103473762011,
-      "audit": "failed",
+      "agentic": 0.9406873614190688,
+      "audit": "passed",
       "cost": 0.5518110655761169,
       "flip_rate": 0.0579869858144472,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.055181106557611694,
       "scores": {
         "calibration": 0.5,
@@ -84,11 +429,34 @@
       "recon_error": 0.041822676400359075,
       "set_change_rate": 0.1706549127896627
     },
+    "attention6,expert8,gate8@g128": {
+      "cost": 0.4454403720570333,
+      "flip_rate": 0.05420864870150884,
+      "recon_error": 0.04267582311918564,
+      "set_change_rate": 0.17149454324195781
+    },
     "attention8,expert16,gate16@g128": {
+      "agentic": 0.9528824833702882,
+      "audit": "passed",
       "cost": 0.21127067865134574,
       "flip_rate": 0.02634340871979172,
+      "judge": "v4-confounded",
       "recon_error": 0.012901170082768818,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.875,
+        "gen_case": 0.8333333333333334,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7222222222222222,
+        "recovery": 0.1
+      },
       "set_change_rate": 0.08133921128076811
+    },
+    "attention8,expert16,gate8@g128": {
+      "cost": 0.22122084618711366,
+      "flip_rate": 0.025451301791084308,
+      "recon_error": 0.010702289641317057,
+      "set_change_rate": 0.08517002578203876
     },
     "attention8,expert4,gate5@g128": {
       "cost": 1.4000054198681902,
@@ -103,11 +471,11 @@
       "set_change_rate": 0.3554785903543234
     },
     "attention8,expert5,gate16@g128": {
-      "agentic": 0.8954175905395418,
+      "agentic": 0.8741685144124169,
       "audit": "failed",
       "cost": 0.9118361919051513,
       "flip_rate": 0.07126364405363954,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.09118361919051514,
       "scores": {
         "calibration": 0.6,
@@ -126,11 +494,11 @@
       "set_change_rate": 0.3691225877652566
     },
     "attention8,expert5,gate5@g128": {
-      "agentic": 0.9659090909090909,
+      "agentic": 0.9318181818181819,
       "audit": "passed",
       "cost": 0.9624740185751907,
       "flip_rate": 0.09996851485630032,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.09624740185751907,
       "scores": {
         "calibration": 0.5,
@@ -143,11 +511,11 @@
       "set_change_rate": 0.2772355160365502
     },
     "attention8,expert5,gate6@g128": {
-      "agentic": 0.9522357723577236,
+      "agentic": 0.9878048780487806,
       "audit": "passed",
       "cost": 0.8822295544611769,
       "flip_rate": 0.07986985718404564,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.08822295544611769,
       "scores": {
         "calibration": 0.6,
@@ -166,11 +534,11 @@
       "set_change_rate": 0.2164147774068018
     },
     "attention8,expert6,gate16@g128": {
-      "agentic": 0.9301552106430155,
-      "audit": "passed",
+      "agentic": 0.8603104212860311,
+      "audit": "failed",
       "cost": 0.4683796633901466,
       "flip_rate": 0.04119437475067874,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.04683796633901466,
       "scores": {
         "calibration": 0.55,
@@ -189,11 +557,11 @@
       "set_change_rate": 0.22622796117017666
     },
     "attention8,expert6,gate6@g128": {
-      "agentic": 0.9484478935698448,
-      "audit": "passed",
+      "agentic": 0.8968957871396896,
+      "audit": "failed",
       "cost": 0.4586886858330296,
       "flip_rate": 0.05562552514796456,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.04586886858330296,
       "scores": {
         "calibration": 0.6,
@@ -206,11 +574,11 @@
       "set_change_rate": 0.16462006699293852
     },
     "attention8,expert6,gate8@g128": {
-      "agentic": 0.9711751662971175,
+      "agentic": 0.9423503325942352,
       "audit": "passed",
       "cost": 0.48227279352309294,
       "flip_rate": 0.043136020501454674,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.0482272793523093,
       "scores": {
         "calibration": 0.5,
@@ -223,11 +591,11 @@
       "set_change_rate": 0.13712216548932096
     },
     "attention8,expert8,gate16@g128": {
-      "agentic": 0.946969696969697,
+      "agentic": 0.9772727272727273,
       "audit": "passed",
       "cost": 0.22667299298916285,
       "flip_rate": 0.02545130130602047,
-      "judge": "v3-capped-ratios",
+      "judge": "v4-confounded",
       "recon_error": 0.020289249798955657,
       "scores": {
         "calibration": 0.5,
@@ -239,10 +607,27 @@
       },
       "set_change_rate": 0.0872691023008277
     },
+    "attention8,expert8,gate6@g128": {
+      "cost": 0.3440304437563533,
+      "flip_rate": 0.047701511454458036,
+      "recon_error": 0.020722855909657927,
+      "set_change_rate": 0.13245172084619602
+    },
     "attention8,expert8,gate8@g128": {
+      "agentic": 0.9545454545454546,
+      "audit": "passed",
       "cost": 0.25393372236295436,
       "flip_rate": 0.028337531742484618,
+      "judge": "v4-confounded",
       "recon_error": 0.017220969030492264,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_case": 1.0,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
       "set_change_rate": 0.09776448310973744
     }
   }

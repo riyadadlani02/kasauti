@@ -115,7 +115,7 @@ def score(text: str, meta: dict) -> float:
 
 
 def vet(by_config: dict, existing: dict, headroom=(0.25, 0.95), min_drop=0.10,
-        max_overlap=0.9, disproved=()) -> dict:
+        max_overlap=0.9, disproved=(), needs_resolution=()) -> dict:
     """Keep a family only if it has room to fall, actually falls on a damaged
     config, and does not just restate a probe we already have.
 
@@ -125,6 +125,11 @@ def vet(by_config: dict, existing: dict, headroom=(0.25, 0.95), min_drop=0.10,
         configs cannot see what a whole search saw: `running_total` passed here
         by falling on the damaged config, then rose across the near-healthy
         range the search actually works in. The later evidence wins.
+    needs_resolution: probes whose own item count is what the audit's error is
+        made of. Duplicating one of those is not redundancy -- it is the only
+        way to buy resolution on an invariant whose incumbent probe is a fixed
+        hand-written list. Redundancy disqualifies a family only while the probe
+        it restates can still decide something on its own.
     """
     base, healthy, damaged = by_config["baseline"], by_config["healthy"], by_config["damaged"]
     families = sorted({i.split("-")[1] for i in base})
@@ -135,6 +140,7 @@ def vet(by_config: dict, existing: dict, headroom=(0.25, 0.95), min_drop=0.10,
         h = sum(healthy[i] for i in ids) / len(ids)
         d = sum(damaged[i] for i in ids) / len(ids)
         reasons = ["a later audit disproved it on richer evidence"] if f in disproved else []
+        notes = []
         separates = bool(b) and (b - d) / b >= min_drop
         if b < headroom[0]:
             reasons.append(f"at its floor at BF16 ({b:.2f})")
@@ -148,9 +154,13 @@ def vet(by_config: dict, existing: dict, headroom=(0.25, 0.95), min_drop=0.10,
         mine = _shape([b, h, d])
         for name, series in existing.items():
             if _similar(mine, _shape(series)) > max_overlap:
+                if name in needs_resolution:
+                    reasons = [r for r in reasons if not r.startswith("duplicates")]
+                    notes.append(f"restates {name}, which cannot resolve its own verdict")
+                    break
                 reasons.append(f"duplicates {name}")
         verdicts[f] = {"baseline": b, "healthy": h, "damaged": d,
-                       "keep": not reasons, "reasons": reasons}
+                       "keep": not reasons, "reasons": reasons + notes}
     return verdicts
 
 

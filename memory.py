@@ -17,6 +17,15 @@ import os
 import tempfile
 
 
+def model_keys(data: dict) -> list:
+    """Model buckets, excluding the "_"-prefixed meta stores (_judge, _policy).
+
+    Callers kept hand-rolling this and a stale one broke silently when _policy
+    was added, so the convention lives in exactly one place.
+    """
+    return [k for k in data if not k.startswith("_")]
+
+
 def key(state: dict, group: int) -> str:
     return ",".join(f"{c}{b}" for c, b in sorted(state.items())) + f"@g{group}"
 
@@ -25,6 +34,9 @@ class Memory:
     def __init__(self, path="memory.json"):
         self.path = path
         self.data = json.load(open(path)) if os.path.exists(path) else {}
+
+    def models(self) -> list:
+        return model_keys(self.data)
 
     def _bucket(self, model: str) -> dict:
         return self.data.setdefault(model, {})
@@ -37,6 +49,14 @@ class Memory:
 
     def put_judge(self, model: str, spec: dict):
         self.data.setdefault("_judge", {})[model] = spec
+        self.save()
+
+    def policy(self, model: str) -> dict | None:
+        """How the search moves, if the agent has amended it (see policy.py)."""
+        return self.data.get("_policy", {}).get(model)
+
+    def put_policy(self, model: str, pol: dict):
+        self.data.setdefault("_policy", {})[model] = pol
         self.save()
 
     def get(self, model: str, state: dict, group: int) -> dict:

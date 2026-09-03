@@ -5,6 +5,7 @@ import torch
 from torch import nn
 
 import kasauti as K
+import memory as M
 
 
 class FakeMoE(nn.Module):
@@ -243,19 +244,120 @@ def test_a_better_judge_redecides_old_verdicts_at_no_cost():
 def test_the_agent_rederives_my_hand_written_judge_from_the_run_record():
     """The claim this whole file exists to check: pointed at what past runs
     measured, starting from a judge that knows nothing, the agent reaches the
-    three fixes I made to its auditor by hand."""
+    fixes I made to its auditor by hand — and one I did not make.
+
+    Mine were: drop the probe with no headroom (recovery), cap ratios so a
+    rising probe cannot pay for a falling one, and drop calibration for
+    rewarding abstention. It finds all three. It also flags gen_case, which
+    rises 0.83 -> 1.00 across this record. I had judged that probe on the
+    vetting run's three uniform configs, where it collapses instead; the
+    search never visits those, so on its own evidence the agent is right and
+    my hand judge was reading a different set of configs."""
     import json
     import judge as J
     mem = json.load(open(pathlib.Path(__file__).parent / "memory.json"))
-    model = next(m for m in mem if m != "_judge")
+    model = M.model_keys(mem)[0]
     rows = J.records({k: v for k, v in mem[model].items() if v.get("scores")})
+    base = max(rows, key=lambda r: r["bits"])
     spec, applied, _ = J.improve(J.NAIVE, rows)
+
     assert [a["kind"] for a in applied] == ["no_headroom", "masking", "confounded", "confounded"]
-    assert spec["cap"] == 1.0
-    assert set(spec["exclude"]) == {"recovery", "calibration", "gen_running_total"}
+    assert spec["cap"] == 1.0, "the masking fix"
+    assert "recovery" in spec["exclude"], "the no-headroom fix"
+    assert "calibration" in spec["exclude"], "the confound fix"
+    assert every_amendment_names_its_evidence(applied)
+    # it must not excuse itself by grading on too little to resolve anything
+    assert len(J.graded(base["scores"], spec)) >= J.MIN_PROBES
     # and it still clears the config the search settled on
     final = next(r for r in rows if r["key"] == "attention8,expert5,gate5@g128")
-    assert J.passes(J.score(final["scores"], rows[0]["scores"], spec))
+    assert J.passes(J.score(final["scores"], base["scores"], spec))
+
+
+def every_amendment_names_its_evidence(applied) -> bool:
+    """An amendment the agent cannot justify in terms of a measured config is
+    indistinguishable from one that just makes grading easier."""
+    return all(a.get("why") and any(ch.isdigit() for ch in a["why"]) for a in applied)
+
+
+def test_it_widens_the_line_it_cannot_resolve_rather_than_stalling():
+    """Refusing to decide is right; refusing forever answers nothing. When the
+    suite has grown as far as it can and still cannot resolve the margin, the
+    agent moves the line to what its instrument supports -- and the number it
+    moves to has to come from the measurement, not from convenience."""
+    import judge as J
+    # resolvable: leave it alone
+    m, am = J.defensible_margin(se=0.01, z=1.0, margin=0.02, want=20, grown=64)
+    assert m == 0.02 and am is None
+    # not resolvable: widen to exactly the standard error, and justify it
+    m, am = J.defensible_margin(se=0.0758, z=1.0, margin=0.02, want=346, grown=64)
+    assert m == 0.076 and am["kind"] == "widen_margin"
+    assert am["from"] == 0.02 and am["to"] == 0.076
+    assert "346" in am["why"] and "64" in am["why"], am["why"]
+    # it may never widen to less than it can measure
+    assert m >= 0.0758 - 1e-9
+    # a NaN instrument does not license any line at all
+    assert J.defensible_margin(float("nan"), 1.0, 0.02, 9, 9) == (0.02, None)
+
+
+def test_growth_is_driven_by_items_not_by_new_probe_families():
+    """The stall this fixes: the re-baseline onto a bigger suite was gated on
+    the vetter admitting a new family, but standard error falls with item
+    count. Nothing new survived vetting, so the suite never grew and the
+    search ended at BF16 having compressed nothing."""
+    src = pathlib.Path(__file__).parent.joinpath("search.py").read_text()
+    block = src[src.index("unresolved.add(key(state, ev.group))"):]
+    block = block[:block.index("cadence = 1")]
+    assert "if replenish(" not in block, "growth must not be gated on new families"
+    assert "items_needed" in block and "build_items(grown)" in block
+
+
+def test_the_audit_will_not_decide_inside_its_own_error():
+    """A mean of twelve items does not resolve a 0.02 line. Before this, every
+    verdict in the project was reported as if it did."""
+    import judge as J
+    base = {"format": 0.917, "gen_case": 1.0, "long_horizon": 0.759}
+    cnt = {"format": 12, "gen_case": 6, "long_horizon": 18}
+    hurt = {"format": 0.792, "gen_case": 1.0, "long_horizon": 0.759}
+    spec = dict(J.NAIVE, cap=1.0)
+    s, se = J.score(hurt, base, spec), J.resolution(hurt, base, spec, cnt)
+    assert 0.95 < s < 0.96 and se > 0.05, (s, se)
+    assert not J.decided(s, se), "0.955 against a 0.93 line is inside a 0.1 standard error"
+    # and far from the line it will commit
+    assert J.decided(0.45, se)
+
+
+def test_a_probe_at_full_marks_does_not_claim_certainty():
+    """Six of six is not proof of zero error, and the binomial says it is."""
+    import judge as J
+    assert J._item_var(1.0, 6) > 0.01
+
+
+def test_it_checks_whether_buying_items_could_help_before_paying():
+    """Only the generated families can be made more of. If the error left after
+    growing those is still bigger than the gap, a re-measurement is compute
+    spent for nothing."""
+    import judge as J
+    base = {"format": 0.917, "gen_case": 1.0, "long_horizon": 0.759}
+    cnt = {"format": 12, "gen_case": 6, "long_horizon": 18}
+    hurt = {"format": 0.792, "gen_case": 1.0, "long_horizon": 0.759}
+    spec = dict(J.NAIVE, cap=1.0)
+    floor_se = J.irreducible(hurt, base, spec, cnt)
+    assert 0 < floor_se < J.resolution(hurt, base, spec, cnt)
+    assert floor_se > 0.02, "the fixed probe lists, not the compute, are the bottleneck"
+    need = J.items_needed(hurt, base, spec, cnt, 0.02)
+    assert need["format"] > 100 and need["long_horizon"] > 100, need
+
+
+def test_unresolved_is_not_recorded_as_a_rejection():
+    """An audit that could not resolve a config is not evidence against it, and
+    storing it as a rejection would teach the memory something never measured."""
+    import os
+    import tempfile
+    from memory import Memory
+    m = Memory(os.path.join(tempfile.mkdtemp(), "m.json"))
+    m.put("mdl", {"expert": 4}, 128, audit="failed", judge="v1")
+    m.put("mdl", {"expert": 5}, 128, audit="unresolved", judge="v1")
+    assert m.rejected("mdl", "v1") == {"expert4@g128"}
 
 
 def test_the_vetter_will_not_re_approve_a_family_the_judge_threw_out():
@@ -270,6 +372,76 @@ def test_the_vetter_will_not_re_approve_a_family_the_judge_threw_out():
     existing = vet_probes.existing_series(str(here / "results.jsonl"))
     assert probegen.vet(raw, existing)["running_total"]["keep"]
     assert not probegen.vet(raw, existing, disproved={"running_total"})["running_total"]["keep"]
+
+
+def test_redundancy_stops_disqualifying_a_probe_the_audit_needs():
+    """A duplicate is a defect only while the probe it restates can still decide
+    something. When that probe is a fixed twelve-item list and the audit cannot
+    resolve its verdict, a duplicate that can be grown is the cure."""
+    import json
+    import probegen
+    import vet_probes
+    here = pathlib.Path(__file__).parent
+    raw = json.load(open(here / "probes_generated.json.raw"))
+    existing = vet_probes.existing_series(str(here / "results.jsonl"))
+    plain = probegen.vet(raw, existing, disproved={"running_total"})
+    assert not plain["suffix"]["keep"] and "duplicates format" in plain["suffix"]["reasons"]
+    needed = probegen.vet(raw, existing, disproved={"running_total"},
+                          needs_resolution={"format", "long_horizon"})
+    assert needed["suffix"]["keep"] and needed["tag"]["keep"]
+    # but a duplicate that cannot separate damage is still worthless
+    assert not needed["prefix"]["keep"]
+
+
+def test_the_search_amends_its_own_ladder_when_a_component_gets_stuck():
+    """The ladder starts 16 -> 8. When the audit rejects a component's only
+    available move, the search abandons a component it has not finished with."""
+    import policy as PO
+    rows = [{"key": "attention16,expert16,gate16@g128", "was": "passed"},
+            {"key": "attention16,expert8,gate16@g128", "was": "failed"}]
+    pol, applied = PO.improve(dict(PO.P0), rows)
+    assert applied[0]["kind"] == "refine_ladder"
+    assert any(8 < b < 16 for b in pol["ladder"]), pol["ladder"]
+
+
+def test_a_failed_config_does_not_close_the_route_beyond_it():
+    """Measured: gate5/attn8/expert5 passes and is strictly more quantized than
+    gate16/attn8/expert5, which fails. Reverting from the failure is what loses
+    the better answer."""
+    import policy as PO
+    rows = [{"key": "attention8,expert5,gate16@g128", "was": "failed"},
+            {"key": "attention8,expert5,gate5@g128", "was": "passed"}]
+    pol, applied = PO.improve(dict(PO.P0), rows)
+    assert pol["pass_through"] == 1
+    assert any(a["kind"] == "pass_through" for a in applied)
+
+
+def test_minimising_self_contradiction_selects_for_the_confound():
+    """The open-ended version of the critic, and why it does not replace the
+    named checks: a probe that rises under damage cancels the inversions this
+    objective counts, so the most self-consistent judge is the broken one."""
+    import json
+    import judge as J
+    mem = json.load(open(pathlib.Path(__file__).parent / "memory_handjudge.json"))
+    model = M.model_keys(mem)[0]
+    rows = J.records({k: v for k, v in mem[model].items() if v.get("scores")})
+    derived, applied, _ = J.improve(J.NAIVE, rows)
+    x = J.cross_check(rows, derived, applied)
+    assert x["free_contradiction"] < J.contradiction(rows, derived)
+    assert x["free_keeps_confounded"], "it keeps the probes that rise under damage"
+    assert x["agrees"], "forbidden those, enumeration reproduces the derived judge exactly"
+
+
+def test_a_judge_that_reads_nothing_is_not_a_candidate():
+    """Given the chance, the enumeration's first move was to keep the probe stuck
+    at zero, score every config NaN, and report a perfectly consistent record."""
+    import json
+    import judge as J
+    mem = json.load(open(pathlib.Path(__file__).parent / "memory_handjudge.json"))
+    model = M.model_keys(mem)[0]
+    rows = J.records({k: v for k, v in mem[model].items() if v.get("scores")})
+    picked, _ = J.least_contradictory(rows, J.NAIVE)
+    assert "recovery" in picked["exclude"], "the zero-baseline probe must be excluded"
 
 
 def test_memory_never_reproposes_a_disproved_config():

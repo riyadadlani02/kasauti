@@ -1,0 +1,187 @@
+{
+  "state": {
+    "gate": 16,
+    "attention": 16,
+    "expert": 16
+  },
+  "history": [
+    {
+      "step": 1,
+      "component": "gate",
+      "bits": 8,
+      "state": {
+        "gate": 8,
+        "attention": 16,
+        "expert": 16
+      },
+      "set_change_rate": 0.07215575155957292,
+      "flip_rate": 0.02235516383855914,
+      "recon_error": 0.013148309980527765,
+      "cost": 0.1874175365183712,
+      "model_bits": 15.995101041028782
+    },
+    {
+      "step": 2,
+      "component": "expert",
+      "bits": 8,
+      "state": {
+        "gate": 8,
+        "attention": 16,
+        "expert": 8
+      },
+      "set_change_rate": 0.08207388804294169,
+      "flip_rate": 0.025608732423279434,
+      "recon_error": 0.014270975845204198,
+      "cost": 0.2131789299816667,
+      "model_bits": 8.470300061236987,
+      "validated_agentic": 0.9382852919438286,
+      "resolution": 0.10614511334528771,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 3,
+      "component": "expert",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 16,
+        "expert": 13
+      },
+      "set_change_rate": 0.058669185964390635,
+      "flip_rate": 0.01731738037778996,
+      "recon_error": 0.009726730538804863,
+      "cost": 0.15238749601140425,
+      "model_bits": 13.178199632578076,
+      "validated_agentic": 0.9659090909090909,
+      "resolution": 0.07721335784733215,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 4,
+      "component": "attention",
+      "bits": 13,
+      "state": {
+        "gate": 16,
+        "attention": 13,
+        "expert": 16
+      },
+      "set_change_rate": 0.06585852213902399,
+      "flip_rate": 0.02030856441706419,
+      "recon_error": 0.011754640353989187,
+      "cost": 0.17106109646499737,
+      "model_bits": 15.82363747703613,
+      "validated_agentic": 0.9772727272727273,
+      "resolution": 0.07695323043879393,
+      "audit": "unresolved",
+      "reverted": true
+    },
+    {
+      "step": 5,
+      "component": "gate",
+      "bits": 13,
+      "state": {
+        "gate": 13,
+        "attention": 16,
+        "expert": 16
+      },
+      "set_change_rate": 0.048173803918568105,
+      "flip_rate": 0.015113349931198172,
+      "recon_error": 0.003702691444599207,
+      "cost": 0.1251267634248522,
+      "model_bits": 15.998162890385792,
+      "validated_agentic": 0.9637774180945471,
+      "resolution": 0.07616910538609463,
+      "audit": "unresolved",
+      "reverted": true
+    }
+  ],
+  "budget": 1.0,
+  "final_agentic": 1.0,
+  "resolution": 0.07583914181850572,
+  "final_verdict": "unresolved",
+  "judge": {
+    "version": "v4-confounded",
+    "cap": 1.0,
+    "exclude": [
+      "recovery",
+      "calibration",
+      "gen_running_total",
+      "gen_case"
+    ],
+    "amendments": [
+      {
+        "exclude": "recovery",
+        "kind": "no_headroom",
+        "probe": "recovery",
+        "why": "recovery scores 0.00 at BF16 \u2014 it has no headroom to fall, so its ratio measures noise, not damage"
+      },
+      {
+        "cap": 1.0,
+        "kind": "masking",
+        "why": "attention8,expert6,gate16@g128 audited 1.031 \u2014 no damage \u2014 while format measurably fell. A probe scoring above baseline is paying for another probe's loss"
+      },
+      {
+        "exclude": "calibration",
+        "kind": "confounded",
+        "probe": "calibration",
+        "why": "calibration rises +0.05 as precision is removed (0.50 at BF16 -> 0.60 at attention8,expert5,gate16@g128) \u2014 grading on it hides real losses"
+      },
+      {
+        "exclude": "gen_running_total",
+        "kind": "confounded",
+        "probe": "gen_running_total",
+        "why": "gen_running_total rises +0.12 as precision is removed (0.50 at BF16 -> 0.83 at attention8,expert6,gate6@g128) \u2014 grading on it hides real losses"
+      },
+      {
+        "kind": "confounded",
+        "probe": "gen_case",
+        "exclude": "gen_case",
+        "why": "gen_case rises +0.13 as precision is removed (0.83 at BF16 -> 1.00 at attention16,expert16,gate8@g128) \u2014 grading on it hides real losses"
+      }
+    ]
+  },
+  "policy": {
+    "version": "p1-pass_through+refine_ladder",
+    "ladder": [
+      16,
+      13,
+      11,
+      8,
+      6,
+      5,
+      4,
+      3,
+      2
+    ],
+    "pass_through": 1,
+    "amendments": [
+      {
+        "kind": "refine_ladder",
+        "ladder": [
+          16,
+          13,
+          11,
+          8,
+          6,
+          5,
+          4,
+          3,
+          2
+        ],
+        "why": "the only move available to attention, expert was 16->8 and the audit rejected it; there is nothing smaller on the ladder, so the search abandons a component it has not finished with"
+      },
+      {
+        "kind": "pass_through",
+        "pass_through": 1,
+        "why": "attention16,expert8,gate8@g128 passed its audit and is strictly more quantized than attention16,expert8,gate16@g128, which failed. A failed config does not close the route beyond it, and reverting from it is what loses the better answer"
+      }
+    ]
+  },
+  "model_bits": 16.0,
+  "evaluations": 3,
+  "model": "ibm-granite/granite-3.0-1b-a400m-instruct",
+  "seconds": 2798,
+  "group": 128
+}

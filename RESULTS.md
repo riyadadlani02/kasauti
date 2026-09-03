@@ -288,7 +288,40 @@ which is strictly less quantized.
 
 Probe scoring is greedy and deterministic — the identical score twice on a repeat run — so this is not sampling noise. Capability is not monotone in bit-width, which is the assumption a greedy descent rests on, and which the `gate 6` detour in the trace above already hinted at. The decision margin is 0.02; the ordering violation is 0.094, nearly five times larger. The agent reports this and does not act on it: the search is still greedy. That is now the largest known defect in the design, and it is one the agent surfaced about itself.
 
-**What it still cannot do.** It criticises the judge's *rules*, not its *coverage* — it can drop a probe that lies and cap an arithmetic that flatters, but it cannot notice that no probe in the suite tests a capability nobody thought to test. Probe generation is still composition over templates I wrote. The three checks are themselves hand-written, so the meta-level regresses one step rather than closing: the agent now fixes the class of judge bug I already understood. What would close it is a check derived from disagreement between the cheap signal and the audit, rather than from my list — and that is not built.
+### Five layers, and where the regress actually stops
+
+Amending the judge left four other things that were still mine: the audit's own precision, the suite's coverage, the cheap signal's cut points, and the search policy. Each is now the agent's, and each was built by pointing it at the record it already had.
+
+**1. It measures how well it measured.** An audit is a mean over a handful of items, so it carries their sampling error. Propagating a binomial variance through the ratios gives the audited score a standard error, and on this suite it is **0.106** — against a decision margin of 0.02. The record's own ordering violation says 0.094. Two independent estimates of the instrument, agreeing at a tenth of a point, on a line drawn at two hundredths.
+
+So **every verdict in this project was reported as if it resolved something it did not.** The final config's 0.955, the 0.966 before it, the two verdicts the derived judge overruled — all inside the error. The agent now refuses to call them: a config it cannot resolve is recorded `unresolved`, which is neither a pass nor a rejection, and is never stored as evidence against the config.
+
+It also computes what deciding would take — about **340 format items and 510 long-horizon items**, against the 12 and 18 it has — and checks whether spending compute could even help before spending it. Only the generated families can be made more of; with those grown without limit the error still only reaches **0.085**, because the fixed hand-written lists carry the rest. The bottleneck is not compute. It is the suite.
+
+**2. So the suite grows, on evidence.** Until now the judge could only shrink it. The vetter rejects a family that restates an existing probe — but redundancy is a defect only while the probe it restates can still decide something on its own. Told which probes are the resolution bottleneck, the vetter re-admits `suffix` and `tag`, which restate `format` and `long_horizon` and, unlike them, can be grown. It still drops `prefix` and `counter`, which restate the same probes but cannot separate damage at all. Re-vetting reuses candidate scores already on disk, so this costs no model evaluations.
+
+**3. It refits the cheap signal on its own audits — and refuses.** The cut points have been frozen constants from a 27-config sweep while the agent accumulated hundreds of (cost, outcome) pairs and never checked them. It checks now, by enumerating every threshold between observed costs and keeping the one that best separates passed audits from failed. On the record it has: **0 usable pairs, 8 thrown out as unresolvable.** It declines to fit and says why — a cut point fitted on verdicts the probes could not resolve is a cut point fitted on noise. That is step 1 doing its job: the refusal is the correct answer, and before the resolution work it would have produced a confident number instead.
+
+**4. The search policy is amendable too.** Two defects the record proves and the agent previously could not act on. The ladder starts 16 → 8, so when the audit rejects a component's only available move there is nothing smaller to try and the search abandons a component it has not finished with — it now refines the rung. And greedy descent assumes capability falls as bits are removed, which is false here: `gate 5 / attention 8 / expert 5` audits higher than the strictly less quantized `gate 16 / attention 8 / expert 5`. Banning a failed config therefore closes the route to configs that audit better — the 5.18-bit answer is only reachable *through* one that fails. Where the record shows such an inversion, the search may now cross a failed config, though never accept it as an answer.
+
+**5. The open-ended critic fails, and that is the result.**
+
+The three checks above are mine, which is the whole limit of that design. So: drop the named defects entirely and ask a different question — of every judge in the space, which one does the record contradict least? Enumerate all 128 of them, score each by the total magnitude of its ordering violations, keep the best.
+
+Given the chance, its first move was to keep the probe stuck at zero, score every config NaN, and report a perfectly consistent record. Forbid that, and it produces this:
+
+| | grades on | contradiction |
+|---|---|---|
+| the named checks | format, gen_case, long_horizon | 0.439 |
+| least-contradictory judge | **calibration, gen_running_total**, long_horizon | **0.171** |
+
+It keeps both confounded probes and throws away the honest ones. A probe that rises under damage cancels the very inversions this objective counts, so **minimising self-contradiction selects for the defect.** Consistency is not correctness, and an agent optimising its own coherence buys coherence with the truth.
+
+Forbid the two probes the confound check flagged, and the same enumeration — over every judge in the space, with no named defect involved — lands on **exactly** the hand-derived judge, same exclusions, same cap. So the checks are not replaceable by search. They are the constraint that makes search safe.
+
+That is where the regress stops, and it stops with a person. Not because the remaining work is hard, but because "grade on what does not lie to you" is not derivable from a record that a liar makes look tidier.
+
+**What it still cannot do.** It grows its suite only within the eight templates I wrote — it can admit a family that restates a probe it cannot resolve, but it cannot invent a category of failure nobody thought of. It reports the ordering violation and crosses one failed config; it does not otherwise stop being greedy. Its cut points remain the sweep's, because its own record cannot yet support a refit. And the three checks that make the open-ended critic safe are still mine. The regress moved four layers outward and then stopped, at the one place the experiment above says it has to.
 
 ---
 

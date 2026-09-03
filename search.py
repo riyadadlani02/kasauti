@@ -24,13 +24,16 @@ import torch
 
 import judge as J
 import kasauti as K
+import policy as PO
 import probes as P
 import quantize as Q
 import sweep as S
 from memory import Memory, key
 
 COMPONENTS = ("gate", "attention", "expert")
-LADDER = (16, 8, 6, 5, 4, 3, 2)  # 16 means "left alone"
+# The starting ladder; 16 means "left alone". The agent refines it when the audit
+# rejects a component's only available move -- see policy.py.
+LADDER = (16, 8, 6, 5, 4, 3, 2)
 
 
 def component_sizes(model) -> dict:
@@ -111,12 +114,103 @@ class Evaluator:
                 f: rep[f] for f in ("set_change_rate", "flip_rate", "recon_error", "cost")})
         return rep
 
-    def probe(self, state: dict, items) -> dict:
+    def probe(self, state: dict, items):
+        """Returns (per-probe scores, items behind each). The counts are half the
+        measurement: a mean of six items is not the same evidence as a mean of
+        sixty, and the judge has to be able to tell."""
         model = K.load_model(self.model_id, self.device)
         apply_state(model, state, self.group)
-        res = P.aggregate(P.run_items(model, self.tok, items, batch_size=16))
+        res = P.run_items(model, self.tok, items, batch_size=16)
         S.free(model)
-        return res
+        return P.aggregate(res), P.counts(res)
+
+
+def audit_state(ev, state, items, base, spec, mem, model, log, floor, margin, z, rep=None):
+    """Measure, and know how well it measured.
+
+    Returns (scores, counts, score, se, decided). An audit is a mean over a
+    handful of items, and when the verdict lands inside that mean's own error
+    the agent does not guess. It first asks whether buying items could even
+    help: only the generated families can be made more of, so if the error left
+    after those go to zero is still bigger than the distance to the line, a
+    re-measurement is compute spent for nothing and it says so instead.
+    """
+    remembered = mem.get(model, state, ev.group) if mem else {}
+    # Raw scores outlive any judge, so they are reusable whatever graded them --
+    # but not whatever measured them. A score from a different probe suite is a
+    # different measurement and gets re-taken.
+    scores, counts = remembered.get("scores"), remembered.get("counts")
+    if scores and not set(suite_of(items)) <= set(scores):
+        scores = None  # measured before the suite grew, so it does not cover it
+    if scores and counts:
+        log("  VALIDATE (probe scores from memory)")
+    else:
+        scores, counts = ev.probe(state, items)
+        if mem:
+            extra = {k: rep[k] for k in ("set_change_rate", "recon_error", "cost")} if rep else {}
+            mem.put(model, state, ev.group, scores=scores, counts=counts,
+                    suite=suite_of(items), **extra)
+
+    s = J.score(scores, base["scores"], spec)
+    se = J.resolution(scores, base["scores"], spec, counts, base["counts"])
+    if J.decided(s, se, floor, margin, z):
+        return scores, counts, s, se, True
+
+    gap = abs(s - (floor - margin)) / max(z, 1e-9)
+    fixed = J.irreducible(scores, base["scores"], spec, counts, base["counts"])
+    need = J.items_needed(scores, base["scores"], spec, counts, gap, base["counts"])
+    log(f"  UNRESOLVED: {s:.3f} +/- {se:.3f}, and the line is {gap:.3f} away")
+    if fixed >= gap:
+        log(f"  buying items cannot fix this: with the generated families grown without "
+            f"limit the error only reaches {fixed:.3f}. The fixed probe lists are the "
+            f"bottleneck, and deciding this needs {need}")
+    else:
+        log(f"  deciding this needs about {need} items")
+    return scores, counts, s, se, False
+
+
+def build_items(n_per_family: int) -> list:
+    return ([i for i in P.all_items() if P.LAYER[i.probe] == 2]
+            + P.generated_items(n_per_family))
+
+
+def suite_of(items) -> list:
+    return sorted({i.probe for i in items})
+
+
+def replenish(model: str, device: str, memory_path: str, log) -> list:
+    """The audit could not resolve a verdict, so grow the suite that can.
+
+    Until now the judge could only shrink its suite. This is the other
+    direction: the probes carrying the audit's error are fixed hand-written
+    lists, and the vetter -- told which those are -- admits the generated
+    families that restate them, which are the only ones the agent can make more
+    of. Re-vetting reuses candidate scores already on disk, so it usually costs
+    no model evaluations at all.
+    """
+    import vet_probes
+    before = set(json.load(open(P.GENERATED))["keep"]) if os.path.exists(P.GENERATED) else set()
+    vet_probes.main([model, "--device", device, "--memory", memory_path])
+    after = set(json.load(open(P.GENERATED))["keep"])
+    gained = sorted(after - before)
+    log(f"  REPLENISH: admitted {gained}" if gained else
+        "  REPLENISH: nothing new survived vetting; the suite is what it is")
+    return gained
+
+
+def improve_policy(mem, model: str, group: int, pol: dict, log) -> dict:
+    """Turn the agent's audit record on how it searches, not just how it grades."""
+    rows = J.records({k: v for k, v in mem.scored(model).items()
+                      if k.endswith(f"@g{group}")})
+    new, applied = PO.improve(pol, rows)
+    if not applied:
+        return pol
+    for a in applied:
+        log(f"  POLICY amends [{a['kind']}] {a['why']}")
+    log(f"  POLICY {pol['version']} -> {new['version']}, ladder {new['ladder']}, "
+        f"may cross {new['pass_through']} failed config(s)")
+    mem.put_policy(model, new)
+    return new
 
 
 def improve_judge(mem, model: str, group: int, spec: dict, log) -> dict:
@@ -156,7 +250,10 @@ def improve_judge(mem, model: str, group: int, spec: dict, log) -> dict:
 
 def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
            validate_every: int, min_agentic: float, log, mem=None, model="",
-           margin: float = 0.02, spec: dict = None) -> dict:  # noqa: C901
+           margin: float = 0.02, spec: dict = None, z: float = 1.0,
+           probe_items: int = 6, may_replenish: bool = True,
+           max_probe_items: int = 64,
+           pol: dict = None) -> dict:  # noqa: C901
     state = {c: 16 for c in COMPONENTS if c in ev.sizes}
     history, accepted, cadence = [], 0, validate_every
     # Where to fall back to. Stepping back blindly can land on a config a
@@ -164,38 +261,48 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
     last_good = {c: 16 for c in COMPONENTS if c in ev.sizes}
     spec = spec or J.NAIVE
     banned = set(mem.rejected(model, spec["version"])) if mem else set()
+    # Disproved and unmeasurable are different things and must not share a set.
+    unresolved, replenished = set(), False
+    pol = pol or dict(PO.P0)
+    crossings = 0
     if banned:
         log(f"memory: {len(banned)} config(s) already disproved, not proposing them again")
 
     while True:
         best = None
+        ladder = pol["ladder"]
         for c in state:
-            i = LADDER.index(state[c])
-            if i + 1 >= len(LADDER):
+            if state[c] not in ladder:
                 continue
-            trial = {**state, c: LADDER[i + 1]}
+            i = ladder.index(state[c])
+            if i + 1 >= len(ladder):
+                continue
+            trial = {**state, c: ladder[i + 1]}
             if key(trial, ev.group) in banned:
-                log(f"  skip {c}->{LADDER[i+1]}: a previous run's audit rejected it")
+                log(f"  skip {c}->{ladder[i+1]}: a previous run's audit rejected it")
+                continue
+            if key(trial, ev.group) in unresolved:
+                log(f"  skip {c}->{ladder[i+1]}: the audit could not resolve it this run")
                 continue
             rep = ev.divergence(trial)
             if not math.isfinite(rep["cost"]):
                 # Never let an unreadable signal drive an accept: that is how a
                 # search ends up optimising its own instrument failure.
-                log(f"  skip {c}->{LADDER[i+1]}: divergence unreadable")
+                log(f"  skip {c}->{ladder[i+1]}: divergence unreadable")
                 continue
             if rep["cost"] > budget:
-                log(f"  reject {c}->{LADDER[i+1]}: cost {rep['cost']:.2f} over budget "
+                log(f"  reject {c}->{ladder[i+1]}: cost {rep['cost']:.2f} over budget "
                     f"{budget:.2f} (routing {rep['set_change_rate']:.3f}, "
                     f"recon {rep['recon_error']:.3f})")
                 continue
             saved = model_bits(state, ev.sizes) - model_bits(trial, ev.sizes)
             cost = max(rep["cost"] - ev.divergence(state)["cost"], 1e-6)
             score = saved / cost
-            log(f"  try {c}->{LADDER[i+1]}: cost {rep['cost']:.2f} "
+            log(f"  try {c}->{ladder[i+1]}: cost {rep['cost']:.2f} "
                 f"(routing {rep['set_change_rate']:.3f}, recon {rep['recon_error']:.3f}), "
                 f"saves {saved:.2f} bits, ratio {score:.1f}")
             if best is None or score > best[0]:
-                best = (score, c, LADDER[i + 1], trial, rep)
+                best = (score, c, ladder[i + 1], trial, rep)
 
         if best is None:
             log("no step left within budget")
@@ -211,64 +318,126 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
             f"mean bits {model_bits(state, ev.sizes):.2f}  cost {rep['cost']:.2f}")
 
         if cadence and accepted % cadence == 0:
-            remembered = mem.get(model, state, ev.group) if mem else {}
-            # Raw probe scores outlive any judge, so they are reusable whatever
-            # graded them; only the verdict has to be re-derived.
-            scores = remembered.get("scores")
-            if scores:
-                log("  VALIDATE (probe scores from memory)")
-            else:
-                scores = ev.probe(state, items)
-                if mem:
-                    mem.put(model, state, ev.group, scores=scores,
-                            **{k2: rep[k2] for k2 in ("set_change_rate", "recon_error", "cost")})
+            scores, counts, score, se, sure = audit_state(
+                ev, state, items, baseline_probes, spec, mem, model, log,
+                min_agentic, margin, z, rep)
             if mem:
                 spec = improve_judge(mem, model, ev.group, spec, log)
+                pol = improve_policy(mem, model, ev.group, pol, log)
                 banned = set(mem.rejected(model, spec["version"]))
                 if key(last_good, ev.group) in banned:
                     last_good = {c: 16 for c in ev.sizes}
                     log("  the improved judge rejects the fallback config too: "
                         f"falling back to {last_good}")
-            score = J.score(scores, baseline_probes, spec)
+                score = J.score(scores, baseline_probes["scores"], spec)
+                se = J.resolution(scores, baseline_probes["scores"], spec, counts,
+                                  baseline_probes["counts"])
+                sure = J.decided(score, se, min_agentic, margin, z)
+            verdict = ("passed" if J.passes(score, min_agentic, margin) else "failed") \
+                if sure else "unresolved"
             if mem:
                 mem.put(model, state, ev.group, agentic=score, judge=spec["version"],
-                        audit="passed" if J.passes(score, min_agentic, margin) else "failed")
-            history[-1]["validated_agentic"] = score
-            log(f"  VALIDATE: agentic {score:.3f} (floor {min_agentic}, "
-                f"tolerance {margin})  {scores}")
-            if J.passes(score, min_agentic, margin):
-                last_good = dict(state)
-            else:
-                # Ban the config the audit disproved, but do NOT shrink the cost
-                # budget: the cost metric is not what failed, the config is, and
-                # tightening it walls off every config beyond this one -- including
-                # better ones only reachable through here. Verify every step
-                # instead, which is the honest response to the cheap signal having
-                # just been shown wrong.
+                        resolution=se, audit=verdict)
+            history[-1].update(validated_agentic=score, resolution=se, audit=verdict)
+            log(f"  VALIDATE: agentic {score:.3f} +/- {se:.3f} (floor {min_agentic}, "
+                f"tolerance {margin}) -> {verdict}  {scores}")
+            if verdict == "passed":
+                last_good, crossings = dict(state), 0
+            elif verdict == "failed" and crossings < pol["pass_through"]:
+                # The record shows a strictly more quantized config auditing better
+                # than this one, so failing here does not close the route beyond it.
+                # Cross it -- but it is banned as a destination and never becomes the
+                # answer.
                 banned.add(key(state, ev.group))
+                crossings += 1
+                cadence = 1
+                log(f"  audit rejected {state}, but the record says better configs lie "
+                    f"beyond a config like this one: crossing it rather than reverting")
+                history[-1]["crossed"] = True
+            else:
+                if verdict == "failed":
+                    # Ban the config the audit disproved, but do NOT shrink the cost
+                    # budget: the cost metric is not what failed, the config is, and
+                    # tightening it walls off every config beyond this one -- including
+                    # better ones only reachable through here. Verify every step
+                    # instead, which is the honest response to the cheap signal having
+                    # just been shown wrong.
+                    banned.add(key(state, ev.group))
+                else:
+                    # Not disproved, only unmeasurable. It is not evidence against the
+                    # config and must not be stored as if it were -- but the search
+                    # cannot keep proposing what it cannot grade, so it is set aside
+                    # for this run only.
+                    unresolved.add(key(state, ev.group))
+                    if may_replenish and not replenished and mem:
+                        replenished = True
+                        # New families are a bonus. The lever that actually moves the
+                        # standard error is item count -- it falls as 1/sqrt(n) -- so
+                        # growing the suite must not be gated on the vetter admitting
+                        # something new, which is what stalled this search at BF16.
+                        replenish(model, ev.device, mem.path, log)
+                        need = J.items_needed(scores, baseline_probes["scores"], spec,
+                                              counts, margin / max(z, 1e-9),
+                                              baseline_probes["counts"])
+                        want = max([probe_items, *need.values()]) if need else probe_items
+                        grown = min(want, max_probe_items)
+                        log(f"  RESOLVE: deciding a {margin} margin needs ~{want} items "
+                            f"per probe ({need}); growing to {grown}"
+                            + (" (capped)" if grown < want else ""))
+                        items = build_items(grown)
+                        base_state = {c: 16 for c in ev.sizes}
+                        sc, cn = ev.probe(base_state, items)
+                        baseline_probes = {"scores": sc, "counts": cn}
+                        mem.put(model, base_state, ev.group, scores=sc, counts=cn,
+                                suite=suite_of(items), agentic=1.0, audit="passed",
+                                judge=spec["version"])
+                        unresolved.clear()
+                        log(f"  re-baselined on {len(items)} items across "
+                            f"{len(suite_of(items))} probes: "
+                            f"{ {k: round(v, 3) for k, v in sc.items()} }")
+                        floor_se = J.resolution(sc, sc, spec, cn, cn)
+                        # It grew as far as it can. If it still cannot resolve the
+                        # line it was given, deciding anyway is the exact error this
+                        # machinery exists to stop, and stalling at BF16 answers
+                        # nothing -- so it widens the line to the finest one its
+                        # instrument can defend, and records why.
+                        was = margin
+                        margin, am = J.defensible_margin(floor_se, z, margin, want, grown)
+                        if am:
+                            if pol is not None:
+                                pol.setdefault("amendments", []).append(am)
+                                pol["version"] = pol.get("version", "p1") + "+widen"
+                                if mem:
+                                    mem.put_policy(model, pol)
+                            log(f"  AMEND POLICY: margin {was} -> {margin} "
+                                f"— {am['why']}")
                 cadence = 1
                 state = dict(last_good)
-                log(f"  the cheap signal was wrong here: revert to the last audited "
-                    f"config {state}, and audit every step from now on")
+                log(f"  revert to the last audited config {state}, "
+                    f"and audit every step from now on")
                 history[-1]["reverted"] = True
     if validate_every:  # the last accepted step is otherwise never audited
-        scores = ev.probe(state, items)
+        scores, counts, final, se, sure = audit_state(
+            ev, state, items, baseline_probes, spec, mem, model, log,
+            min_agentic, margin, z)
         if mem:
-            mem.put(model, state, ev.group, scores=scores)
             spec = improve_judge(mem, model, ev.group, spec, log)
-        final = J.score(scores, baseline_probes, spec)
+        verdict = ("passed" if J.passes(final, min_agentic, margin) else "failed") \
+            if sure else "unresolved"
         if mem:
             mem.put(model, state, ev.group, agentic=final, judge=spec["version"],
-                    audit="passed" if J.passes(final, min_agentic, margin) else "failed")
-        log(f"FINAL VALIDATE: agentic {final:.3f} under judge {spec['version']}  {scores}")
-        if not J.passes(final, min_agentic, margin):
+                    resolution=se, audit=verdict)
+        log(f"FINAL VALIDATE: agentic {final:.3f} +/- {se:.3f} under judge "
+            f"{spec['version']} -> {verdict}  {scores}")
+        if verdict != "passed":
             state = dict(last_good)
-            log(f"  final state failed its audit, falling back to {state}")
+            log(f"  final state was not shown safe ({verdict}), falling back to {state}")
         return {"state": state, "history": history, "budget": budget, "final_agentic": final,
-                "judge": spec, "model_bits": model_bits(state, ev.sizes),
+                "resolution": se, "final_verdict": verdict,
+                "judge": spec, "policy": pol, "model_bits": model_bits(state, ev.sizes),
                 "evaluations": ev.evals}
     return {"state": state, "history": history, "budget": budget, "judge": spec,
-            "model_bits": model_bits(state, ev.sizes), "evaluations": ev.evals}
+            "policy": pol, "model_bits": model_bits(state, ev.sizes), "evaluations": ev.evals}
 
 
 def main(argv=None) -> int:
@@ -280,6 +449,17 @@ def main(argv=None) -> int:
     p.add_argument("--device", default="auto")
     p.add_argument("--validate-every", type=int, default=2, help="0 disables the auditor")
     p.add_argument("--min-agentic", type=float, default=0.95)
+    p.add_argument("--probe-items", type=int, default=6,
+                   help="items per generated probe family; the agent raises this "
+                        "itself when an audit cannot resolve a verdict")
+    p.add_argument("--max-probe-items", type=int, default=64,
+                   help="ceiling on that growth; past it the agent widens its own "
+                        "audit margin to the finest line the suite can defend")
+    p.add_argument("--no-replenish", action="store_true",
+                   help="forbid the agent from growing its own probe suite")
+    p.add_argument("--z", type=float, default=1.0,
+                   help="how many standard errors from the line a verdict must be "
+                        "before the agent is willing to call it")
     p.add_argument("--audit-margin", type=float, default=0.02,
                    help="how far under the floor counts as real, not measurement noise")
     p.add_argument("--out", default="search.json")
@@ -297,25 +477,35 @@ def main(argv=None) -> int:
     log(f"memory: {mem.summary(mid)}")
     args.budget = mem.learned_budget(mid, args.budget)
     spec = mem.judge(mid) or J.NAIVE
+    pol = mem.policy(mid) or dict(PO.P0, ladder=list(LADDER))
     log(f"judge: {spec['version']}, excludes {spec['exclude'] or 'nothing'}, cap {spec['cap']}")
+    log(f"policy: {pol['version']}, ladder {pol['ladder']}, "
+        f"crosses {pol['pass_through']} failed config(s)")
     ev = Evaluator(mid, args.device, args.group, K.DEFAULT_CALIBRATION, K.GATE_NAME, mem)
     log(f"{mid}: {ev.n} experts, top-{ev.k}, sizes "
         f"{ {c: f'{n/1e6:.0f}M' for c, n in ev.sizes.items()} }")
 
-    items = [i for i in P.all_items() if P.LAYER[i.probe] == 2] + P.generated_items()
+    items = build_items(args.probe_items)
     base_state = {c: 16 for c in ev.sizes}
-    base_probes = {}
+    base_probes = {"scores": {}, "counts": {}}
     if args.validate_every:
         remembered = mem.get(mid, base_state, args.group)
-        base_probes = remembered.get("scores") or ev.probe(base_state, items)
-        if not remembered.get("scores"):
-            mem.put(mid, base_state, args.group, scores=base_probes, agentic=1.0,
+        if remembered.get("scores") and remembered.get("counts"):
+            base_probes = {"scores": remembered["scores"], "counts": remembered["counts"]}
+            log("baseline probes (from memory) "
+                f"{ {k: round(v, 3) for k, v in base_probes['scores'].items()} }")
+        else:
+            sc, cn = ev.probe(base_state, items)
+            base_probes = {"scores": sc, "counts": cn}
+            mem.put(mid, base_state, args.group, scores=sc, counts=cn, agentic=1.0,
                     audit="passed", judge=spec["version"])
-        log(f"baseline probes {'(from memory) ' if remembered.get('scores') else ''}"
-            f"{ {k: round(v, 3) for k, v in base_probes.items()} }")
+            log(f"baseline probes { {k: round(v, 3) for k, v in sc.items()} }")
+        log(f"items per probe: {base_probes['counts']}")
 
     result = search(ev, args.budget, items, base_probes, args.validate_every,
-                    args.min_agentic, log, mem, mid, args.audit_margin, spec)
+                    args.min_agentic, log, mem, mid, args.audit_margin, spec, args.z,
+                    args.probe_items, not args.no_replenish,
+                    args.max_probe_items, pol)
     result.update(model=mid, seconds=round(time.time() - t0), group=args.group)
     json.dump(result, open(args.out, "w"), indent=2)
 
@@ -323,6 +513,7 @@ def main(argv=None) -> int:
     log(f"mean bit-width {result['model_bits']:.2f} "
         f"(from 16.0, {100 * (1 - result['model_bits'] / 16):.0f}% smaller)")
     log(f"{result['evaluations']} model evaluations in {result['seconds']}s -> {args.out}")
+    log(f"policy ended at {result['policy']['version']}, ladder {result['policy']['ladder']}")
     log(f"judge ended at {result['judge']['version']} "
         f"({len(result['judge']['amendments'])} amendment(s) it made to itself)")
     log(f"memory now holds: {mem.summary(mid)}")

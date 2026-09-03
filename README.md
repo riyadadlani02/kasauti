@@ -259,6 +259,29 @@ Starting from a judge that knows nothing, on the recorded run data, it reaches t
 
 Amendments are made only where the evidence forces them, and never below three gradeable probes: a judge that can edit itself can edit itself into agreeing with everything. Below that floor it refuses and says so. Because the per-probe scores are stored raw, a new judge is applied backwards over every past decision at **zero model evaluations** — the agent re-decides its own history for free, and in the live run above it immediately rejected a config its previous judge had passed.
 
+### It knows how well it measured
+
+```bash
+python judge.py --memory memory_handjudge.json --from-naive   # ends with the two checks below
+python costfit.py --memory memory_handjudge.json              # refit the cheap signal
+```
+
+An audit is a mean over a handful of items. Propagating that sampling error gives the audited score a standard error of **0.106**, against a decision margin of 0.02 — and the record's own ordering violation independently says 0.094. Every verdict in this project was reported as if it resolved something it did not. A config the agent cannot resolve is now recorded `unresolved`, which is neither a pass nor a rejection.
+
+It computes what deciding would take (~340 format items against the 12 it has), and checks whether compute could even help before spending it: with the generated families grown without limit the error only reaches 0.085, because the fixed hand-written lists carry the rest. So the suite grows instead — the vetter, told which probes are the bottleneck, re-admits the families that restate them, since redundancy is only a defect while the probe it restates can still decide something.
+
+The same rule governs the search itself (`policy.py`): the ladder refines when a component's only move is rejected, and a failed config may be crossed where the record shows better configs beyond it — because `gate 5 / attn 8 / expert 5` audits *higher* than the strictly less quantized `gate 16 / attn 8 / expert 5`, so banning a failure closes the route to the answer.
+
+And the cheap signal's cut points get refit on the agent's own audits — except it **declines**: 0 decided verdicts, 8 thrown out as unresolvable. A cut point fitted on verdicts the probes could not resolve is a cut point fitted on noise.
+
+### Where the regress stops
+
+The three checks the judge uses are mine, so the obvious next move is to drop them and ask instead: of every judge in the space, which one does the record contradict least? Enumerate all 128.
+
+Given the chance, its first move was to score every config NaN and report a perfectly consistent record. Forbid that, and it keeps **both confounded probes** and throws away the honest ones — a probe that rises under damage cancels the very inversions the objective counts, so minimising self-contradiction selects for the defect. Consistency is not correctness.
+
+Forbid the two the confound check flagged, and the same enumeration lands on *exactly* the hand-derived judge. The checks are not replaceable by search; they are the constraint that makes search safe. That is where this stops being automatable, and it is one person wide.
+
 ## License
 
 Apache 2.0 — the same licence as the open MoE checkpoints this studies. The probe suite and instrumentation are meant to be run against any of them.

@@ -285,8 +285,12 @@ LAYER = {"recall": 1, "long_horizon": 2, "format": 2, "calibration": 2, "recover
 GENERATED = "probes_generated.json"
 
 
-def generated_items() -> list:
-    """Probe families a past vetting round kept. Absent file means none yet."""
+def generated_items(n_per_family=6) -> list:
+    """Probe families a past vetting round kept. Absent file means none yet.
+
+    n_per_family is how the agent buys resolution: these are the only probes it
+    can make more of, so an audit too close to call is answered here.
+    """
     import json
     import os
 
@@ -294,7 +298,8 @@ def generated_items() -> list:
     if not os.path.exists(GENERATED):
         return []
     keep = set(json.load(open(GENERATED))["keep"])
-    items = [i for i in probegen.generate() if i.meta["family"] in keep]
+    items = [i for i in probegen.generate(n_per_family=n_per_family)
+             if i.meta["family"] in keep]
     for i in items:
         SCORERS.setdefault(i.probe, probegen.score)
         LAYER.setdefault(i.probe, 2)
@@ -338,3 +343,12 @@ def aggregate(results: list) -> dict:
     for r in results:
         by.setdefault(r["probe"], []).append(r["score"])
     return {p: sum(v) / len(v) for p, v in by.items()}
+
+
+def counts(results: list) -> dict:
+    """Items behind each probe score. A mean of six items and a mean of sixty
+    are not the same evidence, and the judge has to be able to tell."""
+    by = {}
+    for r in results:
+        by[r["probe"]] = by.get(r["probe"], 0) + 1
+    return by

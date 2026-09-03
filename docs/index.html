@@ -208,7 +208,8 @@ figcaption{font-size:13.5px;color:var(--ink-3);margin-top:12px;max-width:820px}
 .ag-out{margin-top:16px;padding:16px 18px;border-radius:14px;background:var(--soft);
   border:1px solid var(--line);font-size:14.5px;color:var(--ink-2)}
 .ag-out b{color:var(--ink)}
-@media(max-width:700px){.tstep{grid-template-columns:20px 1fr;row-gap:3px}.tstep .tb,.tstep .ta{grid-column:2}}
+@media(max-width:700px){.astep{grid-template-columns:1fr;gap:4px}
+  .tstep{grid-template-columns:20px 1fr;row-gap:3px}.tstep .tb,.tstep .ta{grid-column:2}}
 
 /* two col */
 .twocol{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:start}
@@ -484,6 +485,44 @@ footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
         <p>A probe is dropped only on positive evidence that it moves the <i>wrong</i> way — never for merely holding still, because the search only ever audits near-healthy configs and the same reasoning there would quietly delete the suite. And no amendment may leave under three gradeable probes: below that it refuses, and says it needs better probes rather than a laxer judge. It is sitting at exactly three now.</p></div>
       <div class="card"><h3>It found a defect I hadn't</h3>
         <p>Its own record shows a config auditing <b>0.094 higher</b> than one strictly less quantized. Scoring is deterministic, so that is not noise — capability is not monotone in bit-width, which is the assumption greedy descent rests on. The margin is 0.02. It reports this and does not act on it.</p></div>
+    </div>
+    <div class="sh" style="max-width:660px;margin-top:64px">
+      <h2>Then it read its own instrument</h2>
+      <p>Amending the judge left four things that were still mine: how precisely the audit measures, what the suite covers, where the cheap signal's cut points sit, and how the search moves. Each is now the agent's — and the first thing it found, once it could measure its own precision, was that every verdict in this project had been reported as if it resolved something it did not.</p>
+    </div>
+    <div class="card chart">
+      <div class="ag-head">
+        <div class="ag-stats">
+          <span class="ag-stat"><b>0.106</b> standard error on the audit</span>
+          <span class="ag-stat"><b>0.02</b> decision margin it was using</span>
+          <span class="ag-stat"><b>0 of 8</b> verdicts it can actually resolve</span>
+        </div>
+      </div>
+      <div class="trace">
+        <div class="astep bad"><span class="ak">resolution</span><span>An audit is a mean over twelve items. Propagating that sampling error puts the audited score at <b>±0.106</b> — and the record's own ordering violation independently says <b>0.094</b>. Two estimates of the instrument agreeing at a tenth of a point, against a line drawn at two hundredths. A config it cannot resolve is now <b>unresolved</b>: neither a pass nor a rejection, and never stored as evidence against the config.</span></div>
+        <div class="astep"><span class="ak">what it would take</span><span>About <b>340 format items</b> and <b>510 long-horizon items</b>, against the 12 and 18 it has. It checks whether compute could even help before spending it: grow the generated families without limit and the error still only reaches <b>0.085</b>, because the fixed hand-written lists carry the rest. The bottleneck is the suite, not the compute.</span></div>
+        <div class="astep"><span class="ak">coverage</span><span>So the suite grows. Redundancy is a defect only while the probe being restated can still decide something on its own — told which probes are the bottleneck, the vetter re-admits <b>suffix</b> and <b>tag</b>, which restate them and, unlike them, can be made more of. It still drops <b>prefix</b> and <b>counter</b>, which restate the same probes but separate no damage.</span></div>
+        <div class="astep"><span class="ak">cheap signal</span><span>The cut points have been frozen constants from a 27-config sweep while the agent collected hundreds of (cost, outcome) pairs and never checked them. It checks — and <b>declines to fit</b>: 0 decided verdicts, 8 thrown out as unresolvable. A cut point fitted on verdicts the probes could not resolve is a cut point fitted on noise.</span></div>
+        <div class="astep"><span class="ak">search policy</span><span>Two defects its record proves. The ladder starts 16 → 8, so a rejected move leaves nothing smaller to try and a component gets abandoned unfinished — it now refines the rung. And <b>gate 5 · attn 8 · expert 5 audits higher than the strictly less quantized gate 16 · attn 8 · expert 5</b>, so banning a failure closes the route to the answer. It may now cross a failed config, never accept one.</span></div>
+      </div>
+      <div class="ag-out">
+        The refusal is the point. Before it could measure its own precision it would have produced a confident cut point from eight unresolvable labels. Now it produces the sample size it would need instead.
+      </div>
+    </div>
+
+    <div class="sh" style="max-width:660px;margin-top:64px">
+      <h2>Where it stops being automatable</h2>
+      <p>The three checks the judge runs on itself are mine, which is exactly the limit of that design. So drop them, and ask an open-ended question instead: of every judge available, which one does the record contradict least? Enumerate all 128 and keep the best.</p>
+    </div>
+    <div class="card chart">
+      <div class="trace">
+        <div class="astep bad"><span class="ak">attempt 1</span><span>Its first move was to keep the probe stuck at zero, score every config <span class="mono">NaN</span>, and report a perfectly consistent record. An optimiser finds the hole in its own objective before it finds the answer.</span></div>
+        <div class="astep bad"><span class="ak">attempt 2</span><span>Forbid that, and it keeps <b>both confounded probes</b> and throws away the honest ones — contradiction <b>0.171</b> against the hand-derived judge's 0.439. A probe that rises under damage cancels the very inversions this objective counts, so <b>minimising self-contradiction selects for the defect</b>. Consistency is not correctness.</span></div>
+        <div class="astep bump"><span class="ak">constrained</span><span>Forbid the two probes the confound check flagged, and the same enumeration — every judge in the space, no named defect involved — lands on <b>exactly</b> the hand-derived judge. Same exclusions, same cap.</span></div>
+      </div>
+      <div class="ag-out">
+        So the checks are not replaceable by search. They are the constraint that makes search safe. The regress moved four layers outward and then stopped here — not because the rest is hard, but because <b>"grade on what does not lie to you" is not derivable from a record that a liar makes look tidier</b>.
+      </div>
     </div>
   </div>
 </section>
