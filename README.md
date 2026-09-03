@@ -231,7 +231,7 @@ The study says which signal to trust; `search.py` uses it to search.
 python search.py granite-1b-a400m --budget 1.0 --validate-every 2 --min-agentic 0.95
 ```
 
-It lowers one component's bit-width at a time, scoring each candidate by model size bought per unit of damage, and every few accepted steps it stops trusting the cheap signal and runs the real probe suite. If the audit fails, the step is reverted and the budget tightened below the cost of whatever just failed.
+It lowers one component's bit-width at a time, scoring each candidate by model size bought per unit of damage, and every few accepted steps it stops trusting the cheap signal and runs the real probe suite. If the audit fails, the step is reverted, that config is banned, and every step from then on is audited.
 
 On the 1.3B subject it converges to `gate 5 / attention 8 / expert 5` — 68% smaller than BF16, auditing at 0.966 against a 0.95 floor, where uniform 4-bit scores 0.454. Across five runs the search strategy barely changed and the auditor changed four times; the auditor changed the answer every time. Full trace in [RESULTS.md](RESULTS.md).
 
@@ -243,7 +243,21 @@ python vet_probes.py granite-1b-a400m           # keeps the ones that earn it
 python search.py granite-1b-a400m               # second run: 0 model evaluations
 ```
 
-`vet_probes.py` runs every generated candidate on a healthy and a damaged config and keeps a family only if it has room to fall, actually falls, and is not already covered. Two of eight survived. `memory.py` stores what each config measured and whether an audit rejected it, so a second run measures nothing twice and never re-proposes a config a past audit disproved. Stored verdicts carry a judge version and stop counting when the auditor changes.
+`vet_probes.py` runs every generated candidate on a healthy and a damaged config and keeps a family only if it has room to fall, actually falls, and is not already covered. Two of eight survived. `memory.py` stores what each config measured and whether an audit rejected it, so a second run measures nothing twice and never re-proposes a config a past audit disproved.
+
+### It amends its own judge
+
+Everything above audits the search. Nothing audited the auditor: across five runs its probe suite was wrong four times, every fix changed the agent's answer, and all four fixes were mine. So the judge stopped being code and became a spec the agent edits — which probes it grades, what it ignores, whether ratios are capped — held against every measurement on record by `judge.py`.
+
+```bash
+python judge.py --memory memory_handjudge.json --from-naive
+```
+
+`memory_handjudge.json` is the run record frozen at the point where the judge was still mine, so the derivation stays reproducible after the live agent starts editing `memory.json` for itself.
+
+Starting from a judge that knows nothing, on the recorded run data, it reaches three of the four fixes by itself: it drops the probe with no headroom to fall, caps the ratios once it catches itself reporting *no damage* on a config where format stability had measurably fallen, and drops two probes that rise as precision is removed. The fourth was a search-policy fix, not a judge fix, and it does not derive that one. It ends up stricter than the judge I hand-wrote, and disagrees with it on 2 of 9 recorded verdicts — both configs I had waved through.
+
+Amendments are made only where the evidence forces them, and never below three gradeable probes: a judge that can edit itself can edit itself into agreeing with everything. Below that floor it refuses and says so. Because the per-probe scores are stored raw, a new judge is applied backwards over every past decision at **zero model evaluations** — the agent re-decides its own history for free, and in the live run above it immediately rejected a config its previous judge had passed.
 
 ## License
 

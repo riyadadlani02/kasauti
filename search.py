@@ -16,10 +16,13 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
+import tempfile
 import time
 
 import torch
 
+import judge as J
 import kasauti as K
 import probes as P
 import quantize as Q
@@ -116,40 +119,51 @@ class Evaluator:
         return res
 
 
-# The auditor must not grade on a probe that can improve as the model degrades.
-# Calibration rewards abstention and a damaged model hedges more (RESULTS.md), so
-# including it would let real damage hide behind a rising score.
-CONFOUNDED = {"calibration"}
+def improve_judge(mem, model: str, group: int, spec: dict, log) -> dict:
+    """Turn the agent's audit record on its own auditor.
 
-# Bumped whenever the audit changes what it grades or how. Memory from an older
-# judge is not evidence about this one, so its verdicts are ignored.
-JUDGE = "v3-capped-ratios"
-
-
-def agentic_mean(scores: dict, baseline: dict, floor=0.25) -> float:
-    """Mean of per-probe ratios, each capped at 1.0.
-
-    Without the cap a probe scoring above baseline pays for another probe's real
-    loss. Measured: a config whose format stability fell 18% and long-horizon
-    adherence fell 7% audited at 1.103, because one low-baseline probe went 0.50
-    to 0.83 and contributed a 1.67 ratio. An audit measures damage; scoring above
-    baseline is not evidence of health somewhere else.
+    Nothing else in this file questions the probe suite, and every fix it has
+    ever had came from me. `judge.critique` amends it only where the measurements
+    force it, and the verdicts an amendment invalidates are re-derived from the
+    stored per-probe scores -- so a better judge is applied backwards over every
+    past decision for zero model evaluations.
     """
-    usable = [p for p in P.LAYER
-              if P.LAYER[p] == 2 and p not in CONFOUNDED and baseline.get(p, 0) >= floor]
-    vals = [min(scores[p] / baseline[p], 1.0) for p in usable if p in scores]
-    return sum(vals) / len(vals) if vals else float("nan")
+    # One group size only: a config quantized at a different group size is not
+    # comparable evidence about this judge.
+    rows = J.records({k: v for k, v in mem.scored(model).items()
+                      if k.endswith(f"@g{group}")})
+    new, applied, refused = J.improve(spec, rows)
+    for a in refused:
+        log(f"  JUDGE will not amend [{a['kind']}] {a['why']}")
+        log(f"    that leaves under {J.MIN_PROBES} gradeable probes: this needs better probes, "
+            f"not a laxer judge")
+    if not applied:
+        return spec
+    for a in applied:
+        log(f"  JUDGE amends [{a['kind']}] {a['why']}")
+    flips = J.replay(rows, spec, new)
+    for f, r in zip(flips, rows):
+        mem.put_raw(model, r["key"], agentic=f["after"], judge=new["version"],
+                    audit="passed" if f["verdict_after"] else "failed")
+    mem.put_judge(model, new)
+    changed = [f["key"] for f in flips if f["flipped"]]
+    log(f"  JUDGE {spec['version']} -> {new['version']}, now grading on "
+        f"{J.graded(rows[0]['scores'], new)}")
+    log(f"  {len(changed)} past verdict(s) re-decided from scores already on record"
+        + (": " + ", ".join(changed) if changed else ""))
+    return new
 
 
 def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
            validate_every: int, min_agentic: float, log, mem=None, model="",
-           margin: float = 0.02) -> dict:  # noqa: C901
+           margin: float = 0.02, spec: dict = None) -> dict:  # noqa: C901
     state = {c: 16 for c in COMPONENTS if c in ev.sizes}
     history, accepted, cadence = [], 0, validate_every
     # Where to fall back to. Stepping back blindly can land on a config a
     # previous audit already rejected, so only audited-good states qualify.
     last_good = {c: 16 for c in COMPONENTS if c in ev.sizes}
-    banned = set(mem.rejected(model, JUDGE)) if mem else set()
+    spec = spec or J.NAIVE
+    banned = set(mem.rejected(model, spec["version"])) if mem else set()
     if banned:
         log(f"memory: {len(banned)} config(s) already disproved, not proposing them again")
 
@@ -198,24 +212,33 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
 
         if cadence and accepted % cadence == 0:
             remembered = mem.get(model, state, ev.group) if mem else {}
-            if remembered.get("judge") != JUDGE:
-                remembered = {}  # graded by a different judge, so not evidence here
-            if "agentic" in remembered:
-                scores, score = remembered.get("scores", {}), remembered["agentic"]
-                log(f"  VALIDATE (from memory): agentic {score:.3f}")
+            # Raw probe scores outlive any judge, so they are reusable whatever
+            # graded them; only the verdict has to be re-derived.
+            scores = remembered.get("scores")
+            if scores:
+                log("  VALIDATE (probe scores from memory)")
             else:
                 scores = ev.probe(state, items)
-                score = agentic_mean(scores, baseline_probes)
                 if mem:
-                    mem.put(model, state, ev.group, agentic=score, scores=scores, judge=JUDGE,
-                            audit="passed" if score >= min_agentic - margin else "failed",
+                    mem.put(model, state, ev.group, scores=scores,
                             **{k2: rep[k2] for k2 in ("set_change_rate", "recon_error", "cost")})
+            if mem:
+                spec = improve_judge(mem, model, ev.group, spec, log)
+                banned = set(mem.rejected(model, spec["version"]))
+                if key(last_good, ev.group) in banned:
+                    last_good = {c: 16 for c in ev.sizes}
+                    log("  the improved judge rejects the fallback config too: "
+                        f"falling back to {last_good}")
+            score = J.score(scores, baseline_probes, spec)
+            if mem:
+                mem.put(model, state, ev.group, agentic=score, judge=spec["version"],
+                        audit="passed" if J.passes(score, min_agentic, margin) else "failed")
             history[-1]["validated_agentic"] = score
             log(f"  VALIDATE: agentic {score:.3f} (floor {min_agentic}, "
                 f"tolerance {margin})  {scores}")
-            if score >= min_agentic - margin:
+            if J.passes(score, min_agentic, margin):
                 last_good = dict(state)
-            if score < min_agentic - margin:
+            else:
                 # Ban the config the audit disproved, but do NOT shrink the cost
                 # budget: the cost metric is not what failed, the config is, and
                 # tightening it walls off every config beyond this one -- including
@@ -224,22 +247,27 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
                 # just been shown wrong.
                 banned.add(key(state, ev.group))
                 cadence = 1
-                if mem:
-                    mem.put(model, state, ev.group, audit="failed", judge=JUDGE)
                 state = dict(last_good)
                 log(f"  the cheap signal was wrong here: revert to the last audited "
                     f"config {state}, and audit every step from now on")
                 history[-1]["reverted"] = True
     if validate_every:  # the last accepted step is otherwise never audited
         scores = ev.probe(state, items)
-        final = agentic_mean(scores, baseline_probes)
-        log(f"FINAL VALIDATE: agentic {final:.3f}  {scores}")
-        if final < min_agentic - margin:
+        if mem:
+            mem.put(model, state, ev.group, scores=scores)
+            spec = improve_judge(mem, model, ev.group, spec, log)
+        final = J.score(scores, baseline_probes, spec)
+        if mem:
+            mem.put(model, state, ev.group, agentic=final, judge=spec["version"],
+                    audit="passed" if J.passes(final, min_agentic, margin) else "failed")
+        log(f"FINAL VALIDATE: agentic {final:.3f} under judge {spec['version']}  {scores}")
+        if not J.passes(final, min_agentic, margin):
             state = dict(last_good)
             log(f"  final state failed its audit, falling back to {state}")
         return {"state": state, "history": history, "budget": budget, "final_agentic": final,
-                "model_bits": model_bits(state, ev.sizes), "evaluations": ev.evals}
-    return {"state": state, "history": history, "budget": budget,
+                "judge": spec, "model_bits": model_bits(state, ev.sizes),
+                "evaluations": ev.evals}
+    return {"state": state, "history": history, "budget": budget, "judge": spec,
             "model_bits": model_bits(state, ev.sizes), "evaluations": ev.evals}
 
 
@@ -262,10 +290,14 @@ def main(argv=None) -> int:
     mid = S.MODELS.get(args.model, args.model)
     log = lambda m: print(m, flush=True)
     t0 = time.time()
-    mem = None if args.forget else Memory(args.memory)
-    if mem:
-        log(f"memory: {mem.summary(mid)}")
-        args.budget = mem.learned_budget(mid, args.budget)
+    # --forget writes to a scratch store rather than none: the agent still has to
+    # be able to critique its judge from the run it is having.
+    mem = Memory(args.memory if not args.forget
+                 else os.path.join(tempfile.mkdtemp(), "forgotten.json"))
+    log(f"memory: {mem.summary(mid)}")
+    args.budget = mem.learned_budget(mid, args.budget)
+    spec = mem.judge(mid) or J.NAIVE
+    log(f"judge: {spec['version']}, excludes {spec['exclude'] or 'nothing'}, cap {spec['cap']}")
     ev = Evaluator(mid, args.device, args.group, K.DEFAULT_CALIBRATION, K.GATE_NAME, mem)
     log(f"{mid}: {ev.n} experts, top-{ev.k}, sizes "
         f"{ {c: f'{n/1e6:.0f}M' for c, n in ev.sizes.items()} }")
@@ -274,18 +306,16 @@ def main(argv=None) -> int:
     base_state = {c: 16 for c in ev.sizes}
     base_probes = {}
     if args.validate_every:
-        remembered = mem.get(mid, base_state, args.group) if mem else {}
-        if remembered.get("judge") != JUDGE:
-            remembered = {}
+        remembered = mem.get(mid, base_state, args.group)
         base_probes = remembered.get("scores") or ev.probe(base_state, items)
-        if mem and not remembered.get("scores"):
+        if not remembered.get("scores"):
             mem.put(mid, base_state, args.group, scores=base_probes, agentic=1.0,
-                    audit="passed", judge=JUDGE)
+                    audit="passed", judge=spec["version"])
         log(f"baseline probes {'(from memory) ' if remembered.get('scores') else ''}"
             f"{ {k: round(v, 3) for k, v in base_probes.items()} }")
 
-    result = search(ev, args.budget, items, base_probes,
-                    args.validate_every, args.min_agentic, log, mem, mid, args.audit_margin)
+    result = search(ev, args.budget, items, base_probes, args.validate_every,
+                    args.min_agentic, log, mem, mid, args.audit_margin, spec)
     result.update(model=mid, seconds=round(time.time() - t0), group=args.group)
     json.dump(result, open(args.out, "w"), indent=2)
 
@@ -293,8 +323,9 @@ def main(argv=None) -> int:
     log(f"mean bit-width {result['model_bits']:.2f} "
         f"(from 16.0, {100 * (1 - result['model_bits'] / 16):.0f}% smaller)")
     log(f"{result['evaluations']} model evaluations in {result['seconds']}s -> {args.out}")
-    if mem:
-        log(f"memory now holds: {mem.summary(mid)}")
+    log(f"judge ended at {result['judge']['version']} "
+        f"({len(result['judge']['amendments'])} amendment(s) it made to itself)")
+    log(f"memory now holds: {mem.summary(mid)}")
     return 0
 
 

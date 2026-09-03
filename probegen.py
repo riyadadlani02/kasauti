@@ -115,12 +115,16 @@ def score(text: str, meta: dict) -> float:
 
 
 def vet(by_config: dict, existing: dict, headroom=(0.25, 0.95), min_drop=0.10,
-        max_overlap=0.9) -> dict:
+        max_overlap=0.9, disproved=()) -> dict:
     """Keep a family only if it has room to fall, actually falls on a damaged
     config, and does not just restate a probe we already have.
 
     by_config: {config_name: {item_id: score}} for baseline, healthy, damaged.
     existing:  {probe_name: [baseline, healthy, damaged]} for the probes already in use.
+    disproved: families the judge has since thrown out (see judge.py). Three
+        configs cannot see what a whole search saw: `running_total` passed here
+        by falling on the damaged config, then rose across the near-healthy
+        range the search actually works in. The later evidence wins.
     """
     base, healthy, damaged = by_config["baseline"], by_config["healthy"], by_config["damaged"]
     families = sorted({i.split("-")[1] for i in base})
@@ -130,7 +134,7 @@ def vet(by_config: dict, existing: dict, headroom=(0.25, 0.95), min_drop=0.10,
         b = sum(base[i] for i in ids) / len(ids)
         h = sum(healthy[i] for i in ids) / len(ids)
         d = sum(damaged[i] for i in ids) / len(ids)
-        reasons = []
+        reasons = ["a later audit disproved it on richer evidence"] if f in disproved else []
         separates = bool(b) and (b - d) / b >= min_drop
         if b < headroom[0]:
             reasons.append(f"at its floor at BF16 ({b:.2f})")

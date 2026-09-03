@@ -27,16 +27,28 @@ def existing_series(results="results.jsonl") -> dict:
             for n in names}
 
 
+def judged_out(memory_path: str, model: str) -> set:
+    """Families the judge has thrown out since they were vetted. Vetting sees
+    three configs; the judge sees every config a search ever audited."""
+    from memory import Memory
+    spec = Memory(memory_path).judge(model) or {}
+    return {p[4:] for p in spec.get("exclude", []) if p.startswith("gen_")}
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("model")
     p.add_argument("--device", default="auto")
     p.add_argument("--out", default="probes_generated.json")
+    p.add_argument("--memory", default="memory.json")
     args = p.parse_args(argv)
 
     from transformers import AutoTokenizer
 
     mid = S.MODELS.get(args.model, args.model)
+    disproved = judged_out(args.memory, mid)
+    if disproved:
+        print(f"the judge has since disproved: {sorted(disproved)}", flush=True)
     tok = AutoTokenizer.from_pretrained(mid, trust_remote_code=True)
     items = probegen.generate()
     for it in items:
@@ -47,7 +59,7 @@ def main(argv=None) -> int:
     if os.path.exists(args.out + ".raw"):
         by_config = json.load(open(args.out + ".raw"))
         print(f"reusing scores from {args.out}.raw", flush=True)
-        verdicts = probegen.vet(by_config, existing_series())
+        verdicts = probegen.vet(by_config, existing_series(), disproved=disproved)
         return _report(verdicts, args.out, by_config)
 
     by_config = {}
@@ -61,7 +73,8 @@ def main(argv=None) -> int:
 
     # Save before vetting: a bug in the verdict logic must not cost the compute.
     json.dump(by_config, open(args.out + ".raw", "w"), indent=2)
-    return _report(probegen.vet(by_config, existing_series()), args.out, by_config)
+    return _report(probegen.vet(by_config, existing_series(), disproved=disproved),
+                   args.out, by_config)
 
 
 def _report(verdicts, out, by_config) -> int:

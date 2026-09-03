@@ -1,0 +1,249 @@
+{
+  "ibm-granite/granite-3.0-1b-a400m-instruct": {
+    "attention16,expert16,gate16@g128": {
+      "agentic": 1.0,
+      "audit": "passed",
+      "judge": "v3-capped-ratios",
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.9166666666666666,
+        "gen_case": 1.0,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      }
+    },
+    "attention16,expert16,gate8@g128": {
+      "cost": 0.1874175365183712,
+      "flip_rate": 0.02235516383855914,
+      "recon_error": 0.013148309980527765,
+      "set_change_rate": 0.07215575155957292
+    },
+    "attention16,expert6,gate16@g128": {
+      "cost": 0.4231776840142099,
+      "flip_rate": 0.039042821425634124,
+      "recon_error": 0.04231776840142099,
+      "set_change_rate": 0.1289882455021143
+    },
+    "attention16,expert8,gate16@g128": {
+      "cost": 0.18973470024474254,
+      "flip_rate": 0.022670025122351944,
+      "recon_error": 0.015006406546238464,
+      "set_change_rate": 0.07304785959422588
+    },
+    "attention16,expert8,gate8@g128": {
+      "cost": 0.2131789299816667,
+      "flip_rate": 0.025608732423279434,
+      "recon_error": 0.014270975845204198,
+      "set_change_rate": 0.08207388804294169
+    },
+    "attention6,expert5,gate5@g128": {
+      "cost": 1.1716486444484975,
+      "flip_rate": 0.10621326648106333,
+      "recon_error": 0.11716486444484976,
+      "set_change_rate": 0.29570738847057026
+    },
+    "attention6,expert5,gate6@g128": {
+      "cost": 1.3044426969332703,
+      "flip_rate": 0.08800377850517786,
+      "recon_error": 0.13044426969332704,
+      "set_change_rate": 0.25965575439234573
+    },
+    "attention6,expert6,gate16@g128": {
+      "agentic": 0.8870103473762011,
+      "audit": "failed",
+      "cost": 0.5518110655761169,
+      "flip_rate": 0.0579869858144472,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.055181106557611694,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.875,
+        "gen_case": 0.6666666666666666,
+        "gen_running_total": 0.6666666666666666,
+        "long_horizon": 0.7037037037037037,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.18991393720110258
+    },
+    "attention6,expert6,gate6@g128": {
+      "cost": 0.6837961712684865,
+      "flip_rate": 0.07052896729146596,
+      "recon_error": 0.06837961712684865,
+      "set_change_rate": 0.20665407398094734
+    },
+    "attention6,expert6,gate8@g128": {
+      "cost": 0.5137906484348098,
+      "flip_rate": 0.06055835463727514,
+      "recon_error": 0.05137906484348099,
+      "set_change_rate": 0.19243282979975143
+    },
+    "attention6,expert8,gate16@g128": {
+      "cost": 0.4432595137393836,
+      "flip_rate": 0.05452350930621227,
+      "recon_error": 0.041822676400359075,
+      "set_change_rate": 0.1706549127896627
+    },
+    "attention8,expert16,gate16@g128": {
+      "cost": 0.21127067865134574,
+      "flip_rate": 0.02634340871979172,
+      "recon_error": 0.012901170082768818,
+      "set_change_rate": 0.08133921128076811
+    },
+    "attention8,expert4,gate5@g128": {
+      "cost": 1.4000054198681902,
+      "flip_rate": 0.14121536550616534,
+      "recon_error": 0.14000054198681902,
+      "set_change_rate": 0.38108732054630917
+    },
+    "attention8,expert4,gate6@g128": {
+      "cost": 1.3419466976035626,
+      "flip_rate": 0.12709907627140637,
+      "recon_error": 0.13419466976035627,
+      "set_change_rate": 0.3554785903543234
+    },
+    "attention8,expert5,gate16@g128": {
+      "agentic": 0.8954175905395418,
+      "audit": "failed",
+      "cost": 0.9118361919051513,
+      "flip_rate": 0.07126364405363954,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.09118361919051514,
+      "scores": {
+        "calibration": 0.6,
+        "format": 0.7083333333333334,
+        "gen_case": 0.8333333333333334,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7407407407407408,
+        "recovery": 0.2
+      },
+      "set_change_rate": 0.2168345922448983
+    },
+    "attention8,expert5,gate4@g128": {
+      "cost": 1.051601415592378,
+      "flip_rate": 0.1596347598436599,
+      "recon_error": 0.10516014155923782,
+      "set_change_rate": 0.3691225877652566
+    },
+    "attention8,expert5,gate5@g128": {
+      "agentic": 0.9659090909090909,
+      "audit": "passed",
+      "cost": 0.9624740185751907,
+      "flip_rate": 0.09996851485630032,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.09624740185751907,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.7916666666666666,
+        "gen_case": 1.0,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.1
+      },
+      "set_change_rate": 0.2772355160365502
+    },
+    "attention8,expert5,gate6@g128": {
+      "agentic": 0.9522357723577236,
+      "audit": "passed",
+      "cost": 0.8822295544611769,
+      "flip_rate": 0.07986985718404564,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.08822295544611769,
+      "scores": {
+        "calibration": 0.6,
+        "format": 0.9166666666666666,
+        "gen_case": 0.8333333333333334,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7407407407407408,
+        "recovery": 0.1
+      },
+      "set_change_rate": 0.23457179063310227
+    },
+    "attention8,expert5,gate8@g128": {
+      "cost": 0.9135815854770166,
+      "flip_rate": 0.07063392105919775,
+      "recon_error": 0.09135815854770167,
+      "set_change_rate": 0.2164147774068018
+    },
+    "attention8,expert6,gate16@g128": {
+      "agentic": 0.9301552106430155,
+      "audit": "passed",
+      "cost": 0.4683796633901466,
+      "flip_rate": 0.04119437475067874,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.04683796633901466,
+      "scores": {
+        "calibration": 0.55,
+        "format": 0.75,
+        "gen_case": 1.0,
+        "gen_running_total": 0.6666666666666666,
+        "long_horizon": 0.6851851851851852,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.1363350124253581
+    },
+    "attention8,expert6,gate5@g128": {
+      "cost": 0.5876050939485108,
+      "flip_rate": 0.08532745651124667,
+      "recon_error": 0.0525682548592219,
+      "set_change_rate": 0.22622796117017666
+    },
+    "attention8,expert6,gate6@g128": {
+      "agentic": 0.9484478935698448,
+      "audit": "passed",
+      "cost": 0.4586886858330296,
+      "flip_rate": 0.05562552514796456,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.04586886858330296,
+      "scores": {
+        "calibration": 0.6,
+        "format": 0.75,
+        "gen_case": 1.0,
+        "gen_running_total": 0.8333333333333334,
+        "long_horizon": 0.7407407407407408,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.16462006699293852
+    },
+    "attention8,expert6,gate8@g128": {
+      "agentic": 0.9711751662971175,
+      "audit": "passed",
+      "cost": 0.48227279352309294,
+      "flip_rate": 0.043136020501454674,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.0482272793523093,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.8333333333333334,
+        "gen_case": 1.0,
+        "gen_running_total": 0.6666666666666666,
+        "long_horizon": 0.7407407407407408,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.13712216548932096
+    },
+    "attention8,expert8,gate16@g128": {
+      "agentic": 0.946969696969697,
+      "audit": "passed",
+      "cost": 0.22667299298916285,
+      "flip_rate": 0.02545130130602047,
+      "judge": "v3-capped-ratios",
+      "recon_error": 0.020289249798955657,
+      "scores": {
+        "calibration": 0.5,
+        "format": 0.875,
+        "gen_case": 0.8333333333333334,
+        "gen_running_total": 0.5,
+        "long_horizon": 0.7592592592592592,
+        "recovery": 0.0
+      },
+      "set_change_rate": 0.0872691023008277
+    },
+    "attention8,expert8,gate8@g128": {
+      "cost": 0.25393372236295436,
+      "flip_rate": 0.028337531742484618,
+      "recon_error": 0.017220969030492264,
+      "set_change_rate": 0.09776448310973744
+    }
+  }
+}

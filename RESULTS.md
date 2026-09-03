@@ -245,6 +245,53 @@ Against the config a practitioner would pick, all scored under the final judge:
 
 ---
 
+### So the judge stopped being mine
+
+Read the four items above again: the search was fine every time. The judge was wrong four times, and I was the one who noticed, every time. An agent that cannot criticise its own fitness function is a search with a human in the loop wearing a costume.
+
+So the judge is no longer code. It is a spec — which probes it grades, which it ignores, whether ratios are capped — and `judge.py` holds that spec against every measurement the agent has on record. It amends only where the evidence forces it, and the amendment carries the evidence that forced it.
+
+Three checks, and each is the general form of a bug I had fixed by hand:
+
+| check | what it takes as evidence | the fix it re-derives |
+|---|---|---|
+| `no_headroom` | a probe scores under 0.25 at BF16 | it has no room to fall, so its ratio measures noise |
+| `masking` | the judge reported ≥ 1.0 — *no damage* — on a config where a graded probe measurably fell | cap every per-probe ratio at 1.0 |
+| `confounded` | a probe's score rises as precision is removed, across the whole measured range | drop it: grading on it hides real losses |
+
+Pointed at the run record frozen at the point where the judge was still mine (`python judge.py --memory memory_handjudge.json --from-naive`), starting from a judge that knows nothing, it reaches all three unaided, in the only order the evidence allows — a probe stuck at zero makes the whole score unreadable, so it has to go before the score can be argued with at all:
+
+```
+9 audited configs on record, judge v0-naive
+  AMEND [no_headroom] recovery scores 0.00 at BF16 — no headroom to fall, its ratio measures noise
+  AMEND [masking]     attention8,expert6,gate16 audited 1.031 — no damage — while format measurably fell
+  AMEND [confounded]  calibration rises +0.05 as precision is removed (0.50 -> 0.60)
+  AMEND [confounded]  gen_running_total rises +0.12 as precision is removed (0.50 -> 0.83)
+
+v0-naive -> v3-confounded, grading on ['format', 'gen_case', 'long_horizon']
+5/9 recorded verdicts change, at zero model evaluations
+2/9 disagree with the judge those audits were graded under
+```
+
+It is **stricter than the judge I wrote**. I had kept `gen_running_total` and defended it with the cap; the agent drops it outright, on the grounds that a probe which rises under damage cannot detect damage whatever you cap it at. On that basis two configs I had passed — `attention 8 / expert 8 / gate 16` at 0.947 and `attention 8 / expert 6 / gate 16` at 0.930 — are failures. It still clears the config the search settled on, at 0.955 rather than 0.966.
+
+The re-decision is free. Per-probe scores are stored raw, so they outlive any judge; only the verdict has to be recomputed. That is what makes this self-*improvement* rather than self-modification — the agent changes its mind about its own history without paying for a single model evaluation, and the first live run under the new machinery did exactly that mid-search, rejecting at 0.929 a config its previous judge had passed at 0.947 and reverting.
+
+**Two guards, because a judge that can edit itself can edit itself into agreeing with everything.** A probe is dropped only on positive evidence that it moves the *wrong* way — never for merely holding still. `vet_probes.py` can use "did not fall" as evidence because it has a deliberately damaged config to test against; the search only ever audits near-healthy configs, so the same reasoning there would quietly delete the suite. And no amendment may leave fewer than three gradeable probes: below that the agent refuses and reports that it needs better probes, not a laxer judge. That refusal fires on the real data if you strip the suite down, and it is the most important line in the file.
+
+**And it found the search's assumption is false.** The same review prints an ordering check, and the agent's own record fails it:
+
+```
+attention8,expert5,gate5 audits 0.094 HIGHER than attention8,expert5,gate16,
+which is strictly less quantized.
+```
+
+Probe scoring is greedy and deterministic — the identical score twice on a repeat run — so this is not sampling noise. Capability is not monotone in bit-width, which is the assumption a greedy descent rests on, and which the `gate 6` detour in the trace above already hinted at. The decision margin is 0.02; the ordering violation is 0.094, nearly five times larger. The agent reports this and does not act on it: the search is still greedy. That is now the largest known defect in the design, and it is one the agent surfaced about itself.
+
+**What it still cannot do.** It criticises the judge's *rules*, not its *coverage* — it can drop a probe that lies and cap an arithmetic that flatters, but it cannot notice that no probe in the suite tests a capability nobody thought to test. Probe generation is still composition over templates I wrote. The three checks are themselves hand-written, so the meta-level regresses one step rather than closing: the agent now fixes the class of judge bug I already understood. What would close it is a check derived from disagreement between the cheap signal and the audit, rather than from my list — and that is not built.
+
+---
+
 ## Threats to validity
 
 Stated in full, because the finding is only worth what survives them.

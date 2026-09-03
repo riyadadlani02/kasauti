@@ -197,6 +197,14 @@ figcaption{font-size:13.5px;color:var(--ink-3);margin-top:12px;max-width:820px}
 .tstep .tb{color:var(--ink-2)}
 .tstep .ta{font-size:11.5px;white-space:nowrap}
 .ta.pass{color:var(--good)} .ta.fail{color:var(--alarm)}
+.astep{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;
+  padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);
+  font-size:13px;color:var(--ink-2)}
+.astep .ak{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;
+  letter-spacing:.04em;white-space:nowrap}
+.astep b{color:var(--ink);font-weight:600}
+.astep.bump{background:var(--soft);border-style:dashed}
+.astep.bad{border-color:var(--alarm);background:color-mix(in srgb,var(--alarm) 5%,var(--card))}
 .ag-out{margin-top:16px;padding:16px 18px;border-radius:14px;background:var(--soft);
   border:1px solid var(--line);font-size:14.5px;color:var(--ink-2)}
 .ag-out b{color:var(--ink)}
@@ -444,8 +452,38 @@ footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
         <p>48 candidate probes across 8 families, composed from checkable invariants. It kept 2 — the rest were saturated, never moved under damage, or duplicated a probe already in the suite. The vetting is the contribution; generation alone just grows a suite that agrees with itself.</p></div>
       <div class="card"><h3>It remembers</h3>
         <p>Measurements and audit verdicts persist. A second run repeated no measurement and skipped the config a previous audit had disproved.</p></div>
-      <div class="card"><h3>Its judge is versioned</h3>
-        <p>Change what the auditor grades and every stored verdict from the old auditor stops counting — which mattered, because fixing the auditor changed its verdicts.</p></div>
+      <div class="card"><h3>Every verdict names its judge</h3>
+        <p>Every verdict is stamped with the auditor that made it, and the raw per-probe scores are kept beside it. Change the auditor and the verdicts do not survive — they are re-derived, which is what makes the next card possible.</p></div>
+    </div>
+
+    <div class="sh" style="max-width:660px;margin-top:64px">
+      <h2>Then it rewrote the judge</h2>
+      <p>Everything above audits the search. Nothing audited the auditor — and across five runs its probe suite was wrong four times, every fix changed the agent's answer, and every fix was mine. So the judge stopped being code and became a spec the agent edits, held against every measurement it has on record.</p>
+    </div>
+    <div class="card chart">
+      <div class="ag-head">
+        <div class="ag-stats">
+          <span class="ag-stat"><b>3 of 4</b> of my fixes re-derived</span>
+          <span class="ag-stat"><b>0</b> model evaluations to re-decide 9 verdicts</span>
+          <span class="ag-stat"><b>2 of 9</b> verdicts overrule mine</span>
+        </div>
+      </div>
+      <div class="trace">
+        <div class="astep"><span class="ak">no headroom</span><span><b>recovery</b> scores 0.00 at BF16 — it has no room to fall, so its ratio measures noise, not damage. <b>Dropped.</b></span></div>
+        <div class="astep"><span class="ak">masking</span><span>One config audited <b>1.031</b> — <i>no damage</i> — while format stability had measurably fallen. A probe scoring above baseline was paying for another probe's loss. <b>Ratios capped at 1.0.</b></span></div>
+        <div class="astep"><span class="ak">confounded</span><span><b>calibration</b> rises as precision is removed, 0.50 → 0.60. Grading on it hides real losses. <b>Dropped.</b></span></div>
+        <div class="astep"><span class="ak">confounded</span><span><b>running_total</b> rises 0.50 → 0.83 under damage — a probe its own vetting had approved. <b>Dropped</b>, and the vetter can no longer re-approve it.</span></div>
+        <div class="astep bump"><span class="ak">result</span><span><span class="mono">v0-naive → v3</span>, now grading on <span class="mono">format · gen_case · long_horizon</span>. Five past verdicts re-decided from scores already on record, at zero model evaluations.</span></div>
+      </div>
+      <div class="ag-out">
+        It ends up <b>stricter than the judge I hand-wrote</b>, and overrules it on two configs I had passed. The config the search settled on still clears: <b>0.955</b> under the judge the agent derived for itself, against the 0.966 my judge gave it. In the first live run under this machinery it amended itself mid-search and immediately rejected, at 0.929, a config its previous judge had passed at 0.947.
+      </div>
+    </div>
+    <div class="bento" style="margin-top:14px">
+      <div class="card b-2"><h3>It will not amend itself into agreeing with everything</h3>
+        <p>A probe is dropped only on positive evidence that it moves the <i>wrong</i> way — never for merely holding still, because the search only ever audits near-healthy configs and the same reasoning there would quietly delete the suite. And no amendment may leave under three gradeable probes: below that it refuses, and says it needs better probes rather than a laxer judge. It is sitting at exactly three now.</p></div>
+      <div class="card"><h3>It found a defect I hadn't</h3>
+        <p>Its own record shows a config auditing <b>0.094 higher</b> than one strictly less quantized. Scoring is deterministic, so that is not noise — capability is not monotone in bit-width, which is the assumption greedy descent rests on. The margin is 0.02. It reports this and does not act on it.</p></div>
     </div>
   </div>
 </section>
