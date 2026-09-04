@@ -291,7 +291,7 @@ footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
     <a class="brand" href="#top"><span class="mk"></span>kasauti</a>
     <div class="nav-l">
       <a href="#why">Why kasauti</a><a href="#demo">Live demo</a><a href="#routing">Routing</a>
-      <a href="#agent">The agent</a><a href="#probes">Probes</a><a href="#gallery">Configs</a>
+      <a href="#agent">Self-improvement</a><a href="#probes">Probes</a><a href="#gallery">Configs</a>
     </div>
     <a class="btn btn-d" href="https://github.com/riyadadlani02/kasauti" target="_blank" rel="noopener">Get started</a>
   </div>
@@ -303,7 +303,7 @@ footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
     <div class="hero-vig"></div>
     <div class="hero-in">
       <h1>Passed The Benchmark. <em>Still Broke.</em></h1>
-      <p>Quantization is checked with an instrument built for a different workload. On a real mixture-of-experts model at 4-bit, every standard check said ship it — while half of all tokens were routed to different experts.</p>
+      <p>Quantization is checked with an instrument built for a different workload. On a real mixture-of-experts model at 4-bit, every standard check said ship it — while half of all tokens were routed to different experts. Then an agent that rewrites its own judge went looking for a setting that holds.</p>
       <div class="hero-b">
         <a class="btn btn-l" href="#demo">Try the live demo</a>
         <a class="btn btn-o" style="background:transparent;color:#fff;border-color:#3a3a3a" href="#why">See the finding</a>
@@ -429,6 +429,25 @@ footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
 
 <section id="agent">
   <div class="wrap">
+    <div class="sh" style="max-width:700px">
+      <h2>Five things it now amends about itself</h2>
+      <p>Every one of these was mine at some point, and every one changed the agent's answer when I fixed it. That is why they are no longer mine.</p>
+    </div>
+    <div class="bento" style="margin-bottom:56px">
+      <div class="card"><h3>Its judge</h3>
+        <p>Which probes it may grade on, and how. From its own record it re-derives all three fixes I had made by hand — and one I had got wrong.</p></div>
+      <div class="card"><h3>Its test suite</h3>
+        <p>When an audit cannot resolve a verdict it grows the suite that would. 78 → 188 items in this run, driven by the arithmetic of standard error.</p></div>
+      <div class="card"><h3>Its decision threshold</h3>
+        <p>Told to decide at 0.02 with an instrument that reads ±0.066, it moved the line to what it can defend — and logged why.</p></div>
+      <div class="card"><h3>Its search policy</h3>
+        <p>The bit-width ladder, and whether a failed config closes the route beyond it. Both amended from defects its own trace proved.</p></div>
+      <div class="card"><h3>Its cheap signal</h3>
+        <p>The cut points it searches on, refit against its own audit record — or, when the labels are unresolvable, a refusal to fit at all.</p></div>
+      <div class="card" style="border-color:var(--brass)"><h3>What stays mine</h3>
+        <p>The criteria by which it judges its judge: what counts as <i>no headroom</i>, as <i>confounded</i>, as <i>masking</i>. It searches thoroughly inside my definition of a good auditor. It cannot decide that definition is wrong — and the section at the end of this page shows what happens when you let it try.</p></div>
+    </div>
+
     <div class="sh" style="max-width:660px">
       <h2>It searches, and it audits itself</h2>
       <p>The agent walks each component's bit-width down, scoring candidates on the cheap signal — then stops trusting that signal and pays for a real probe run.</p>
@@ -467,20 +486,22 @@ footer{background:var(--dark);color:#9a9c9a;padding:48px 0 34px;margin-top:14px}
     <div class="card chart">
       <div class="ag-head">
         <div class="ag-stats">
-          <span class="ag-stat"><b>3 of 4</b> of my fixes re-derived</span>
-          <span class="ag-stat"><b>0</b> model evaluations to re-decide 9 verdicts</span>
-          <span class="ag-stat"><b>2 of 9</b> verdicts overrule mine</span>
+          <span class="ag-stat"><b>3 of 3</b> of my fixes re-derived</span>
+          <span class="ag-stat"><b>0</b> model evaluations to re-decide 30 verdicts</span>
+          <span class="ag-stat"><b>24 of 30</b> verdicts change</span>
+          <span class="ag-stat"><b>1</b> defect it found that I had missed</span>
         </div>
       </div>
       <div class="trace">
         <div class="astep"><span class="ak">no headroom</span><span><b>recovery</b> scores 0.00 at BF16 — it has no room to fall, so its ratio measures noise, not damage. <b>Dropped.</b></span></div>
-        <div class="astep"><span class="ak">masking</span><span>One config audited <b>1.031</b> — <i>no damage</i> — while format stability had measurably fallen. A probe scoring above baseline was paying for another probe's loss. <b>Ratios capped at 1.0.</b></span></div>
-        <div class="astep"><span class="ak">confounded</span><span><b>calibration</b> rises as precision is removed, 0.50 → 0.60. Grading on it hides real losses. <b>Dropped.</b></span></div>
-        <div class="astep"><span class="ak">confounded</span><span><b>running_total</b> rises 0.50 → 0.83 under damage — a probe its own vetting had approved. <b>Dropped</b>, and the vetter can no longer re-approve it.</span></div>
-        <div class="astep bump"><span class="ak">result</span><span><span class="mono">v0-naive → v3</span>, now grading on <span class="mono">format · gen_case · long_horizon</span>. Five past verdicts re-decided from scores already on record, at zero model evaluations.</span></div>
+        <div class="astep"><span class="ak">masking</span><span>The config this search settled on audited <b>1.024</b> — <i>no damage</i> — while format stability had measurably fallen. A probe scoring above baseline was paying for another probe's loss. <b>Ratios capped at 1.0.</b></span></div>
+        <div class="astep"><span class="ak">confounded</span><span><b>calibration</b> rises +0.07 as precision is removed, 0.50 → 0.60. Grading on it hides real losses. <b>Dropped.</b></span></div>
+        <div class="astep"><span class="ak">confounded</span><span><b>gen_tag</b> rises +0.13 under damage — one of the probes its own vetting had approved. <b>Dropped</b>, and the vetter can no longer re-approve it.</span></div>
+        <div class="astep bump"><span class="ak">result</span><span><span class="mono">v0-naive → derived</span>, grading on <span class="mono">format · gen_suffix · long_horizon</span>. Thirty past verdicts re-decided from scores already on record, at zero model evaluations. The config the search settled on still clears, at <b>0.955</b>.</span></div>
       </div>
       <div class="ag-out">
-        It ends up <b>stricter than the judge I hand-wrote</b>, and overrules it on two configs I had passed. The config the search settled on still clears: <b>0.955</b> under the judge the agent derived for itself, against the 0.966 my judge gave it. In the first live run under this machinery it amended itself mid-search and immediately rejected, at 0.929, a config its previous judge had passed at 0.947.
+        Two things worth saying plainly. <b>It found a defect I had not.</b> I had excluded a different generated probe by hand, judging it on three uniform configs where it collapses — configs this search never visits. On its own record that probe is fine and a different one inverts. It was reading better evidence than I was.
+        <br><br>And <b>the judge it derives moves as the record grows</b>. At seventeen audited configs it flagged one probe; at thirty it flags another, because the newer runs supply evidence the older ones could not. That is the mechanism working, not drifting — but it means the derived judge is a reading of the evidence to date, not a fixed artefact. It is now grading on exactly three probes, its own floor: one more exclusion and it refuses rather than grading on too little to resolve anything.
       </div>
     </div>
     <div class="bento" style="margin-top:14px">
