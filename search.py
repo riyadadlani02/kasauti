@@ -139,17 +139,7 @@ def audit_state(ev, state, items, base, spec, mem, model, log, floor, margin, z,
     # Raw scores outlive any judge, so they are reusable whatever graded them --
     # but not whatever measured them. A score from a different probe suite is a
     # different measurement and gets re-taken.
-    scores, counts = remembered.get("scores"), remembered.get("counts")
-    want = {}
-    for i in items:
-        want[i.probe] = want.get(i.probe, 0) + 1
-    if scores and not set(want) <= set(scores):
-        scores = None  # measured before the suite grew, so it does not cover it
-    elif scores and counts and any(counts.get(p) != n for p, n in want.items()):
-        # Same probes, more items: a mean over 12 items and a mean over 48 are
-        # different measurements with different standard errors, and reusing one
-        # for the other silently understates what the audit can resolve.
-        scores = None
+    scores, counts = cached_scores(remembered, items)
     if scores and counts:
         log("  VALIDATE (probe scores from memory)")
     else:
@@ -175,6 +165,28 @@ def audit_state(ev, state, items, base, spec, mem, model, log, floor, margin, z,
     else:
         log(f"  deciding this needs about {need} items")
     return scores, counts, s, se, False
+
+
+def cached_scores(remembered: dict, items: list):
+    """Reuse a stored measurement only if it measured *this* suite.
+
+    Raw scores outlive any judge, so they are reusable whatever graded them --
+    but not whatever measured them. Two ways that goes wrong, and both have:
+    a probe the stored run never had, and the same probe measured over fewer
+    items. A mean over 12 items and a mean over 48 are different measurements
+    with different standard errors.
+    """
+    scores, counts = remembered.get("scores"), remembered.get("counts")
+    if not scores or not counts:
+        return None, None
+    want = {}
+    for i in items:
+        want[i.probe] = want.get(i.probe, 0) + 1
+    if not set(want) <= set(scores):
+        return None, None
+    if any(counts.get(p) != n for p, n in want.items()):
+        return None, None
+    return scores, counts
 
 
 def build_items(n_per_family: int, scale: int = 1) -> list:
@@ -504,8 +516,9 @@ def main(argv=None) -> int:
     base_probes = {"scores": {}, "counts": {}}
     if args.validate_every:
         remembered = mem.get(mid, base_state, args.group)
-        if remembered.get("scores") and remembered.get("counts"):
-            base_probes = {"scores": remembered["scores"], "counts": remembered["counts"]}
+        b_scores, b_counts = cached_scores(remembered, items)
+        if b_scores:
+            base_probes = {"scores": b_scores, "counts": b_counts}
             log("baseline probes (from memory) "
                 f"{ {k: round(v, 3) for k, v in base_probes['scores'].items()} }")
         else:

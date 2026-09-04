@@ -327,12 +327,23 @@ def test_the_search_only_proposes_bit_widths_that_have_kernels():
 
 def test_a_score_from_a_smaller_suite_is_not_reused_for_a_bigger_one():
     """Same probe names, more items per probe: a mean over 12 and a mean over 48
-    are different measurements with different standard errors. Reusing one for
-    the other silently understates what the audit can resolve."""
-    src = pathlib.Path(__file__).parent.joinpath("search.py").read_text()
-    block = src[src.index("remembered.get(\"scores\")"):]
-    block = block[:block.index("s = J.score(")]
-    assert "counts.get(p) != n" in block, "must compare item counts, not just probe names"
+    are different measurements with different standard errors. The baseline path
+    had no check at all and happily reused a 12-item score for a 48-item probe,
+    which would have made every ratio in the run wrong."""
+    import search as S
+
+    class I:
+        def __init__(self, probe): self.probe = probe
+    items = [I("format")] * 48 + [I("long_horizon")] * 72
+
+    exact = {"scores": {"format": .9, "long_horizon": .8},
+             "counts": {"format": 48, "long_horizon": 72}}
+    assert S.cached_scores(exact, items)[0] == exact["scores"]
+    too_few = {"scores": exact["scores"], "counts": {"format": 12, "long_horizon": 18}}
+    assert S.cached_scores(too_few, items) == (None, None), "fewer items is a different measurement"
+    missing = {"scores": {"format": .9}, "counts": {"format": 48}}
+    assert S.cached_scores(missing, items) == (None, None), "a probe it never measured"
+    assert S.cached_scores({}, items) == (None, None)
 
 
 def test_the_hand_written_probes_grow_with_the_generated_ones():

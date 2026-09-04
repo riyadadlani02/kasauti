@@ -597,6 +597,12 @@
       },
       "set_change_rate": 0.07215575155957292
     },
+    "attention16,expert4,gate16@g128": {
+      "cost": 1.3117666990741275,
+      "flip_rate": 0.1225335852553447,
+      "recon_error": 0.13117666990741275,
+      "set_change_rate": 0.3480268682663639
+    },
     "attention16,expert6,gate16@g128": {
       "cost": 0.4231776840142099,
       "flip_rate": 0.039042821425634124,
