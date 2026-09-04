@@ -25,7 +25,13 @@ from __future__ import annotations
 import re
 
 BASE = 16
-P0 = {"version": "p0-greedy", "ladder": [16, 8, 6, 5, 4, 3, 2], "pass_through": 0,
+# Bit-widths a serving stack can actually run: bf16, INT8/FP8, INT4/NVFP4/MXFP4.
+# The earlier ladder offered 13, 11, 6 and 5, which have no kernels -- the search
+# returned configs nobody could deploy, and the rungs sat closer together than
+# the audit could resolve, so it chose between them on noise.
+DEPLOYABLE = [16, 8, 4]
+
+P0 = {"version": "p0-deployable", "ladder": DEPLOYABLE, "pass_through": 0,
       "amendments": []}
 
 
@@ -36,10 +42,18 @@ def state_of(key: str) -> dict:
 
 
 def _refine(ladder: list, hi: int, lo: int) -> list:
-    """Rungs between two the search could not step between."""
+    """Rungs between two the search could not step between.
+
+    Only rungs a serving stack can run. Left unconstrained this proposed 13, 11,
+    6 and 5 -- bit-widths with no kernel -- so the search returned answers nobody
+    could deploy, and the extra rungs sat closer together than the audit could
+    resolve. When nothing deployable lies in the gap the ladder is returned
+    unchanged, and the caller reports that rather than inventing a format.
+    """
     step = (hi - lo) / 3
-    new = sorted({hi - round(step), hi - round(2 * step)} - set(ladder), reverse=True)
-    return sorted(set(ladder) | set(n for n in new if lo < n < hi), reverse=True)
+    new = {hi - round(step), hi - round(2 * step)} - set(ladder)
+    ok = {n for n in new if lo < n < hi and n in DEPLOYABLE}
+    return sorted(set(ladder) | ok, reverse=True)
 
 
 def critique(rows: list, policy: dict) -> list:
@@ -56,8 +70,17 @@ def critique(rows: list, policy: dict) -> list:
         moved = [c for c, b in st.items() if b != BASE]
         if verdict.get(r["key"]) == "failed" and len(moved) == 1 and st[moved[0]] == second:
             stuck.add(moved[0])
-    if stuck and second is not None and BASE - second > 2:
-        out.append({"kind": "refine_ladder", "ladder": _refine(ladder, BASE, second),
+    refined = _refine(ladder, BASE, second) if second is not None else ladder
+    if stuck and second is not None and refined == ladder:
+        # Stuck with nothing deployable in the gap. Saying so is the point: the
+        # alternative is a silent no-op, or inventing a bit-width with no kernel.
+        out.append({"kind": "ladder_exhausted", "ladder": ladder,
+                    "why": f"the only move available to {', '.join(sorted(stuck))} was "
+                           f"{BASE}->{second} and the audit rejected it, but no bit-width "
+                           f"between them has a kernel. The component stays at {BASE}: "
+                           f"this is a limit of what can be deployed, not of the search"})
+    elif stuck and second is not None and BASE - second > 2 and refined != ladder:
+        out.append({"kind": "refine_ladder", "ladder": refined,
                     "why": f"the only move available to {', '.join(sorted(stuck))} was "
                            f"{BASE}->{second} and the audit rejected it; there is nothing "
                            f"smaller on the ladder, so the search abandons a component it "

@@ -308,7 +308,45 @@ def test_growth_is_driven_by_items_not_by_new_probe_families():
     block = src[src.index("unresolved.add(key(state, ev.group))"):]
     block = block[:block.index("cadence = 1")]
     assert "if replenish(" not in block, "growth must not be gated on new families"
-    assert "items_needed" in block and "build_items(grown)" in block
+    assert "items_needed" in block and "build_items(grown" in block
+
+
+def test_the_search_only_proposes_bit_widths_that_have_kernels():
+    """Measured on the run record: configs differing only in the gate -- 0.1% of
+    the parameters -- had a median audit spread of 0.068, equal to the audit's
+    own standard error. The old ladder offered 13, 11, 6 and 5, so the search
+    was choosing between neighbouring rungs on noise, and returning bit-widths
+    no serving stack can run."""
+    import policy as PO
+    assert PO.DEPLOYABLE == [16, 8, 4]
+    assert PO.P0["ladder"] == PO.DEPLOYABLE
+    # it may not refine its way back into formats that do not exist
+    assert PO._refine([16, 8, 4], 16, 8) == [16, 8, 4]
+    assert all(b in PO.DEPLOYABLE for b in PO._refine([16, 4], 16, 4))
+
+
+def test_a_score_from_a_smaller_suite_is_not_reused_for_a_bigger_one():
+    """Same probe names, more items per probe: a mean over 12 and a mean over 48
+    are different measurements with different standard errors. Reusing one for
+    the other silently understates what the audit can resolve."""
+    src = pathlib.Path(__file__).parent.joinpath("search.py").read_text()
+    block = src[src.index("remembered.get(\"scores\")"):]
+    block = block[:block.index("s = J.score(")]
+    assert "counts.get(p) != n" in block, "must compare item counts, not just probe names"
+
+
+def test_the_hand_written_probes_grow_with_the_generated_ones():
+    """Growing only the generated families leaves the fixed lists as a floor on
+    the standard error, which is what stalled the first guarded run."""
+    import probes as P
+    small = [i for i in P.all_items(1) if P.LAYER[i.probe] == 2]
+    big = [i for i in P.all_items(4) if P.LAYER[i.probe] == 2]
+    n = lambda items, probe: sum(1 for i in items if i.probe == probe)
+    assert n(big, "format") == 4 * n(small, "format")
+    assert n(big, "long_horizon") == 4 * n(small, "long_horizon")
+    assert len({i.id for i in big}) == len(big), "ids must stay unique"
+    # growing must not silently change what the original items measured
+    assert P.adversarial(48)[:12] == P.ADVERSARIAL
 
 
 def test_the_audit_will_not_decide_inside_its_own_error():
@@ -393,15 +431,17 @@ def test_redundancy_stops_disqualifying_a_probe_the_audit_needs():
     assert not needed["prefix"]["keep"]
 
 
-def test_the_search_amends_its_own_ladder_when_a_component_gets_stuck():
-    """The ladder starts 16 -> 8. When the audit rejects a component's only
-    available move, the search abandons a component it has not finished with."""
+def test_a_stuck_component_is_reported_not_papered_over_with_a_fake_format():
+    """It used to refine 16 -> 8 by inserting 13 and 11, which have no kernel.
+    Now the gap is real: nothing deployable sits between them. It must say the
+    component is stuck rather than invent a bit-width or go quietly silent."""
     import policy as PO
     rows = [{"key": "attention16,expert16,gate16@g128", "was": "passed"},
             {"key": "attention16,expert8,gate16@g128", "was": "failed"}]
     pol, applied = PO.improve(dict(PO.P0), rows)
-    assert applied[0]["kind"] == "refine_ladder"
-    assert any(8 < b < 16 for b in pol["ladder"]), pol["ladder"]
+    assert applied and applied[0]["kind"] == "ladder_exhausted"
+    assert pol["ladder"] == PO.DEPLOYABLE, "no invented rungs"
+    assert "kernel" in applied[0]["why"]
 
 
 def test_a_failed_config_does_not_close_the_route_beyond_it():

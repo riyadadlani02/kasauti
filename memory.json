@@ -46,21 +46,6 @@
     "ibm-granite/granite-3.0-1b-a400m-instruct": {
       "amendments": [
         {
-          "kind": "refine_ladder",
-          "ladder": [
-            16,
-            13,
-            11,
-            8,
-            6,
-            5,
-            4,
-            3,
-            2
-          ],
-          "why": "the only move available to attention, expert was 16->8 and the audit rejected it; there is nothing smaller on the ladder, so the search abandons a component it has not finished with"
-        },
-        {
           "kind": "pass_through",
           "pass_through": 1,
           "why": "attention16,expert8,gate8@g128 passed its audit and is strictly more quantized than attention16,expert8,gate16@g128, which failed. A failed config does not close the route beyond it, and reverting from it is what loses the better answer"
@@ -70,21 +55,24 @@
           "kind": "widen_margin",
           "to": 0.066,
           "why": "deciding a 0.02 margin needs ~451 items per probe; the suite caps at 64, leaving a standard error of 0.066. The finest line this suite can defend is 0.066"
+        },
+        {
+          "kind": "restrict_ladder",
+          "ladder": [
+            16,
+            8,
+            4
+          ],
+          "why": "configs differing only in the gate (0.1% of parameters) had a median audit spread of 0.068, equal to the audit standard error: neighbouring rungs were being chosen on noise. And 13, 11, 6 and 5 have no kernel, so the answer was not deployable. Ladder restricted to bit-widths a serving stack can run."
         }
       ],
       "ladder": [
         16,
-        13,
-        11,
         8,
-        6,
-        5,
-        4,
-        3,
-        2
+        4
       ],
       "pass_through": 1,
-      "version": "p1-pass_through+refine_ladder+widen"
+      "version": "p2-deployable+pass_through"
     }
   },
   "ibm-granite/granite-3.0-1b-a400m-instruct": {

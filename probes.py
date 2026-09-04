@@ -155,11 +155,38 @@ ADVERSARIAL = [
 ]
 
 
-def format_items() -> list:
+# Fragments the adversarial strings are built from. A fixed list of twelve
+# capped this probe's item count, and with it the audit's precision: the
+# standard error falls as 1/sqrt(n), so a hand-written list is a hard floor on
+# what any verdict can resolve. Composing instead makes the count a parameter.
+_FRAG = ['O\'Brien', '"Sam"', 'a{b}c', 'path\\to\\file', '{"done": true}',
+         'line1\nline2', '[brackets]', '"""triple"""', 'trailing \\',
+         'null, true', '{{deep {deeper}}}', 'naïve café', '<tag/>', '\t tabbed',
+         "it's", '100%', 'a,b,c', '\\u0041', '} unbalanced {', 'emoji-free']
+
+
+def adversarial(n: int) -> list:
+    """n adversarial strings, deterministic, composed from the fragments.
+
+    The first twelve are the original hand-written cases, so growing the suite
+    never silently changes what the earlier items measured.
+    """
+    out = list(ADVERSARIAL[:min(n, len(ADVERSARIAL))])
+    i = 0
+    while len(out) < n:
+        a, b = _FRAG[i % len(_FRAG)], _FRAG[(i // len(_FRAG) + 1 + i) % len(_FRAG)]
+        cand = f"{a} {b}" if i % 2 else f"{a}{b}"
+        if cand not in out:
+            out.append(cand)
+        i += 1
+    return out[:n]
+
+
+def format_items(n: int = 12) -> list:
     return [Item("format", f"fmt-{i}", [{"role": "user", "content": (
         'Return one JSON object and nothing else, with exactly the keys "label" and "length". '
         f'"label" is the input string copied verbatim, "length" is its character count.\n'
-        f"Input: {s}")}], {"label": s}) for i, s in enumerate(ADVERSARIAL)]
+        f"Input: {s}")}], {"label": s}) for i, s in enumerate(adversarial(n))]
 
 
 def score_format(text: str, meta: dict) -> float:
@@ -306,8 +333,11 @@ def generated_items(n_per_family=6) -> list:
     return items
 
 
-def all_items() -> list:
-    return recall_items() + long_horizon_items() + format_items() + calibration_items() + recovery_items()
+def all_items(scale: int = 1) -> list:
+    """scale multiplies the growable hand-written probes. scale=1 reproduces
+    the original suite exactly."""
+    return (recall_items() + long_horizon_items(variants=3 * scale)
+            + format_items(12 * scale) + calibration_items() + recovery_items())
 
 
 # --------------------------------------------------------------- running them

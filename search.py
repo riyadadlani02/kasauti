@@ -140,8 +140,16 @@ def audit_state(ev, state, items, base, spec, mem, model, log, floor, margin, z,
     # but not whatever measured them. A score from a different probe suite is a
     # different measurement and gets re-taken.
     scores, counts = remembered.get("scores"), remembered.get("counts")
-    if scores and not set(suite_of(items)) <= set(scores):
+    want = {}
+    for i in items:
+        want[i.probe] = want.get(i.probe, 0) + 1
+    if scores and not set(want) <= set(scores):
         scores = None  # measured before the suite grew, so it does not cover it
+    elif scores and counts and any(counts.get(p) != n for p, n in want.items()):
+        # Same probes, more items: a mean over 12 items and a mean over 48 are
+        # different measurements with different standard errors, and reusing one
+        # for the other silently understates what the audit can resolve.
+        scores = None
     if scores and counts:
         log("  VALIDATE (probe scores from memory)")
     else:
@@ -169,8 +177,11 @@ def audit_state(ev, state, items, base, spec, mem, model, log, floor, margin, z,
     return scores, counts, s, se, False
 
 
-def build_items(n_per_family: int) -> list:
-    return ([i for i in P.all_items() if P.LAYER[i.probe] == 2]
+def build_items(n_per_family: int, scale: int = 1) -> list:
+    """Both halves of the suite grow together. Growing only the generated
+    families leaves the hand-written ones as a floor on the standard error,
+    which is what stalled the first run under the resolution guard."""
+    return ([i for i in P.all_items(scale) if P.LAYER[i.probe] == 2]
             + P.generated_items(n_per_family))
 
 
@@ -384,7 +395,7 @@ def search(ev: Evaluator, budget: float, items, baseline_probes: dict,
                         log(f"  RESOLVE: deciding a {margin} margin needs ~{want} items "
                             f"per probe ({need}); growing to {grown}"
                             + (" (capped)" if grown < want else ""))
-                        items = build_items(grown)
+                        items = build_items(grown, max(1, grown // 12))
                         base_state = {c: 16 for c in ev.sizes}
                         sc, cn = ev.probe(base_state, items)
                         baseline_probes = {"scores": sc, "counts": cn}
@@ -452,6 +463,9 @@ def main(argv=None) -> int:
     p.add_argument("--probe-items", type=int, default=6,
                    help="items per generated probe family; the agent raises this "
                         "itself when an audit cannot resolve a verdict")
+    p.add_argument("--suite-scale", type=int, default=1,
+                   help="multiply the hand-written probes; the audit's standard error "
+                        "falls as 1/sqrt(items) and those lists are otherwise its floor")
     p.add_argument("--max-probe-items", type=int, default=64,
                    help="ceiling on that growth; past it the agent widens its own "
                         "audit margin to the finest line the suite can defend")
@@ -485,7 +499,7 @@ def main(argv=None) -> int:
     log(f"{mid}: {ev.n} experts, top-{ev.k}, sizes "
         f"{ {c: f'{n/1e6:.0f}M' for c, n in ev.sizes.items()} }")
 
-    items = build_items(args.probe_items)
+    items = build_items(args.probe_items, args.suite_scale)
     base_state = {c: 16 for c in ev.sizes}
     base_probes = {"scores": {}, "counts": {}}
     if args.validate_every:
